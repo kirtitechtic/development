@@ -1,0 +1,32 @@
+{%- if template contains 'blog' and settings.blog_pagination == 'infinit' -%}
+  {%- if paginate.pages > 1 -%} 
+  <div class="blog-footer">
+    {%- if paginate.next.is_link -%}
+    <a href="{{paginate.next.url | append: '&view=ajax'}}" class="btn woodmart-load-more woodmart-blog-load-more load-on-scroll">
+      <span class="load-more-label" {% if settings.enable_multilang %}data-translate="blogs.article.load_more_label"{% endif %}>{{ 'blogs.article.load_more_label' | t}}</span>
+      <span class="load-more-loading" {% if settings.enable_multilang %}data-translate="blogs.article.load_more_loading"{% endif %}>{{ 'blogs.article.load_more_loading' | t}}...</span>
+    </a>
+    {%- endif -%}
+  </div>
+  {%- endif -%}
+{%- else -%}
+  <div class="woodmart-pagination">
+    {% if paginate.previous %} 
+    <a class="prev page-numbers" href="{{ paginate.previous.url }}" title="{{ 'collections.general.previous' | t }}"  {% if settings.language_enable %}data-translate="collections.general.previous" translate-item="title"{% endif %}>←</a>
+    {% endif %} 
+    {% for part in paginate.parts %}
+      {% if part.is_link %}
+        <a class="page-numbers" href="{{ part.url }}">{{ part.title }}</a>
+      {% else %}
+        {% if part.title == paginate.current_page %}
+          <span class="page-numbers current">{{ part.title }}</span>
+        {% else %} 
+          <span class="page-numbers">{{ part.title }}</span> 
+        {% endif %}
+      {% endif %}
+    {% endfor %} 
+    {% if paginate.next %} 
+    <a class="next page-numbers" href="{{ paginate.next.url }}" title="{{ 'collections.general.next' | t }}"  {% if settings.language_enable %}data-translate="collections.general.next" translate-item="title"{% endif %}>→</a> 
+    {% endif %}
+  </div>
+{%- endif -%}

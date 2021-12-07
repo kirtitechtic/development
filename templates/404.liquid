@@ -1,0 +1,35 @@
+<!-- /templates/404.liquid -->
+<div class="main-page-wrapper">
+  <div class="container">
+    <div class="row content-layout-wrapper">
+      <div class="site-content col-sm-12"> 
+        <header class="page-header">
+          <h3 class="page-title" {% if settings.language_enable %}data-translate="general.404.title"{% endif %}>{{ 'general.404.title' | t }}</h3>
+        </header>
+        <div class="page-wrapper">
+          <div class="page-content">
+            <h2 {% if settings.language_enable %}data-translate="general.404.content1"{% endif %}>{{ 'general.404.content1' | t }}</h2>
+            <p {% if settings.language_enable %}data-translate="general.404.content2"{% endif %}>{{ 'general.404.content2' | t }}</p>
+            <form action="/search" method="get" class="searchform">
+              <div> 
+                {% comment %}<input type="hidden" name="type" value="product">{% endcomment %}
+                <input type="search" name="q" value="{{ search.terms | escape }}" {% if settings.language_enable %}data-translate="general.search.placeholder"{% endif %} placeholder="{{ 'general.search.placeholder' | t }}" class="s" aria-label="{{ 'general.search.placeholder' | t }}">
+                <input type="hidden" name="type" value="product" />
+                <button type="submit" class="searchsubmit">Search</button>
+              </div>
+            </form>
+            <div class="search-info-text"><span {% if settings.language_enable %}data-translate="general.search.info_search"{% endif %}>{{ 'general.search.info_search' | t }}</span></div>
+            <div class="search-results-wrapper">
+              <div class="woodmart-scroll has-scrollbar">
+                <div class="woodmart-search-results woodmart-scroll-content" tabindex="0">
+                  <div class="autocomplete-suggestions" style="position: absolute; max-height: 300px; z-index: 9999; width: 308px; display: flex;"></div>
+                </div>
+              </div>
+              <div class="woodmart-search-loader"></div>
+            </div>
+          </div>
+        </div> 
+      </div>
+    </div>
+  </div>
+</div>{% include 'wiser_recentview' %}{% include 'wiser_trending' %}{% include 'wiser_topselling' %}{% include 'wiser_newarrivals' %}{% include 'wiser_featured' %}{% include 'wiser_recent_related' %}

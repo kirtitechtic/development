@@ -1,0 +1,23 @@
+{%- if settings.product_button_wishlist != blank -%}
+  <div class="yith-wcwl-add-to-wishlist"><a href="javascript:;" data-product-handle="{{product.handle}}" data-product-title="{{product.title}}" class="link-wishlist add_to_wishlist" title="{{'wish_list.general.add_to_wishlist' | t}}"><span {% if settings.language_enable %}data-translate="wish_list.general.add_to_wishlist"{% endif %}>{{ 'wish_list.general.add_to_wishlist' | t }}</span></a></div>
+  {%- endif -%}
+  {%- if settings.product_button_compare != blank -%}
+  <div class="cmpimage product-compare-button"> <a href="javascript:;" data-product-handle="{{product.handle}}" data-product-title="{{product.title}}" class="link-compare" title="{{'compare_list.general.add_to_compare' | t}}"><img src="https://cdn.shopify.com/s/files/1/1393/2073/files/compare_black_24dp.svg?v=1633516340" alt="cart" itemprop="cart"><span {% if settings.language_enable %}data-translate="compare_list.general.add_to_compare"{% endif %}>{{ 'compare_list.general.add_to_compare' | t }}</span></a></div>
+  {%- endif -%}
+{%- if product.metafields.meta.image_size_chart != blank-%}
+  {%- if settings.product_size_char_enable != blank -%}
+  <div id="woodmart_sizeguide" class="mfp-with-anim woodmart-content-popup woodmart-sizeguide mfp-hide">
+    <img src="{%- if product.metafields.meta.image_size_chart != blank-%}{{product.metafields.meta.image_size_chart}}{%- else -%}{{ settings.product_size_chart | img_url: 'master' }}{%- endif -%}" />
+  </div>
+  <div class="sizeguide-btn-wrapp">
+    <a href="#woodmart_sizeguide" class="woodmart-open-popup woodmart-sizeguide-btn">
+      {% if settings.language_enable %}
+      <span class="lang1">{{ settings.product_size_char_title | split: '|' | first }}</span>
+      <span class="lang2">{{ settings.product_size_char_title | split: '|' | last }}</span>
+      {% else %}
+      {{ settings.product_size_char_title | split: '|' | first }}
+      {% endif %} 
+    </a>
+  </div>
+  {%- endif -%}
+{%- endif -%}

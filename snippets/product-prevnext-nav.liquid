@@ -1,0 +1,70 @@
+<div class="woodmart-products-nav">
+  {%- if collection.previous_product -%}
+  <div class="product-btn product-prev">
+    <a href="{{ collection.previous_product.url }}"><b {% if settings.language_enable %}data-translate="products.product.product_prev"{% endif %}>{{ 'products.product.product_prev' | t }}</b><span class="product-btn-icon"></span></a>
+    <div class="wrapper-short">
+      <div class="product-short">
+        <div class="product-short-image">
+          <a href="{{ collection.previous_product.url }}" class="product-thumb">
+            <img width="200" height="230" src="{{collection.previous_product.featured_image.src | product_img_url:'150x180'}}" class="attachment-shop_thumbnail size-shop_thumbnail" alt="">
+          </a>
+        </div>
+        <div class="product-short-description">
+          <a href="{{ collection.previous_product.url }}" class="product-title">
+            {%- if settings.language_enable -%}
+            <span class="lang1">{{ collection.previous_product.title | split: '|' | first }}</span>
+            <span class="lang2">{{ collection.previous_product.title | split: '|' | last }}</span>
+            {%- else -%}
+            {{ collection.previous_product.title | split: '|' | first }}
+            {%- endif -%} 								
+          </a>
+          <div class="price">  
+            {%- if collection.previous_product.price_varies -%}
+            <span class="money">{{ collection.previous_product.price_min | money }}</span> – <span class="money">{{ collection.previous_product.price_max | money }}</span>
+            {%- elsif collection.previous_product.compare_at_price > collection.previous_product.price -%}<del><span class="money">{{ collection.previous_product.compare_at_price  | money }}</span></del> <ins><span class="money">{{ collection.previous_product.price | money }}</span></ins>
+            {%- else -%}
+            <span class="money">{{ collection.previous_product.price | money }}</span>
+            {%- endif -%}
+          </div> 
+        </div>
+      </div>
+    </div>
+  </div>
+  {%- endif -%}
+  <a href="javascript:SW.page.backHistory()" class="woodmart-back-btn woodmart-css-tooltip woodmart-tltp">
+    <span class="woodmart-tooltip-label" style="margin-left: -62px;" {% if settings.language_enable %}data-translate="products.product.product_toback"{% endif %}>{{ 'products.product.product_toback' | t }}</span>
+    <span {% if settings.language_enable %}data-translate="products.product.product_toback"{% endif %}>{{ 'products.product.product_toback' | t }}</span>
+  </a>
+  {%- if collection.next_product -%}
+  <div class="product-btn product-next">
+    <a href="{{ collection.next_product.url }}"><b {% if settings.language_enable %}data-translate="products.product.product_next"{% endif %}>{{ 'products.product.product_next' | t }}</b><span class="product-btn-icon"></span></a>
+    <div class="wrapper-short">
+      <div class="product-short">
+        <div class="product-short-image">
+          <a href="{{ collection.next_product.url }}" class="product-thumb">
+            <img width="200" height="230" src="{{collection.next_product.featured_image.src | product_img_url:'150x180'}}" class="attachment-shop_thumbnail size-shop_thumbnail" alt="">
+          </a>
+        </div>
+        <div class="product-short-description">
+          <a href="{{ collection.next_product.url }}" class="product-title">
+            {% if settings.language_enable %}
+            <span class="lang1">{{ collection.next_product.title | split: '|' | first }}</span>
+            <span class="lang2">{{ collection.next_product.title | split: '|' | last }}</span>
+            {% else %}
+            {{ collection.next_product.title | split: '|' | first }}
+            {% endif %} 
+          </a>
+          <span class="price"> 
+            {%- if collection.next_product.price_varies -%}
+            <span class="money">{{ collection.next_product.price_min | money }}</span> – <span class="money">{{ collection.next_product.price_max | money }}</span>
+            {%- elsif collection.next_product.compare_at_price > collection.next_product.price -%}<del><span class="money">{{ collection.next_product.compare_at_price  | money }}</span></del> <ins><span class="money">{{ collection.next_product.price | money }}</span></ins>
+            {%- else -%}
+            <span class="money">{{ collection.next_product.price | money }}</span>
+            {%- endif -%} 
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  {%- endif -%}
+</div>

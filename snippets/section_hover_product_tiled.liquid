@@ -1,0 +1,94 @@
+<div class="product-grid-item product has-stars purchasable woodmart-hover-tiled {% if settings.collection_quick_shop != blank %}quick-shop-on{% endif %} {% if product.available and product.variants.size > 1 %}product-type-variable{% endif %} {% if settings.collection_quick_view != blank %}quick-view-on{% endif %} product-with-swatches {{colum_width}} type-product status-publish has-post-thumbnail first instock sale hover-width-small hover-ready" data-loop="{{forloop.index}}" data-id="{{ product.variants.first.id }}">
+  <div class="product-wrapper">
+  <div class="product-element-top">
+    {%- include 'product_element_image'-%}
+    <div class="woodmart-buttons">
+      <div class="woodmart-add-btn">
+        {%- if settings.catalog_mode_enable == blank -%}
+        {%- if product.available -%}
+        {%- if product.variants.size > 1 -%}
+        {%- if settings.collection_quick_shop != blank -%}
+        {%- assign purl = product.url | append: '?view=json' -%}
+        {%- else -%}
+        {%- assign purl = product.url | within: collection -%}
+        {%- endif -%}
+        <a href="{{ purl }}" class="button product_type_variable add_to_cart_button add-to-cart-loop">  
+          <span {% if settings.language_enable %}data-translate="products.product.select_options"{% endif %}>{{ 'products.product.select_options' | t }}</span>
+        </a>
+        {%- else -%} 
+        <a rel="nofollow" href="{{ product.url | within: collection }}" data-pid="{{ product.variants.first.id }}" class="button product_type_simple {% if settings.ajax_cart_use != blank %}ajax_add_to_cart{% endif %} add-to-cart-loop"><span {% if settings.language_enable %}data-translate="products.product.add_to_cart"{% endif %}>{{ 'products.product.add_to_cart' | t }}</span></a>
+        {%- endif -%}
+        {%- else -%}
+        <a href="{{ product.url | within: collection }}" class="button product_type_variable add_to_cart_button add-to-cart-loop"> 
+          <span {% if settings.language_enable %}data-translate="products.product.sold_out"{% endif %}>{{ 'products.product.sold_out' | t }}</span> 
+        </a>
+        {%- endif -%}
+        {%- endif -%}
+      </div>
+      {% if settings.collection_quick_view == blank %} 
+      <div class="quick-view">
+        <a href="{{product.url}}?view=quickview" class="quickview-icon quickview open-quick-view woodmart-tltp">
+          <span {% if settings.language_enable %}data-translate="collections.general.quickview"{% endif %}>{{ 'collections.general.quickview' | t }}</span>
+        </a> 
+      </div> 
+      {% endif %}
+      {% if settings.collection_wishlist_dis == blank %}
+      <div class="wrap-wishlist-button">
+        <a href="javascript:;" data-product-handle="{{product.handle}}" data-product-title="{{product.title}}" class="add_to_wishlist" title="{{'wish_list.general.add_to_wishlist' | t}}"><span {% if settings.language_enable %}data-translate="wish_list.general.add_to_wishlist"{% endif %}>{{ 'wish_list.general.add_to_wishlist' | t }}</span></a>
+        <div class="clear"></div>
+      </div>
+      {% endif %}
+      <div class="clear"></div>
+      {% if settings.collection_compare_dis == false %}
+      <div class="product-compare-button">
+        <a href="javascript:;" data-product-handle="{{product.handle}}" data-product-title="{{product.title}}" class="compare button"><span {% if settings.language_enable %}data-translate="compare_list.general.add_to_compare"{% endif %}>{{ 'compare_list.general.add_to_compare' | t }}</span></a>
+      </div>
+      {% endif %} 
+    </div> 
+    {%- if product.available -%}
+    {%- if product.variants.size > 1 -%}
+    <div class="quick-shop-wrapper">
+      <div class="quick-shop-close"><span {% if settings.language_enable %}data-translate="collections.general.close"{% endif %}>{{ 'collections.general.close' | t }}</span></div>
+      <div class="quick-shop-form"></div>
+    </div>
+    {%- endif -%}
+    {%- endif -%}
+  </div>
+  <div class="product-element-bottom">
+    {%- include 'product_element_swatch_grid' -%}
+    <h3 class="product-title">
+      <a href="{{ product.url | within: collection }}">
+        {% if settings.language_enable %}
+        <span class="lang1">{{ product.title | split: '|' | first }}</span>
+        <span class="lang2">{{ product.title | split: '|' | last }}</span>
+        {% else %}
+        {{ product.title | split: '|' | first }}
+        {% endif %}
+      </a>
+    </h3> 
+    {%- if settings.collection_product_category != blank -%}
+    <div class="woodmart-product-cats">
+      {%- for collection in product.collections limit:4 -%}
+      {{ collection.title | link_to: collection.url }}{%- if forloop.last == false -%},&nbsp;{%- endif -%}
+      {%- endfor -%}
+    </div>
+    {%- endif -%}
+    <div class="star-rating">
+      <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+    </div>
+    <span class="price">
+      {% if on_sale %} 
+      <del><span class="shopify-Price-amount amount"><span class="money">{{ product.compare_at_price | money }}</span></span></del> 
+      <ins><span class="shopify-Price-amount amount"><span class="money">{{ product.price | money }}</span></span></ins>
+      {% else %}
+      <span class="shopify-Price-amount amount"><span class="money">{{ product.price | money }}</span></span>
+      {% endif %}
+    </span>
+    {%- if product.description contains '[countdown]' and countdown -%}   
+    {%- assign count_down_first = product.description | split:'[/countdown]' | first -%}
+    {%- assign count_down_final = count_down_first | split:'[countdown]' | last -%}
+    <div class="woodmart-product-countdown woodmart-timer" data-end-date="{{ count_down_final }}" data-timezone="GMT"></div> 
+    {%- endif -%}
+  </div> 
+  </div>
+</div>

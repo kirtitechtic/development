@@ -1,0 +1,879 @@
+{%- case section.settings.section_layout -%}
+{%- when '0' -%}
+{%- capture data_fullwidth -%}{%- endcapture -%}
+{%- when '1' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true"{%- endcapture -%}
+{%- when '2' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- when '3' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- endcase -%} 
+<div data-section-id="{{ section.id }}" data-section-type="carousel-section">
+  <div {{data_fullwidth}} class="vc_row wpb_row vc_row-fluid {% if section.settings.hide_background_mobile != blank %}mobile-bg-img-hidden{% endif %} vc_custom_{{section.id}} {% if section.settings.section_layout == '3' %}vc_row-no-padding{% endif %}"  style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.padding}};">
+    <div class="wpb_column vc_column_container vc_col-sm-12">
+      <div class="vc_column-inner">
+        <div class="wpb_wrapper"> 
+          {%- if section.blocks.size > 0 -%} 
+          <div id="slide_{{section.id}}" class="banners-carousel-wrapper banners-spacing-{{section.settings.space_banner}} woodmart-spacing-{{section.settings.space_banner}}">
+            <div class="data-carousel" data-auto="{{ section.settings.carousel_autoplay }}" data-items="{{ section.settings.carousel_columns }}" data-1200="{{ section.settings.carousel_columns }}" data-992="{{section.settings.breakpoint_tablet}}" data-768="{{section.settings.breakpoint_phone}}" data-480="{{section.settings.breakpoint_phone}}" data-320="{{section.settings.breakpoint_phone}}" data-paging="{{section.settings.carousel_pagination}}" data-nav="{{section.settings.carousel_navigation}}" data-loop="{{section.settings.carousel_loop}}" data-margin="0" data-prev='' data-next='' style="display: none;"></div>
+            <div class="owl-carousel banners-carousel">
+              {%- for block in section.blocks -%}
+              <div class="promo-banner-wrapper">
+                <div class="promo-banner cursor-pointer banner-vr-align-{{block.settings.content_align}} banner-hr-align-left banner- banner-hover-{{section.settings.banner_hover}} color-scheme-{{block.settings.content_color}} banner-btn-size-{{block.settings.button_size}} banner-btn-style-{{block.settings.button_style}} {% if section.settings.banner_increased_padding != blank %}banner-increased-padding{% endif %} with-btn banner-btn-position-{{section.settings.banner_hover_button}}">
+                  <div class="main-wrapp-img">
+                    <div class="banner-image">
+                      {%- if block.settings.banner_image != blank -%}
+                      {%- assign img_url = block.settings.banner_image | img_url: 'master' -%}
+                      {%- else -%}
+                      {%- assign img_url = '400x267.png' | asset_url -%}
+                      {%- endif -%}
+                      <img src="{{ img_url }}" alt="{{ block.settings.image.alt }}" class="promo-banner-image image-1 attachment-full"/> 
+                    </div>
+                  </div>
+                  <div class="wrapper-content-banner">
+                    <div class="content-banner text-{{block.settings.content_text_align}} content-width-{{block.settings.content_width}} content-spacing-default">
+                      <div class="banner-title-wrap banner-title-{{block.settings.title_size}}">
+                        {%- if block.settings.sub_title != '' -%}
+                        <span class="banner-subtitle subtitle-color-{{block.settings.subtitle_color}} subtitle-style-{{block.settings.subtitle_style}}">
+                          {%- if settings.language_enable -%}
+                          <span class="lang1">{{ block.settings.sub_title | split: '|' | first }}</span>
+                          <span class="lang2">{{ block.settings.sub_title | split: '|' | last }}</span>
+                          {%- else -%}
+                          {{ block.settings.sub_title | split: '|' | first }}
+                          {%- endif -%}
+                        </span>
+                        {%- endif -%}
+                        {%- if block.settings.title != '' -%}
+                        <h4 class="banner-title woodmart-font-weight-{{block.settings.title_font_weight}}">
+                          {%- if settings.language_enable -%}
+                          <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+                          <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+                          {%- else -%}
+                          {{ block.settings.title | split: '|' | first }}
+                          {%- endif -%}
+                        </h4>
+                        {%- endif -%}
+                      </div>
+                      {%- if block.settings.content != '' -%}
+                      <div class="banner-inner content-size-{{block.settings.content_inner_size}}">
+                        {%- if settings.language_enable -%}
+                        <div class="lang1">{{ block.settings.content | split: '[lang2]' | first }}</div>
+                        <div class="lang2">{{ block.settings.content | split: '[lang2]' | last }}</div>
+                        {%- else -%}
+                        {{ block.settings.content | split: '[lang2]' | first }}
+                        {%- endif -%}
+                      </div>
+                      {%- endif -%}
+                      {%- if block.settings.button_title != '' -%}
+                      <div class="banner-btn-wrapper">
+                        <div class="woodmart-button-wrapper text-{{block.settings.content_text_align}}">
+                          <a href="{{block.settings.button_link}}" title="" class="btn btn-color-{{block.settings.button_color}} btn-style-{{block.settings.button_style}} btn-size-{{block.settings.button_size}}">
+                            {%- if settings.language_enable -%}
+                            <span class="lang1">{{ block.settings.button_title | split: '|' | first }}</span>
+                            <span class="lang2">{{ block.settings.button_title | split: '|' | last }}</span>
+                            {%- else -%}
+                            {{ block.settings.button_title | split: '|' | first }}
+                            {%- endif -%}
+                          </a>
+                        </div>
+                      </div>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                </div> 
+              </div>
+              {%- endfor -%}
+            </div>
+          </div> 
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+  {%- if section.settings.section_layout != '0' -%}
+  <div class="vc_row-full-width vc_clearfix"></div>
+  {%- endif -%}
+  <style>
+    .vc_custom_{{section.id}} { 
+      border-top-width: 0px !important; 
+      {%- if section.settings.background_image != blank -%}
+      background-image: url({{section.settings.background_image | img_url: 'master'}}) !important;
+      background-position: {{section.settings.background_position | replace: '_', ' ' }} !important;
+      background-repeat: {{section.settings.background_image_repeat}} !important;
+      background-size: {{section.settings.background_size}} !important;
+      background-attachment: {{section.settings.background_attachment}} !important;
+      {%- endif -%}
+      background-color: {{section.settings.background_color}};
+    }  
+    {%- if section.settings.section_layout == '2' -%}
+    .vc_custom_{{section.id}} .vc_column_container>.vc_column-inner { 
+      padding-left: {{section.settings.space_banner}}px;
+      padding-right: {{section.settings.space_banner}}px; 
+    }
+    {%- endif -%}
+  </style>
+</div>
+{% schema %}
+{
+  "name": "Promo Banner Carousel",
+  "settings": [    
+    {
+      "type": "header", 
+      "content": "Section Settings"
+    },  
+    {
+      "type": "select",
+      "id": "section_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "0",
+          "label": "Default"
+        },
+        {
+          "value": "1",
+          "label": "Fullwidth row"
+        },
+        {
+          "value": "2",
+          "label": "Fullwidth row and content"
+        },
+        {
+          "value": "3",
+          "label": "Fullwidth row and content (no padding)"
+        }
+      ],
+      "default": "0"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color", 
+	  "default": "transparent"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section background image" 
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_background_mobile",
+      "label": "Hide background image on mobile?", 
+	  "default": false
+    },
+    {
+      "type": "select",
+      "id": "background_image_repeat",
+      "label": "Background Repeat",
+      "options": [
+        {
+          "value": "no-repeat",
+          "label": "No Repeat"
+        },
+        {
+          "value": "repeat-x",
+          "label": "Repeat x (Repeat Horizontal)"
+        },
+        {
+          "value": "repeat-y",
+          "label": "Repeat y (Repeat Verticle)"
+        },
+        {
+          "value": "repeat",
+          "label": "Repeat All"
+        }
+      ],
+      "default": "no-repeat"
+    },
+    {
+      "type": "select",
+      "id": "background_size",
+      "label": "Background Size",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "background_attachment",
+      "label": "Background Attachment",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "fixed",
+          "label": "Fixed"
+        },
+        {
+          "value": "scroll",
+          "label": "Scroll"
+        },
+        {
+          "value": "inherit",
+          "label": "Inherit"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "background_position",
+      "label": "Background Position",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "left_top",
+          "label": "Left Top"
+        },
+        {
+          "value": "left_center",
+          "label": "Left Center"
+        },
+        {
+          "value": "left_bottom",
+          "label": "Left Bottom"
+        },
+        {
+          "value": "center_top",
+          "label": "Center Top"
+        },
+        {
+          "value": "center_center",
+          "label": "Center Center"
+        },
+        {
+          "value": "center_bottom",
+          "label": "Center Bottom"
+        }
+      ],
+      "default": "center_center"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section Margin Top", 
+	  "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section Margin Bottom", 
+	  "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Section Padding",
+	  "info": "Ex:(40px 40px 40px) (top right bottom left)"
+    },  
+    {
+      "type": "header", 
+      "content": "Banner Settings"
+    },   
+    {
+      "type": "select",
+      "id": "banner_hover",
+      "label": "Banner hover effect",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "zoom",
+          "label": "Zoom"
+        },
+        {
+          "value": "zoom-reverse",
+          "label": "Zoom-Reverse"
+        },
+        {
+          "value": "background",
+          "label": "Background"
+        },
+        {
+          "value": "border",
+          "label": "Border"
+        }
+      ],
+      "default": "zoom"
+    },  
+    {
+      "type": "radio",
+      "id": "banner_hover_button",
+      "label": "Banner hover button position?",
+      "options": [
+        {
+          "value": "static",
+          "label": "Static"
+        },
+        {
+          "value": "hover",
+          "label": "On Hover"
+        }
+     ],
+     "default": "static"
+    },
+    {
+      "type": "checkbox",
+      "id": "banner_increased_padding",
+      "default": false,
+      "label": "Banner increased padding?"
+    },
+    {
+    "type": "select",
+    "id": "space_banner",
+    "label": "Space between banner",
+    "options": [
+      {
+        "value": "30",
+        "label": "30"
+      },
+      {
+        "value": "20",
+        "label": "20"
+      },
+      {
+        "value": "10",
+        "label": "10"
+      },
+      {
+        "value": "6",
+        "label": "6"
+      },
+      {
+        "value": "2",
+        "label": "2"
+      },
+      {
+        "value": "0",
+        "label": "0"
+      }
+      ],
+      "default": "20"
+    }, 
+    {
+      "type": "header",
+      "content": "Carousel Settings"
+    },
+    {
+      "type": "select",
+      "id": "carousel_columns",
+      "label": "Columns",
+      "options": [
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "select",
+      "id": "breakpoint_tablet",
+      "label": "Columns on tablet",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "select",
+      "id": "breakpoint_phone",
+      "label": "Columns on phone",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "text",
+      "id": "carousel_autoplay",
+      "label": "Autoplay",
+      "default": "5000"
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_pagination",
+      "default": true,
+      "label": "Show pagination control?"
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_navigation",
+      "default": true,
+      "label": "Show prev/next buttons?"
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_loop",
+      "default": true,
+      "label": "Slider loop?",
+      "info": "Enables loop mode."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "banner",
+      "name": "Banner Image",
+      "settings": [ 
+        {
+          "type": "image_picker",
+          "id": "banner_image",
+          "label": "Banner Image"
+        },
+        {
+          "type": "text",
+          "id": "sub_title",
+          "label": "Sub Title", 
+          "default": "SUMMER NEW"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title", 
+          "default": "AMAZING<br>FASHION"
+        },
+        {
+          "type": "textarea",
+          "id": "content",
+          "label": "Content"
+        },
+        {
+          "type": "text",
+          "id": "button_title",
+          "label": "Button Title", 
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Link"
+        }, 
+        {
+          "type": "header", 
+          "content": "Content Settings"
+        }, 
+        {
+          "type": "select",
+          "id": "content_width",
+          "label": "Content width",
+          "options": [
+            {
+              "value": "10",
+              "label": "10%"
+            },
+            {
+              "value": "20",
+              "label": "20%"
+            },
+            {
+              "value": "30",
+              "label": "30%"
+            },
+            {
+              "value": "40",
+              "label": "40%"
+            },
+            {
+              "value": "50",
+              "label": "50%"
+            },
+            {
+              "value": "60",
+              "label": "60%"
+            },
+            {
+              "value": "70",
+              "label": "70%"
+            },
+            {
+              "value": "80",
+              "label": "80%"
+            },
+            {
+              "value": "90",
+              "label": "90%"
+            },
+            {
+              "value": "100",
+              "label": "100%"
+            } 
+          ],
+          "default": "100"
+        },
+        {
+          "type": "select",
+          "id": "content_align",
+          "label": "Content align",
+          "options": [
+            {
+              "value": "top",
+              "label": "Top"
+            },
+            {
+              "value": "middle",
+              "label": "Middle"
+            },
+            {
+              "value": "bottom",
+              "label": "Bottom"
+            }
+          ],
+          "default": "middle"
+        },
+        {
+          "type": "select",
+          "id": "content_text_align",
+          "label": "Content text align",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        }, 
+        {
+          "type": "select",
+          "id": "content_color",
+          "label": "Content color",
+          "options": [
+            {
+              "value": "light",
+              "label": "Light"
+            },
+            {
+              "value": "dark",
+              "label": "Dark"
+            }
+          ],
+          "default": "dark"
+        },  
+        {
+          "type": "select",
+          "id": "subtitle_color",
+          "label": "Subtitle Color",
+          "options": [
+            {
+              "value": "default",
+              "label": "Default"
+            },
+            {
+              "value": "black",
+              "label": "Black"
+            },
+            {
+              "value": "white",
+              "label": "White"
+            },
+            {
+              "value": "alt",
+              "label": "Alt"
+            },
+            {
+              "value": "primary",
+              "label": "Primary"
+            }
+          ],
+          "default": "default"
+        },
+        {
+          "type": "select",
+          "id": "subtitle_style",
+          "label": "Subtitle Style",
+          "options": [
+            {
+              "value": "default",
+              "label": "Default"
+            },
+            {
+              "value": "background",
+              "label": "Background"
+            }
+          ],
+          "default": "default"
+        },
+        {
+          "type": "select",
+          "id": "title_size",
+          "label": "Title Size",
+          "options": [
+            {
+              "value": "default",
+              "label": "Default"
+            },
+            {
+              "value": "small",
+              "label": "Small"
+            }, 
+            {
+              "value": "large",
+              "label": "Large"
+            },
+            {
+              "value": "extra-large",
+              "label": "Extra-Large"
+            } 
+          ],
+          "default": "default"
+        },
+        {
+          "type": "select",
+          "id": "title_font_weight",
+          "label": "Title Font Weight",
+          "options": [
+            {
+              "value": "100",
+              "label": "100"
+            },
+            {
+              "value": "200",
+              "label": "200"
+            }, 
+            {
+              "value": "300",
+              "label": "300"
+            },
+            {
+              "value": "400",
+              "label": "400"
+            },
+            {
+              "value": "500",
+              "label": "500"
+            },
+            {
+              "value": "600",
+              "label": "600"
+            },
+            {
+              "value": "700",
+              "label": "700"
+            },
+            {
+              "value": "800",
+              "label": "800"
+            },
+            {
+              "value": "900",
+              "label": "900"
+            }
+          ],
+          "default": "600"
+        },
+        {
+          "type": "select",
+          "id": "content_inner_size",
+          "label": "Inner Content Size",
+          "options": [
+            {
+              "value": "default",
+              "label": "Default"
+            }, 
+            {
+              "value": "medium",
+              "label": "Medium"
+            },
+            {
+              "value": "large",
+              "label": "Large"
+            } 
+          ],
+          "default": "default"
+        },
+        {
+          "type": "header", 
+          "content": "Button Settings"
+        },  
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button Style",
+          "options": [
+            {
+              "value": "round",
+              "label": "Round"
+            },
+            {
+              "value": "link",
+              "label": "Link"
+            },
+            {
+              "value": "3d",
+              "label": "3D"
+            },
+            {
+              "value": "bordered",
+              "label": "Bordered"
+            } 
+          ],
+          "default": "link"
+        },
+        {
+          "type": "select",
+          "id": "button_size",
+          "label": "Button Size",
+          "options": [
+            {
+              "value": "default",
+              "label": "Default"
+            },
+            {
+              "value": "small",
+              "label": "Small"
+            },
+            {
+              "value": "medium",
+              "label": "Medium"
+            },
+            {
+              "value": "large",
+              "label": "Large"
+            },
+            {
+              "value": "extra-large",
+              "label": "Extra-Large"
+            } 
+          ],
+          "default": "default"
+        },
+        {
+          "type": "select",
+          "id": "button_color",
+          "label": "Button Color",
+          "options": [
+            {
+              "value": "default",
+              "label": "Default"
+            },
+            {
+              "value": "black",
+              "label": "Black"
+            },
+            {
+              "value": "white",
+              "label": "White"
+            },
+            {
+              "value": "alt",
+              "label": "Alt"
+            },
+            {
+              "value": "primary",
+              "label": "Primary"
+            } 
+          ],
+          "default": "default"
+        }
+      ]
+    } 
+  ],
+  "presets": [{
+    "name": "Promo Banner Carousel",
+    "category": "Banner", 
+    "blocks": [
+      {
+        "type": "banner",
+		"settings": {
+		  "sub_title": "SUMMER NEW",
+          "title": "AMAZING<br>FASHION",
+          "button_title": "Shop Now"
+        }
+      },
+      {
+        "type": "banner",
+		"settings": {
+		  "sub_title": "BEST NEW",
+          "title": "STYLISH<br>FASHION",
+          "button_title": "Shop Now"
+        }
+      },
+      {
+        "type": "banner",
+		"settings": {
+		  "sub_title": "NEW 2017",
+          "title": "FASHION<br>STYLE",
+          "button_title": "Shop Now"
+        }
+      }
+    ]
+  }]
+}
+{% endschema %}

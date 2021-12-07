@@ -1,0 +1,708 @@
+{%- case section.settings.section_layout -%}
+{%- when '0' -%}
+{%- capture data_fullwidth -%}{%- endcapture -%}
+{%- when '1' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true"{%- endcapture -%}
+{%- when '2' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- when '3' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- endcase -%} 
+<div data-section-id="{{ section.id }}" data-section-type="instagram-section">
+  <div {{data_fullwidth}} class="vc_row-flex text-section spb_column {% if section.settings.hide_background_mobile != blank %}mobile-bg-img-hidden{% endif %} vc_custom_{{section.id}} vc_row {% if section.settings.section_layout == '3' %}vc_row-no-padding{% endif %}"  style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.padding}};">
+    <div class="wpb_column vc_column_container vc_col-sm-12">
+      <div class="vc_column-inner">
+        <div class="wpb_wrapper">
+          <div class="vc_separator wpb_content_element vc_separator_align_center vc_sep_width_100 vc_sep_pos_align_center vc_separator_no_text vc_custom_1538126436669"><span class="vc_sep_holder vc_sep_holder_l"><span style="border-color:rgb(129,129,129);border-color:rgba(129,129,129,0.2);" class="vc_sep_line"></span></span><span class="vc_sep_holder vc_sep_holder_r"><span style="border-color:rgb(129,129,129);border-color:rgba(129,129,129,0.2);" class="vc_sep_line"></span></span></div>
+          <div id="sp-{{section.id}}" class="title-wrapper woodmart-title-color-{{section.settings.heading_color}} woodmart-title-style-{{section.settings.heading_style}} woodmart-title-size-{{section.settings.heading_size}} woodmart-title-width-{{section.settings.heading_width}} text-{{section.settings.heading_postion}}">
+            {%- if section.settings.heading_top != '' -%}
+            <div class="title-subtitle font-default style-{{section.settings.heading_style}}">
+              {%- if settings.language_enable -%}
+              <span class="lang1">{{ section.settings.heading_top | split: '|' | first }}</span>
+              <span class="lang2">{{ section.settings.heading_top | split: '|' | last }}</span>
+              {%- else -%}
+              {{ section.settings.heading_top | split: '|' | first }}
+              {%- endif -%}
+            </div>
+            {%- endif -%} 
+            {%- if section.settings.title != '' -%}
+            <div class="liner-continer">
+              <span class="left-line"></span>
+              <h4 class="woodmart-title-container title  woodmart-font-weight-">
+                {%- if settings.language_enable -%}
+                <span class="lang1">{{ section.settings.title | split: '|' | first }}</span>
+                <span class="lang2">{{ section.settings.title | split: '|' | last }}</span>
+                {%- else -%}
+                {{ section.section.title | split: '|' | first }}
+                {%- endif -%}
+              </h4>
+              <span class="right-line"></span>
+            </div>
+            {%- endif -%}
+            {%- if section.settings.heading_content != '' -%}
+            <div class="title-after_title">
+              {%- if settings.language_enable -%}
+              <span class="lang1">{{ section.settings.heading_content | split: '|' | first }}</span>
+              <span class="lang2">{{ section.settings.heading_content | split: '|' | last }}</span>
+              {%- else -%}
+              {{ section.settings.heading_content | split: '|' | first }}
+              {%- endif -%}
+            </div>
+            {%- endif -%}
+            <style> 
+              {%- if section.settings.heading_top == '' and section.settings.title == '' and section.settings.heading_content == '' -%}
+              .vc_custom_{{section.id}} .title-wrapper {
+                margin-bottom: 0;
+              }
+              {%- endif -%} 
+              {%- if section.settings.heading_size == 'custom' and section.settings.heading_custom_size != blank -%}
+              #sp-{{section.id}} .woodmart-title-container {
+                font-size: {{section.settings.heading_custom_size | remove: 'px' | append: 'px' }};
+                line-height: {{section.settings.heading_custom_size | remove: 'px' | plus: 10 | append: 'px' }};
+              }
+              {%- endif-%}
+              {%- if section.settings.heading_size == 'custom' and section.settings.heading_custom_size_tablet != blank -%}
+              @media(max-width: 1024px){
+                #sp-{{section.id}} .woodmart-title-container {
+                  font-size: {{section.settings.heading_custom_size_tablet | remove: 'px' | append: 'px' }};
+                  line-height: {{section.settings.heading_custom_size_tablet | remove: 'px' | plus: 10 | append: 'px' }};
+                }
+              } 
+              {%- endif-%}
+              {%- if section.settings.heading_size == 'custom' and section.settings.heading_custom_size_phone != blank -%}
+              @media(max-width: 767px){
+                #sp-{{section.id}} .woodmart-title-container {
+                  font-size: {{section.settings.heading_custom_size_phone | remove: 'px' | append: 'px' }};
+                  line-height: {{section.settings.heading_custom_size_phone | remove: 'px' | plus: 10 | append: 'px' }};
+                }
+              } 
+              {%- endif-%}
+              {%- if section.settings.heading_size == 'custom' and section.settings.heading_top_custom_size != blank -%}
+              #sp-{{section.id}} .title-subtitle {
+                font-size: {{section.settings.heading_top_custom_size | remove: 'px' | append: 'px' }};
+                line-height: {{section.settings.heading_top_custom_size | remove: 'px' | plus: 10 | append: 'px' }};
+              }
+              {%- endif-%}
+              {%- if section.settings.heading_size == 'custom' and section.settings.heading_top_custom_size_tablet != blank -%}
+              @media(max-width: 1024px){
+                #sp-{{section.id}} .title-subtitle {
+                  font-size: {{section.settings.heading_top_custom_size_tablet | remove: 'px' | append: 'px' }};
+                  line-height: {{section.settings.heading_top_custom_size_tablet | remove: 'px' | plus: 10 | append: 'px' }};
+                }
+              } 
+              {%- endif-%}
+              {%- if section.settings.heading_size == 'custom' and section.settings.heading_top_custom_size_phone != blank -%}
+              @media(max-width: 767px){
+                #sp-{{section.id}} .title-subtitle {
+                  font-size: {{section.settings.heading_top_custom_size_phone | remove: 'px' | append: 'px' }};
+                  line-height: {{section.settings.heading_top_custom_size_phone | remove: 'px' | plus: 10 | append: 'px' }};
+                }
+              } 
+              {%- endif-%}
+            </style>
+          </div> 
+          {%- if section.settings.layout == 'carousel' -%}
+          {%- assign columns = section.settings.columns -%}
+          {%- else -%}
+          {%- assign columns = section.settings.columns_grid -%}
+          {%- endif -%}
+          <div id="instagram-{{section.id}}">
+            <div class="instagram-widget {% if section.settings.layout_space != blank %}instagram-with-spaces{% endif %} {% if section.settings.layout == 'grid' %}instagram-grid instagram-per-row-{{ columns }}{% else %}instagram-slider{% endif %}">
+              {%- if section.settings.layout == 'carousel' -%}
+              <div class="data-carousel" data-items="{{ section.settings.columns }}" data-auto="{{ section.settings.autoplay }}" data-paging="{{ section.settings.pagination }}" data-loop="{{section.settings.loop}}" data-320="2" data-414="2" data-768="2" data-992="3" data-1200="{{ section.settings.columns }}" data-margin="0" data-nav="{{ section.settings.navigation }}" data-prev='' data-next='' style="display: none;"></div>
+              {%- endif -%}
+              {%- if section.settings.show_boxcontent != blank and section.settings.layout == 'grid' -%}
+              <div class="instagram-content">
+                <div class="instagram-content-inner">
+                  {%- if settings.language_enable -%}
+                  <div class="lang1">{{ section.settings.box_content | split: '|' | first }}</div>
+                  <div class="lang2">{{ section.settings.box_content | split: '|' | last }}</div>
+                  {%- else -%}
+                  {{ section.settings.box_content | split: '|' | first }}
+                  {%- endif -%}
+                </div>
+              </div>
+              {%- endif -%}
+              <div class="instagram-pics {% if section.settings.layout == 'carousel' %}owl-carousel{% endif %}" data-access-token="{{section.settings.access_token}}" data-user-id="{{section.settings.user_id}}" data-limit="{{section.settings.limit}}"></div> 
+            </div> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {%- if section.settings.section_layout != '0' -%}
+  <div class="vc_row-full-width vc_clearfix"></div>
+  {%- endif -%}
+  <style>
+    .vc_custom_{{section.id}} {    
+      {%- if section.settings.background_image != blank -%}
+      background-image: url({{section.settings.background_image | img_url: 'master'}}) !important;
+      background-position: {{section.settings.background_position | replace: '_', ' ' }} !important;
+      background-repeat: {{section.settings.background_image_repeat}} !important;
+      background-size: {{section.settings.background_size}} !important;
+      background-attachment: {{section.settings.background_attachment}} !important;
+      {%- endif -%}
+      background-color: {{section.settings.background_color}}; 
+    }    
+  </style>
+</div>
+{% schema %}
+{
+  "name": "Footer Instagram", 
+  "settings": [    
+    {
+      "type": "header", 
+      "content": "Section Settings"
+    },  
+    {
+      "type": "select",
+      "id": "section_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "0",
+          "label": "Default"
+        },
+        {
+          "value": "1",
+          "label": "Fullwidth row"
+        },
+        {
+          "value": "2",
+          "label": "Fullwidth row and content"
+        },
+        {
+          "value": "3",
+          "label": "Fullwidth row and content (no padding)"
+        }
+      ],
+      "default": "0"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color", 
+	  "default": "transparent"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section background image" 
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_background_mobile",
+      "label": "Hide background image on mobile?", 
+	  "default": true
+    },
+    {
+      "type": "select",
+      "id": "background_image_repeat",
+      "label": "Background Repeat",
+      "options": [
+        {
+          "value": "no-repeat",
+          "label": "No Repeat"
+        },
+        {
+          "value": "repeat-x",
+          "label": "Repeat x (Repeat Horizontal)"
+        },
+        {
+          "value": "repeat-y",
+          "label": "Repeat y (Repeat Verticle)"
+        },
+        {
+          "value": "repeat",
+          "label": "Repeat All"
+        }
+      ],
+      "default": "no-repeat"
+    },
+    {
+      "type": "select",
+      "id": "background_size",
+      "label": "Background Size",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "background_attachment",
+      "label": "Background Attachment",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "fixed",
+          "label": "Fixed"
+        },
+        {
+          "value": "scroll",
+          "label": "Scroll"
+        },
+        {
+          "value": "inherit",
+          "label": "Inherit"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "background_position",
+      "label": "Background Position",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "left_top",
+          "label": "Left Top"
+        },
+        {
+          "value": "left_center",
+          "label": "Left Center"
+        },
+        {
+          "value": "left_bottom",
+          "label": "Left Bottom"
+        },
+        {
+          "value": "center_top",
+          "label": "Center Top"
+        },
+        {
+          "value": "center_center",
+          "label": "Center Center"
+        },
+        {
+          "value": "center_bottom",
+          "label": "Center Bottom"
+        }
+      ],
+      "default": "center_center"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section Margin Top", 
+	  "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section Margin Bottom", 
+	  "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Section Padding",
+      "default" : "0 0 0 0",
+	  "info": "Ex:(40px 40px 40px) (top right bottom left)"
+    },
+    {
+      "type": "text",
+      "id": "heading_top",
+      "label": "Heading Top",
+      "default": "SEE OUR COLLECTION"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Our Instagram Stories"
+    },
+    {
+      "type": "textarea",
+      "id": "heading_content",
+      "label": "Content",
+      "default": "Built a tested code base or had them built, you decided on a content."
+    }, 
+    {
+      "type": "select",
+      "id": "heading_style",
+      "label": "Heading Style",
+      "default": "default",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "simple",
+          "label": "Simple"
+        },
+        {
+          "value": "bordered",
+          "label": "Bordered"
+        },
+        {
+          "value": "underlined",
+          "label": "Underlined"
+        },
+        {
+          "value": "shadow",
+          "label": "Shadow"
+        } 
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "default",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "primary",
+          "label": "Primary"
+        },
+        {
+          "value": "alt",
+          "label": "Alt"
+        },
+        {
+          "value": "black",
+          "label": "Black"
+        },
+        {
+          "value": "white",
+          "label": "White"
+        },
+        {
+          "value": "gradient",
+          "label": "Gradient"
+        } 
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_postion",
+      "label": "Heading Text Algin",
+      "default": "center",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        } 
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading Text Size",
+      "default": "medium",
+      "options": [
+        {
+          "value": "custom",
+          "label": "Custom"
+        },
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "extra-large",
+          "label": "Extra Large"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_width",
+      "label": "Heading Width",
+      "default": "100",
+      "options": [
+        {
+          "value": "100",
+          "label": "100"
+        },
+        {
+          "value": "90",
+          "label": "90"
+        },
+        {
+          "value": "80",
+          "label": "80"
+        },
+        {
+          "value": "70",
+          "label": "70"
+        },
+        {
+          "value": "60",
+          "label": "60"
+        } ,
+        {
+          "value": "50",
+          "label": "50"
+        },
+        {
+          "value": "40",
+          "label": "40"
+        },
+        {
+          "value": "30",
+          "label": "30"
+        },
+        {
+          "value": "20",
+          "label": "20"
+        },
+        {
+          "value": "10",
+          "label": "10"
+        }
+      ]
+    }, 
+    {
+      "type": "text",
+      "id": "heading_custom_size",
+      "label": "Heading Custom Size"
+    },
+    {
+      "type": "text",
+      "id": "heading_custom_size_tablet",
+      "label": "Heading Custom Size On Tablet"
+    },
+    {
+      "type": "text",
+      "id": "heading_custom_size_phone",
+      "label": "Heading Custom Size On Phone"
+    },
+    {
+      "type": "text",
+      "id": "heading_top_custom_size",
+      "label": "Heading Top Custom Size"
+    },
+    {
+      "type": "text",
+      "id": "heading_top_custom_size_tablet",
+      "label": "Heading Top Custom Size On Tablet"
+    },
+    {
+      "type": "text",
+      "id": "heading_top_custom_size_phone",
+      "label": "Heading Top Custom Size On Phone"
+    },
+    {
+      "type": "header",
+      "content": "Instagram Settings"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "grid",
+          "label": "Grid"
+        },
+        {
+          "value": "carousel",
+          "label": "Carousel"
+        }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "checkbox",
+      "id": "layout_space",
+      "label": "Layout item with space?",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "columns_grid",
+      "label": "Columns Grid",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        },
+        {
+          "value": "7",
+          "label": "7"
+        },
+        {
+          "value": "8",
+          "label": "8"
+        },
+        {
+          "value": "9",
+          "label": "9"
+        },
+        {
+          "value": "10",
+          "label": "10"
+        },
+        {
+          "value": "11",
+          "label": "11"
+        },
+        {
+          "value": "12",
+          "label": "12"
+        }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "text",
+      "id": "access_token",
+      "label": "Access Token",
+      "default": "290116085.dd38710.e727245eec494e069f6e7d51d4743585"
+    },
+    {
+      "type": "text",
+      "id": "user_id",
+      "label": "User Id",
+      "default": "290116085"
+    },
+    {
+      "type": "text",
+      "id": "limit",
+      "label": "Limit",
+      "default": "4"
+    },
+    {
+      "type": "header",
+      "content": "Box Content Settings"
+    }, 
+    {
+      "type": "checkbox",
+      "id": "show_boxcontent",
+      "default": false,
+      "label": "Show box content only layout grid?"
+    },
+    {
+      "type": "html",
+      "id": "box_content",
+      "label": "Box Content",
+      "default": "<h4 style=\"text-align: center; margin-bottom: 0;\"><strong>INSTAGRAM</strong></h4><h6 style=\"text-align: center; margin-bottom: 10px;\"><span style=\"color: #c4c4c4;\">@WOOD_FASHION</span></h6><p style=\"text-align: center;\">Porttitor adipiscing a velmus lacinia parturient adipiscing lobortis vestibulum lacinia class.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Carousel Settings"
+    }, 
+    {
+      "type": "text",
+      "id": "autoplay",
+      "label": "Autoplay",
+      "default": "5000"
+    },
+    {
+      "type": "select",
+      "id": "columns",
+      "label": "Columns",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "checkbox",
+      "id": "pagination",
+      "default": true,
+      "label": "Show pagination control?"
+    },
+    {
+      "type": "checkbox",
+      "id": "navigation",
+      "default": true,
+      "label": "Show prev/next buttons?"
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "default": true,
+      "label": "Slider loop?",
+      "info": "Enables loop mode."
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,14 @@
+<div class="widget widget_layered_nav_filters">
+  <ul>
+    {%- for t in current_tags -%}
+    {%- assign t_downcase = t | downcase  -%}
+    {%- assign tag_value_remove = t | split: '_' | last -%} 
+    {%- capture cat_link_remove -%}{{ tag_value_remove | append: '&nbsp;x' | link_to_remove_tag : t }}{%- endcapture -%} 
+    {%- assign get_link_remove = cat_link_remove | split:'href="' | last | split:'"' | first -%}  
+    <li class="chosen">
+      <a href="{{get_link_remove}}" aria-label="Remove filter {{tag_value_remove | html}}">{%- if t_downcase contains 'size'-%}{{ tag_value_remove | upcase }}{%- else -%}{{ tag_value_remove | capitalize }}{%-endif-%}</a>
+    </li>
+    {%- endfor -%}
+    {%- if current_tags.size > 1 -%}<li class="chosen"><a aria-label="Remove filter All" href="/collections/{{collection.handle}}" {% if settings.language_enable %}data-translate="collections.general.clear_all"{% endif %}>{{ 'collections.general.clear_all' | t }}</a></li>{%-endif-%}
+  </ul>
+</div>

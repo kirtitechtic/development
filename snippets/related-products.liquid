@@ -1,0 +1,90 @@
+{%- case settings.related_hover_product -%} 
+{%- when 'base' -%}
+{%- assign pl_include = 'section_hover_product_base' -%} 
+{%- when 'alt' -%}
+{%- assign pl_include = 'section_hover_product_alt' -%}
+{%- when 'info' -%}
+{%- assign pl_include = 'section_hover_product_info' -%}
+{%- when 'info-alt' -%}
+{%- assign pl_include = 'section_hover_product_info_alt' -%}
+{%- when 'button' -%}
+{%- assign pl_include = 'section_hover_product_button' -%}
+{%- when 'icon' -%}
+{%- assign pl_include = 'section_hover_product_icon' -%}
+{%- when 'standard' -%}
+{%- assign pl_include = 'section_hover_product_standard' -%} 
+{%- when 'quick' -%}
+{%- assign pl_include = 'section_hover_product_quick' -%} 
+{%- when 'tiled' -%}
+{%- assign pl_include = 'section_hover_product_tiled' -%} 
+{%- endcase -%}
+<h3 class="title slider-title">
+  <span class="inner" {% if settings.language_enable %}data-translate="products.general.related_products"{% endif %}>{{ 'products.general.related_products' | t }}</span>
+</h3> 
+{%- if collection == null or collection.handle == 'frontpage' or collection.handle == 'all' -%}
+{%- assign found_a_collection = false -%}
+{%- for c in product.collections -%}
+{%- if found_a_collection == false and c.handle != 'frontpage' and c.handle != 'all' and c.all_products_count > 1 -%}
+{%- assign found_a_collection = true -%}
+{%- assign collection = c -%}
+{%- endif -%}
+{%- endfor -%}
+{%- endif -%} 
+{%- if collection and collection.products_count > 1 -%} 
+<div class="vc_carousel_container">
+  <div class="data-carousel" 
+       data-items="{{ settings.related_product_column }}"
+       data-auto="{{ settings.related_product_autoplay }}"
+       data-paging="{{ settings.related_product_show_paging }}"
+       data-320 = "2"
+       data-414 = "2"
+       data-768 = "2"
+       data-992 = "3"
+       data-1200 = "{{ settings.related_product_column }}"
+       data-margin="0"
+       data-nav="{{ settings.related_product_show_nav }}"           
+       data-prev=''
+       data-next='' style="display: none;"></div>
+  {%- assign limit = settings.related_product_limit | plus: 1 -%}  
+  <div class="owl-items-xl-4 owl-items-lg-3 owl-items-md-3 owl-items-sm-1 owl-carousel slider-type-post carousel-init">  
+    {%- assign current_product = product -%}
+    {%- assign current_product_found = false -%}
+    {%- for product in collection.products limit: limit -%} 
+      {%- if product.handle == current_product.handle -%}
+        {%- assign current_product_found = true -%}
+      {%- else %}
+        {%- unless current_product_found == false and forloop.last -%} 
+          {%- assign sold_out = true -%}
+          {%- if product.available -%}
+            {%- assign sold_out = false -%}
+          {%- endif -%}
+          {%- assign on_sale = false -%}
+          {%- if product.compare_at_price_min > product.price_min -%}
+            {%- assign on_sale = true -%}
+          {%- endif -%}
+          {%- assign variant_tmp = product.selected_or_first_available_variant -%}
+          {%- for variant in product.variants -%}
+            {%- if variant.available == true and variant.price < variant_tmp.price -%}
+              {%- assign variant_tmp = variant -%}	
+            {%- endif -%}
+          {%- endfor -%}
+          {%- case settings.collection_aspect_ratio -%}
+          {%- when '1' -%}
+            {%- assign image_width = settings.collection_ratio_width -%}
+            {%- assign image_height = '' -%} 
+          {%- else -%}
+            {%- assign image_width = settings.collection_ratio_width -%}
+            {%- assign image_height = settings.collection_ratio_height -%}
+          {%- endcase -%} 
+    	  {%- capture image_size -%}{{ image_width }}x{{ image_height }}{%- endcapture -%}
+          <div class="slide-product owl-carousel-item"> 
+            <div class="owl-carousel-item-inner">
+              {%- include pl_include, carousel: true, countdown: settings.collection_product_countdown -%}  
+            </div>
+          </div> 
+    	{%- endunless -%}
+      {%- endif -%}
+    {%- endfor -%} 
+  </div> 
+</div>
+{%- endif -%}

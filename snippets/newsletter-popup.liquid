@@ -1,0 +1,110 @@
+{% if settings.newsletter_enable != '0' %} 
+<div style="display: none">
+  <img src="{{ 'newsletter_bg_image.jpg' | asset_url }}" style="display:none;"/>
+  <style> 
+    .woodmart-promo-popup {
+      {% if settings.newsletter_bg_image_use != blank %}
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center center;
+      {% endif %}
+      {% if settings.newsletter_bg_color != ''%}
+      background-color: {{ settings.newsletter_bg_color }};
+      {% endif %}
+      max-width: {{ settings.newsletter_width }}px;
+      display: none;
+    } 
+    .vc_custom_1488916869269 {
+      margin-top: -15px !important;
+      margin-bottom: -15px !important;
+      border-top-width: 5px !important;
+      border-right-width: 5px !important;
+      border-bottom-width: 5px !important;
+      border-left-width: 5px !important;
+      padding-top: 70px !important;
+      padding-bottom: 70px !important;
+      border-left-color: rgba(255,255,255,0.15) !important;
+      border-left-style: solid !important;
+      border-right-color: rgba(255,255,255,0.15) !important;
+      border-right-style: solid !important;
+      border-top-color: rgba(255,255,255,0.15) !important;
+      border-top-style: solid !important;
+      border-bottom-color: rgba(255,255,255,0.15) !important;
+      border-bottom-style: solid !important;
+    }
+    .vc_custom_1488917450837 {
+      padding-top: 0px !important;
+    }
+    .vc_custom_1488914753181 {
+      margin-bottom: 0px !important;
+    }
+    .vc_custom_1488915083694 {
+      margin-bottom: 0px !important;
+    }
+    {{settings.newsletter_custom_style}}
+  </style> 
+  
+  <div class="mfp-with-anim woodmart-promo-popup" style="{% if settings.newsletter_bg_image_use != blank %}background-image:url({{ 'newsletter_bg_image.jpg' | asset_url }});{% endif %}">
+    <div class="woodmart-popup-inner">
+      <div class="vc_row wpb_row vc_row-fluid vc_custom_1488916869269 vc_row-has-fill">
+        <div class="wpb_animate_when_almost_visible wpb_fadeIn fadeIn wpb_column vc_column_container vc_col-sm-12 color-scheme-light wpb_start_animation animated">
+          <div class="vc_column-inner vc_custom_1488917450837">
+            <div class="wpb_wrapper">
+              <div id="woodmart-title-id-5a5dc313f20e6" class="title-wrapper  woodmart-title-color-white woodmart-title-style-default woodmart-title-size-large woodmart-title-width-70 text-center ">
+                <div class="liner-continer">
+                  <span class="left-line"></span>
+                  <h4 class="woodmart-title-container title  woodmart-font-weight-">
+                    {% if settings.language_enable %}
+                    <span class="lang1">{{ settings.newsletter_title | split: '|' | first }}</span>
+                    <span class="lang2">{{ settings.newsletter_title | split: '|' | last }}</span>
+                    {% else %}
+                    {{ settings.newsletter_title | split: '|' | first }}
+                    {% endif %}
+                  </h4>
+                  <span class="right-line"></span>
+                </div>
+                <div class="title-after_title">
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ settings.newsletter_content | split: '|' | first  }}</span>
+                  <span class="lang2">{{ settings.newsletter_content | split: '|' | last }}</span>
+                  {% else %}
+                  {{ settings.newsletter_content | split: '|' | first }}
+                  {% endif %}
+                </div>
+              </div>
+              <div class="wpb_text_column wpb_content_element vc_custom_1488914753181">
+                <div class="wpb_wrapper">
+                  {% if settings.newsletter_form_action != blank %}
+                  {% assign form_action = settings.newsletter_form_action %}
+                  {% else %}
+                  {% assign form_action = '#' %}
+                  {% endif %}
+                  <form action="{{ form_action }}" method="post" target="_blank" class="mc4wp-form" name="mc-embedded-subscribe-form">
+                    <div class="mc4wp-form-fields"> 
+                      <p><input required="required" input id="mc-email" type="email" value="{% if customer %}{{ customer.email }}{% endif %}" name="EMAIL" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" class="input-group-field input-text" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}"></p>
+                      <p style="margin-bottom: 20px;"><input type="submit" class="btn-button effect" name="subscribe" {% if settings.language_enable %}data-translate="general.newsletter_form.go"{% endif %} value="{{ 'general.newsletter_form.go' | t }}"></p>       
+                    </div> 
+                  </form>
+                </div>
+              </div>
+              {%- if settings.newsletter_content_bottom != '' -%}
+              <div class="wpb_text_column wpb_content_element  vc_custom_1488915083694">
+                <div class="wpb_wrapper">
+                  {% if settings.language_enable %}
+                  <div class="lang1">{{ settings.newsletter_content_bottom | split: '|' | first  }}</div>
+                  <div class="lang2">{{ settings.newsletter_content_bottom | split: '|' | last }}</div>
+                  {% else %}
+                  {{ settings.newsletter_content_bottom | split: '|' | first }}
+                  {% endif %} 
+                </div>
+              </div>
+              {%- endif -%} 
+            </div>
+          </div>
+        </div>
+      </div>
+      <style type="text/css" data-type="vc_shortcodes-custom-css">.vc_custom_1488916869269{margin-top:-15px !important;margin-bottom:-15px !important;border-top-width:5px !important;border-right-width:5px !important;border-bottom-width:5px !important;border-left-width:5px !important;padding-top:70px !important;padding-bottom:70px !important;border-left-color:rgba(255,255,255,0.15) !important;border-left-style:solid !important;border-right-color:rgba(255,255,255,0.15) !important;border-right-style:solid !important;border-top-color:rgba(255,255,255,0.15) !important;border-top-style:solid !important;border-bottom-color:rgba(255,255,255,0.15) !important;border-bottom-style:solid !important}.vc_custom_1488917450837{padding-top:0px !important}.vc_custom_1488914753181{margin-bottom:0px !important}.vc_custom_1488915083694{margin-bottom:0px !important}</style>
+    </div>
+  </div>
+</div> 
+{% endif %}

@@ -1,0 +1,114 @@
+{%- capture overlap_color -%}header-color-{{settings.topbar_text_color}}{%- endcapture-%}
+{%- if settings.header_overlap != blank and template != 'product' -%}
+  {%- capture overlap_color -%}header-color-{{settings.overlap_text_color}}{%- endcapture-%}
+{%- endif -%}  
+{%- if settings.header_overlap_home != blank and template == 'index' -%}
+  {%- capture overlap_color -%}header-color-{{settings.overlap_text_color}}{%- endcapture-%}
+{%- endif -%} 
+{%- if settings.header_overlap_collection != blank and template == 'collection' and template != 'product' -%}
+  {%- capture overlap_color -%}header-color-{{settings.overlap_text_color}}{%- endcapture-%}
+{%- endif -%}  
+{%- if settings.header_overlap_blog != blank and template == 'blog' -%}
+  {%- capture overlap_color -%}header-color-{{settings.overlap_text_color}}{%- endcapture-%}
+{%- endif -%}  
+{%- if settings.header_overlap_article != blank and template == 'article' -%}
+  {%- capture overlap_color -%}header-color-{{settings.overlap_text_color}}{%- endcapture-%}
+{%- endif -%}  
+{%- if settings.header_overlap_contact != blank and template == 'page.contact' -%}
+  {%- capture overlap_color -%}header-color-{{settings.overlap_text_color}}{%- endcapture-%}
+{%- endif -%}  
+{%- if settings.header_overlap_about != blank and template == 'page.about' -%}
+  {%- capture overlap_color -%}header-color-{{settings.overlap_text_color}}{%- endcapture-%}
+{%- endif -%}  
+{%- if settings.header_overlap_faq != blank and template == 'page.faqs' -%}
+  {%- capture overlap_color -%}header-color-{{settings.overlap_text_color}}{%- endcapture-%}
+{%- endif -%}  
+{%- if settings.header_overlap_landing != blank and template == 'page.landing' -%}
+  {%- capture overlap_color -%}header-color-{{settings.overlap_text_color}}{%- endcapture-%}
+{%- endif -%}   
+{%- if settings.header_overlap_account != blank and template == 'customers/login' -%}
+  {%- capture overlap_color -%}header-color-{{settings.overlap_text_color}}{%- endcapture-%}
+{%- endif -%}  
+<div class="topbar-wrapp {{overlap_color}}">
+  <div class="container">
+    <div class="topbar-content">
+      <div class="top-bar-left topbar-column">
+        <div class="topbar-menu woodmart-navigation topbar-left-menu">
+          <div class="menu-top-bar-right-container">
+            <ul id="menu-top-bar-right" class="menu">
+              <li class="menu-item menu-item-type-language menu-item-has-children menu-item-design-default item-level-0 menu-simple-dropdown item-event-hover" id="custom_gtranslate">
+              {% include 'gtranslate' %}
+              </li>
+              
+              {%- if settings.language_enable != blank -%}
+              <li class="menu-item menu-item-type-language menu-item-has-children menu-item-design-default item-level-0 menu-simple-dropdown item-event-hover">
+                <a href="javascrip:void()" class="woodmart-nav-link lang-1 active">
+                  {% if settings.flag_user_icon %}
+                  <img alt="" src="{{ 'flag_icon_1.png' | asset_url }}"> 
+                  {% endif %}
+                  <span>{{settings.multi_language_1}}</span>
+                </a>
+                <a href="javascrip:void()" class="woodmart-nav-link lang-2">
+                  {% if settings.flag_user_icon %}
+                  <img alt="" src="{{ 'flag_icon_2.png' | asset_url }}"> 
+                  {% endif %}
+                  <span>{{settings.multi_language_2}}</span>
+                </a>
+                <div class="sub-menu-dropdown color-scheme-dark">
+                  <ul class="select-language clearfix">
+                    <li><a href="javascript:void(0);" class="active" data-lang="1">{% if settings.flag_user_icon != blank %}<img alt="" src="{{ 'flag_icon_1.png' | asset_url }}"> {{ settings.multi_language_1 }}{% else %} {{ settings.multi_language_1 }}{% endif %}</a></li>
+                    <li><a href="javascript:void(0);" data-lang="2">{% if settings.flag_user_icon != blank %}<img alt="" src="{{ 'flag_icon_2.png' | asset_url }}"> {{ settings.multi_language_2 }}{% else %} {{ settings.multi_language_2 }}{% endif %}</a></li>
+                  </ul>
+                </div>
+              </li>
+              {%- endif -%}
+              {%- if settings.currency_enable -%}
+              <li class="menu-item menu-item-type-custom menu-item-has-children menu-item-design-default item-level-0 menu-simple-dropdown item-event-hover">
+                <a href="javascrip:void()" class="woodmart-nav-link current-currency"><span>{{ shop.currency }}</span></a>
+                <div class="sub-menu-dropdown color-scheme-dark">
+                  <ul class="setting-currency">
+                    {%- capture codes %},USD,EUR,GBP,CAD,ARS,AUD,BBD,BDT,BSD,BHD,BRL,BOB,BND,BGN,MMK,KYD,CLP,CNY,COP,CRC,HRK,CZK,DKK,DOP,XCD,EGP,XPF,FJD,GHS,GTQ,GYD,GEL,HKD,HUF,ISK,INR,IDR,NIS,JMD,JPY,JOD,KZT,KES,KWD,LVL,LTL,MXN,MYR,MUR,MDL,MAD,MNT,MZN,ANG,NZD,NGN,NOK,OMR,PKR,PYG,PEN,PHP,PLN,QAR,RON,RUB,SAR,RSD,SCR,SGD,SYP,ZAR,KRW,LKR,SEK,CHF,TWD,THB,TZS,TTD,TRY,UAH,AED,UYU,VEB,VND,ZMK,{%- endcapture -%}
+                    {%- assign supported_codes = settings.supported_currencies | split: ' ' -%}
+                    <li class="selected"><a href="#" data-currency="{{ shop.currency }}">{{ shop.currency }}</a></li>
+                    {%- for code in supported_codes -%}
+                    {%- if code != shop.currency and codes contains code -%}
+                    <li><a href="#" data-currency="{{ code }}">{{ code }}</a></li>
+                    {%- endif -%}
+                    {%- endfor -%} 
+                  </ul>
+                </div>
+              </li>
+              {%- endif -%}
+            </ul>
+          </div>
+        </div>
+        <div class="topbar-text topbar-left-text">
+          {%- if settings.language_enable -%}
+          <span class="lang1">{{ settings.topbar_custom_html | split: '|' | first }}</span>
+          <span class="lang2">{{ settings.topbar_custom_html | split: '|' | last }}</span>
+          {%- else -%}
+          {{ settings.topbar_custom_html | split: '|' | first }}
+          {%- endif -%}
+        </div>
+      </div>
+      <div class="top-bar-right topbar-column">
+        <div class="topbar-text topbar-right-text">
+          <div class="woodmart-social-icons text-center icons-design-default icons-size-small color-scheme-{{settings.topbar_text_color}} social-follow social-form-circle">
+            {% if settings.language_enable %}
+            <div class="lang1">{{ settings.topbar_social_html | split: '|' | first }}</div>
+            <div class="lang2">{{ settings.topbar_social_html | split: '|' | last }}</div>
+            {% else %}
+            {{ settings.topbar_social_html | split: '|' | first }}
+            {% endif %}
+          </div>
+        </div>
+        <div class="topbar-menu woodmart-navigation topbar-right-menu">
+          {% section 'header-topbar-menu' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script> 
+  translator.updateLangSwitcher(); 
+</script> 

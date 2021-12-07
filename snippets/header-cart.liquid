@@ -1,0 +1,28 @@
+{%- unless settings.shoping_cart_design == 'disable' -%}
+{%- if settings.catalog_mode_enable == blank -%}
+<div class="woodmart-shopping-cart woodmart-cart-design-{{settings.shoping_cart_design}} woodmart-cart-icon {% if settings.shoping_cart_alt != blank %}woodmart-cart-alt{% endif %} {% if settings.shoping_cart_position == 'sidebar' %}cart-widget-opener{% endif %}">
+  <a href="/cart"> 
+    <span class="woodmart-cart-wrapper">
+      <img src="{{ 'Shape.svg' | asset_url }}"  alt="cart" itemprop="cart">
+      <span class="woodmart-cart-icon">
+      
+     </span>
+      
+      <span class="woodmart-cart-totals">
+        <span class="woodmart-cart-number">{{ cart.item_count }} <span {% if settings.language_enable %}data-translate="cart.header.total_numb"{% endif %}>{{ 'cart.header.total_numb' | t }}</span></span>
+        <span class="subtotal-divider">/</span>
+        <span class="woodmart-cart-subtotal">
+          <span class="shopify-Price-amount amount">
+            <span class="money">{{ cart.total_price | money }}</span>
+          </span>
+        </span> 
+      </span>
+    </span>
+  </a>
+    
+  {%- unless settings.shoping_cart_position != 'dropdown' or template contains 'cart'  -%} 
+    {% include 'widget-shoping-cart'%}  
+  {%- endunless -%}
+</div>
+{%- endif -%}
+{%- endunless -%}

@@ -1,0 +1,40 @@
+{%- if settings.share_facebook != blank -%}
+<div class="woodmart-social-icon social-facebook">
+  <a href="https://www.facebook.com/sharer/sharer.php?u={{share_url}}" target="_blank" class="">
+    <i class="fa fa-facebook"></i>
+    <span class="woodmart-social-icon-name">Facebook</span>
+  </a>
+</div>
+{%- endif -%}
+{%- if settings.share_twitter != blank -%}
+<div class="woodmart-social-icon social-twitter">
+  <a href="http://twitter.com/share?url={{share_url}}" target="_blank" class="">
+    <i class="fa fa-twitter"></i>
+    <span class="woodmart-social-icon-name">Twitter</span>
+  </a>
+</div>
+{%- endif -%}
+{%- if settings.share_google != blank -%}
+<div class="woodmart-social-icon social-google">
+  <a href="http://plus.google.com/share?url={{share_url}}" target="_blank" class="">
+    <i class="fa fa-google-plus"></i>
+    <span class="woodmart-social-icon-name">Google</span>
+  </a>
+</div>
+{%- endif -%}
+{%- if settings.share_email != blank -%}
+<div class="woodmart-social-icon social-email">
+  <a href="mailto:?subject=Check this {{share_url}}" target="_blank" class="">
+    <i class="fa fa-envelope"></i>
+    <span class="woodmart-social-icon-name">Email</span>
+  </a>
+</div>
+{%- endif -%}
+{%- if settings.share_pinterest != blank -%}
+<div class="woodmart-social-icon social-pinterest">
+  <a href="http://pinterest.com/pin/create/button/?url={{share_url}}&amp;{{ article | img_url: '1024x460' }}" target="_blank" class="">
+    <i class="fa fa-pinterest"></i>
+    <span class="woodmart-social-icon-name">Pinterest</span>
+  </a>
+</div> 
+{%- endif -%}

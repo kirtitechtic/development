@@ -1,0 +1,100 @@
+{%- if settings.footer_design == '3' -%}
+<div class="woodmart-prefooter">
+  <div class="container">
+    {%- section 'footer-products-list' -%}
+  </div>
+</div>
+{%- endif -%}
+{%- if settings.footer_design == '2' -%}
+<div class="woodmart-prefooter">
+  <div class="container">
+    {%- section 'footer-brands'-%}
+  </div>
+</div>
+{%- endif -%}
+{%- if settings.footer_design == '4' -%}
+<div class="woodmart-prefooter">
+  <div class="container">
+    {%- section 'footer-subscribe-social'-%}
+  </div>
+</div>
+{%- endif -%}
+{%- if settings.footer_design == '5' -%}
+<div class="woodmart-prefooter">
+  <div class="container">
+    {%- section 'footer-custom-text' -%}
+  </div>
+</div>
+{%- endif -%}
+{%- if settings.footer_design == '6' -%}
+<div class="woodmart-prefooter">
+  <div class="container">
+    {%- section 'footer-subscribe' -%}
+  </div>
+</div>
+{%- endif -%}
+{%- if settings.footer_design == '7' -%}
+<div class="woodmart-prefooter">
+  <div class="container">
+    {%- section 'footer-instagram' -%}
+    {%- section 'footer-menu-link' -%}
+  </div>
+</div>
+{%- endif -%}
+<footer class="footer-container color-scheme-{{settings.footer_text_color}}">
+  <div class="container main-footer">
+    <aside class="footer-sidebar widget-area row" role="complementary">
+      {%- section 'footer-settings' -%}
+    </aside>
+  </div>
+  {%- if settings.footer_design == '5' -%}
+  <div class="woodmart-nexfooter">
+    <div class="container">
+      {%- section 'footer-social-banner' -%}
+    </div>
+  </div>
+  {%- endif -%}
+  <div class="copyrights-wrapper copyrights-two-columns">
+    <div class="container">
+      <div class="min-footer">
+        <div class="col-left">
+          {% if settings.language_enable %}
+          <div class="lang1">{{ settings.footer_copyright | split: '|' | first }}</div>
+          <div class="lang2">{{ settings.footer_copyright | split: '|' | last }}</div>
+          {% else %}
+          {{ settings.footer_copyright | split: '|' | first }}
+          {% endif %}
+        </div>
+        {%- if settings.footer_image_payment != blank -%}
+        <div class="col-right"> 
+          <img src="{{ settings.footer_image_payment | img_url: 'master' }}" alt="{{ image.alt }}"/> 
+        </div> 
+        {%- endif -%} 
+      </div>
+    </div>
+  </div>
+</footer>
+<style type="text/css">
+  .woodmart-prefooter {
+    background-color: {{settings.footer_top_background_color}};
+    {%- if settings.footer_top_show == blank and template == 'index' -%}
+    display:none;
+    {%- endif -%}
+  }
+  .footer-container {
+    background-color: {{settings.footer_background_color}};
+    {% if settings.footer_background_image != blank %}
+    background-image: url({{ settings.footer_background_image | img_url: 'master' }}); 
+    {% endif %}
+    background-repeat: {{settings.footer_background_image_repeat}};
+    background-size: {{settings.footer_background_size}};
+    background-attachment: {{settings.footer_background_attachment}};
+    background-position: {{settings.footer_background_position | replace: '_', ' ' }}; 
+  }
+  .woodmart-nexfooter { 
+    border-top-width: 1px; 
+    background-color: #092143;
+    border-top-color: rgba(255,255,255,.1);
+    border-top-style: solid; 
+  }
+</style>

@@ -1,0 +1,127 @@
+{% case settings.logo_width %}
+{% when '' %}
+{%- assign image_logo_width = '369' -%}
+{%- assign image_logo_height = '' -%} 
+{% else %}
+{%- assign image_logo_width = settings.logo_width -%}
+{%- assign image_logo_height = '' -%}
+{% endcase %}  
+{% capture logo_size %}{{ image_logo_width }}x{{ image_logo_height }}{% endcapture %} 
+{%- if settings.header_topbar_disable == blank -%}
+{%- if settings.header_design != 'menu-top' -%}
+{%- include 'header-top-bar' -%}
+{%- endif -%}
+{%- endif -%} 
+{%- assign overlap_class = '' -%} 
+{%- if settings.header_overlap != blank and template != 'product' -%}
+  {%- assign overlap_class = 'header-overlap' -%}
+{%- endif -%} 
+{%- if settings.header_overlap_home != blank and template == 'index' -%}
+  {%- assign overlap_class = 'header-overlap' -%}
+{%- endif -%} 
+{%- if settings.header_overlap_collection != blank and template == 'collection' and template != 'product' -%}
+  {%- assign overlap_class = 'header-overlap' -%}
+{%- endif -%} 
+{%- if settings.header_overlap_blog != blank and template == 'blog' -%}
+  {%- assign overlap_class = 'header-overlap' -%}
+{%- endif -%} 
+{%- if settings.header_overlap_article != blank  and template == 'article' -%}
+  {%- assign overlap_class = 'header-overlap' -%}
+{%- endif -%} 
+{%- if settings.header_overlap_contact != blank and template == 'page.contact' -%}
+  {%- assign overlap_class = 'header-overlap' -%}
+{%- endif -%} 
+{%- if settings.header_overlap_about != blank and template == 'page.about' -%}
+  {%- assign overlap_class = 'header-overlap' -%}
+{%- endif -%} 
+{%- if settings.header_overlap_faq != blank and template == 'page.faqs' -%}
+  {%- assign overlap_class = 'header-overlap' -%}
+{%- endif -%} 
+{%- if settings.header_overlap_landing != blank and template == 'page.landing' -%}
+  {%- assign overlap_class = 'header-overlap' -%}
+{%- endif -%} 
+{%- if settings.header_overlap_account != blank and template == 'customers/login' -%}
+  {%- assign overlap_class = 'header-overlap' -%}
+{%- endif -%} 
+
+{%- capture overlap_color -%}header-color-{{settings.header_text_color}}{%- endcapture-%}
+{%- if settings.header_overlap != blank and template != 'product' -%}
+  {%- capture overlap_color -%}header-color-{{settings.overlap_text_color}}{%- endcapture-%}
+{%- endif -%}  
+{%- if settings.header_overlap_home != blank and template == 'index' -%}
+  {%- capture overlap_color -%}header-color-{{settings.overlap_text_color}}{%- endcapture-%}
+{%- endif -%} 
+{%- if settings.header_overlap_collection != blank and template == 'collection' and template != 'product' -%}
+  {%- capture overlap_color -%}header-color-{{settings.overlap_text_color}}{%- endcapture-%}
+{%- endif -%}  
+{%- if settings.header_overlap_blog != blank and template == 'blog' -%}
+  {%- capture overlap_color -%}header-color-{{settings.overlap_text_color}}{%- endcapture-%}
+{%- endif -%}  
+{%- if settings.header_overlap_article != blank and template == 'article' -%}
+  {%- capture overlap_color -%}header-color-{{settings.overlap_text_color}}{%- endcapture-%}
+{%- endif -%}  
+{%- if settings.header_overlap_contact != blank and template == 'page.contact' -%}
+  {%- capture overlap_color -%}header-color-{{settings.overlap_text_color}}{%- endcapture-%}
+{%- endif -%}  
+{%- if settings.header_overlap_about != blank and template == 'page.about' -%}
+  {%- capture overlap_color -%}header-color-{{settings.overlap_text_color}}{%- endcapture-%}
+{%- endif -%}  
+{%- if settings.header_overlap_faq != blank and template == 'page.faqs' -%}
+  {%- capture overlap_color -%}header-color-{{settings.overlap_text_color}}{%- endcapture-%}
+{%- endif -%}  
+{%- if settings.header_overlap_landing != blank and template == 'page.landing' -%}
+  {%- capture overlap_color -%}header-color-{{settings.overlap_text_color}}{%- endcapture-%}
+{%- endif -%}   
+{%- if settings.header_overlap_account != blank and template == 'customers/login' -%}
+  {%- capture overlap_color -%}header-color-{{settings.overlap_text_color}}{%- endcapture-%}
+{%- endif -%}  
+<header class="main-header header-has-no-bg {{overlap_class}} header-{{settings.header_design}} icons-design-line {{overlap_color}} header-mobile-center" data-sticky-class="header-mobile-center {{overlap_color}}">
+  {%- assign name_header = 'header-design-' | append:settings.header_design -%}
+  {%- include name_header -%}
+  {% include 'gtranslate' %}
+</header>
+<div class="clear"></div>
+<style type="text/css">
+  .topbar-wrapp {
+    background-color: {{settings.topbar_background_color}};
+    {% if settings.topbar_background_image != blank %}
+    background-image: url({{ settings.topbar_background_image | img_url: 'master' }}); 
+    {% endif %}
+    background-repeat: {{settings.topbar_background_image_repeat}};
+    background-size: {{settings.topbar_background_size}};
+    background-attachment: {{settings.topbar_background_attachment}};
+    background-position: {{settings.topbar_background_position | replace: '_', ' ' }}; 
+  }
+  .woodmart-header-overlap .topbar-wrapp {
+    background-color: transparent;
+  }
+  .site-logo img {
+    max-width: {{settings.logo_width | remove: 'px' | append: 'px'}};
+  }
+  .header-clone .site-logo img {
+    max-width: {{settings.logo_sticky_width | remove: 'px' | append: 'px'}};
+  }
+  .main-header,.header-spacing {
+    background-color: {{settings.header_background_color}};
+  }
+  .sticky-header.header-clone {
+    background-color: {{settings.header_sticky_background_color}};
+  }
+  .woodmart-header-overlap:not(.template-product) .act-scroll {
+    background-color: rgba(0,0,0,.9);
+  }
+  .main-header {
+    border-bottom: 0px solid #ededed;
+    {% if settings.header_background_image != blank %}
+    background-image: url({{ settings.header_background_image | img_url: 'master' }}); 
+    {% endif %}
+    background-repeat: {{settings.header_background_image_repeat}};
+    background-size: {{settings.header_background_size}};
+    background-attachment: {{settings.header_background_attachment}};
+    background-position: {{settings.header_background_position | replace: '_', ' ' }}; 
+  } 
+  .navigation-wrap, .header-menu-top .navigation-wrap {
+    background-color: {{settings.header_menu_bg_color}};
+  }
+  .main-header.header-overlap {background-color: transparent;}
+</style>

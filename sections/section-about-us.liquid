@@ -1,0 +1,413 @@
+{%- case section.settings.section_layout -%}
+{%- when '0' -%}
+{%- capture data_fullwidth -%}{%- endcapture -%}
+{%- when '1' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true"{%- endcapture -%}
+{%- when '2' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- when '3' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- endcase -%} 
+<div data-section-id="{{ section.id }}" data-section-type="newsletter-section">
+  <div {{data_fullwidth}} class="vc_row wpb_row vc_row-fluid {% if section.settings.hide_background_mobile != blank %}mobile-bg-img-hidden{% endif %} vc_custom_{{section.id}} vc_row-has-fill woodmart-bg-center-center {% if section.settings.section_layout == '3' %}vc_row-no-padding{% endif %} woodmart-bg-left-top" style="margin-top:{{section.settings.margin_top | remove: 'px' | append: 'px' }}; margin-bottom:{{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.padding}};">
+    <div class="wpb_column vc_column_container vc_col-sm-12">
+      <div class="vc_column-inner">
+        <div class="wpb_wrapper"> 
+          <div class="vc_row wpb_row vc_row-fluid vc_row-o-content-middle vc_row-flex">
+            <div class="z-index-10 default-margins wpb_column vc_column_container vc_col-sm-6 vc_col-md-6 vc_col-has-fill" style="z-index:10;">
+              <div class="vc_column-inner vc_custom_1510840920177">
+                <div class="wpb_wrapper">
+                  <style>#woodmart-text-block-id-{{section.id}} .woodmart-text-block{font-size:38px;line-height:48px}@media (max-width: 1024px){#woodmart-text-block-id-{{section.id}} .woodmart-text-block{font-size:28px;line-height:38px}}@media (max-width: 767px){#woodmart-text-block-id-{{section.id}} .woodmart-text-block{font-size:22px;line-height:32px}.default-margins .vc_column-inner{margin-left:0 !important;margin-right:0 !important}}</style>
+                  <div id="woodmart-text-block-id-{{section.id}}" class="woodmart-text-block-wrapper color-scheme-{{section.settings.content_color}} woodmart-title-size-custom woodmart-title-width-80 text-left vc_custom_1510825535749">
+                    {%- if section.settings.title != '' -%}
+                    <div class="woodmart-title-container woodmart-text-block font-primary woodmart-font-weight-">
+                      {%- if settings.language_enable -%}
+                      <span class="lang1">{{ section.settings.title | split: '|' | first }}</span>
+                      <span class="lang2">{{ section.settings.title | split: '|' | last }}</span>
+                      {%- else -%}
+                      {{ section.settings.title | split: '|' | first }}
+                      {%- endif -%}
+                    </div>
+                    {%- endif -%}
+                    {%- if section.settings.content != '' -%}
+                    <div class="wpb_text_column wpb_content_element vc_custom_1510753948006">
+                      <div class="wpb_wrapper"> 
+                        {%- if settings.language_enable -%}
+                        <p class="lang1">{{ section.settings.content | split: '[lang2]' | first }}</p>
+                        <p class="lang2">{{ section.settings.content | split: '[lang2]' | last }}</p>
+                        {%- else -%}
+                        <p>{{ section.settings.content | split: '[lang2]' | first }}</p>
+                        {%- endif -%} 
+                      </div>
+                    </div>
+                    {%- endif -%}
+                    {%- if section.settings.content2 != '' -%}
+                    <div class="wpb_text_column wpb_content_element vc_custom_1510757800316">
+                      <div class="wpb_wrapper">
+                        {%- if settings.language_enable -%}
+                        <p class="lang1">{{ section.settings.content2 | split: '[lang2]' | first }}</p>
+                        <p class="lang2">{{ section.settings.content2 | split: '[lang2]' | last }}</p>
+                        {%- else -%}
+                        <p>{{ section.settings.content2 | split: '[lang2]' | first }}</p>
+                        {%- endif -%} 
+                      </div>
+                    </div>
+                    {%- endif -%}
+                    <div class="vc_row wpb_row vc_inner vc_row-fluid vc_row-o-content-middle vc_row-flex">
+                      <div class="wpb_column vc_column_container vc_col-sm-12 vc_col-lg-5 vc_col-md-5 vc_col-xs-12">
+                        <div class="vc_column-inner ">
+                          <div class="wpb_wrapper">
+                            <div class="woodmart-social-icons text-left icons-design-bordered icons-size-small color-scheme-{{section.settings.content_color}} social-share social-form-circle">
+                              {%- assign _url = shop.url | append: section.settings.link_share -%}
+                              {%- include 'social-sharing', share_url: _url -%}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="wpb_column vc_column_container vc_col-sm-12 vc_col-lg-7 vc_col-md-7 vc_col-xs-12">
+                        <div class="vc_column-inner ">
+                          <div class="wpb_wrapper">
+                            <div class="woodmart-info-box text-right box-title-default icon-alignment-right box- color-scheme-{{section.settings.content_color}} vc_custom_1510662306672">
+                              <div class="box-icon-wrapper with-icon icon-style-simple">
+                                <div class="info-box-icon">
+                                  {%- if section.settings.signature_image != blank -%}
+                                  {%- assign sig_url = section.settings.signature_image | img_url: '110x65' -%}
+                                  {%- else -%}
+                                  {%- assign sig_url = 'jewelry-sign.png' | asset_url -%}
+                                  {%- endif -%}
+                                  <img class="info-icon image-1 " src="{{sig_url}}">
+                                </div>
+                              </div>
+                              {%- if section.settings.about_name != '' -%}
+                              <div class="info-box-content">
+                                <div class="info-box-inner">
+                                  <div style="margin-top: 18px; color: black;">
+                                    <em> 
+                                      {%- if settings.language_enable -%}
+                                      <strong class="lang1">{{ section.settings.about_name | split: '|' | first }}</strong>
+                                      <strong class="lang2">{{ section.settings.about_name | split: '|' | last }}</strong>
+                                      {%- else -%}
+                                      <strong>{{ section.settings.about_name | split: '|' | first }}</strong>
+                                      {%- endif -%}
+                                    </em>
+                                  </div>
+                                </div>
+                              </div>
+                              {%- endif -%}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div> 
+              </div>
+            </div>
+            <div class="wpb_column vc_column_container vc_col-sm-6 vc_col-md-6">
+              <div class="vc_column-inner vc_custom_1510840925673">
+                <div class="wpb_wrapper">
+                  <div class="wpb_single_image wpb_content_element vc_align_center vc_custom_1510836126454">
+                    <figure class="wpb_wrapper vc_figure">
+                      <div class="vc_single_image-wrapper vc_box_border_grey" style="text-align:center;">
+                        {%- if section.settings.content_image != blank -%}
+                        {%- assign img_url = section.settings.content_image | img_url: '580x500' -%}
+                        {%- else -%}
+                        {%- assign img_url = '580x500.png' | asset_url -%}
+                        {%- endif -%}
+                        <img src="{{ img_url }}" alt="{{ section.settings.image.alt }}" class="vc_single_image-img attachment-full" srcset="{{section.settings.content_image | img_url: '580x500'}} 580w, {{section.settings.content_image | img_url: '150x129'}} 150w, {{section.settings.content_image | img_url: '348x300'}} 348w, {{section.settings.content_image | img_url: '290x250'}} 290w, {{section.settings.content_image | img_url: '100x86'}} 100w, {{section.settings.content_image | img_url: '430x371'}} 430w, {{section.settings.content_image | img_url: '200x172'}} 200w" sizes="(max-width: 580px) 100vw, 580px"/> 
+                      </div>
+                    </figure>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 
+    <style>
+      .vc_custom_{{section.id}} {  
+        {%- if section.settings.background_image != blank -%}
+        background-image: url({{section.settings.background_image | img_url: 'master'}}) !important;
+        background-position: {{section.settings.background_position | replace: '_', ' ' }} !important;
+        background-repeat: {{section.settings.background_image_repeat}} !important;
+        background-size: {{section.settings.background_size}} !important;
+        background-attachment: {{section.settings.background_attachment}} !important;
+        {%- endif -%}
+        background-color: {{section.settings.background_color}};
+      }
+      .vc_custom_1510840920177 {
+        margin-right: -80px !important;
+        margin-bottom: 4vh !important;
+        margin-left: 15px !important;
+        padding-top: 35px !important;
+        padding-right: 50px !important;
+        padding-bottom: 20px !important;
+        padding-left: 50px !important;
+        background-color: #fff !important;
+      }
+      .vc_custom_1510753948006 {
+        margin-bottom: 20px !important;
+      }
+      .vc_custom_1510757800316 {
+        margin-bottom: 20px !important;
+        border-left-width: 4px !important;
+        padding-left: 20px !important;
+        border-left-color: {{settings.theme_color}} !important;
+        border-left-style: solid !important;
+      }
+      .vc_custom_1510840925673 {
+        margin-bottom: 3vh !important;
+        padding-top: 0px !important;
+      }
+      .vc_custom_1510836126454 {
+        margin-bottom: 0px !important;
+      }
+      .vc_custom_1510662306672 {
+        margin-bottom: 0px !important;
+      }
+    </style>
+  </div>
+  {%- if section.settings.section_layout != '0' -%}
+  <div class="vc_row-full-width vc_clearfix"></div>
+  {%- endif -%} 
+</div>
+{% schema %}
+{
+  "name": "About Us",
+  "settings": [ 
+    {
+      "type": "header", 
+      "content": "Section Settings"
+    },
+    {
+      "type": "select",
+      "id": "section_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "0",
+          "label": "Default"
+        },
+        {
+          "value": "1",
+          "label": "Fullwidth row"
+        },
+        {
+          "value": "2",
+          "label": "Fullwidth row and content"
+        },
+        {
+          "value": "3",
+          "label": "Fullwidth row and content (no padding)"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color", 
+	  "default": "transparent"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section background image" 
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_background_mobile",
+      "label": "Hide background image on mobile?", 
+	  "default": true
+    },
+    {
+      "type": "select",
+      "id": "background_image_repeat",
+      "label": "Background Repeat",
+      "options": [
+        {
+          "value": "no-repeat",
+          "label": "No Repeat"
+        },
+        {
+          "value": "repeat-x",
+          "label": "Repeat x (Repeat Horizontal)"
+        },
+        {
+          "value": "repeat-y",
+          "label": "Repeat y (Repeat Verticle)"
+        },
+        {
+          "value": "repeat",
+          "label": "Repeat All"
+        }
+      ],
+      "default": "no-repeat"
+    },
+    {
+      "type": "select",
+      "id": "background_size",
+      "label": "Background Size",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "background_attachment",
+      "label": "Background Attachment",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "fixed",
+          "label": "Fixed"
+        },
+        {
+          "value": "scroll",
+          "label": "Scroll"
+        },
+        {
+          "value": "inherit",
+          "label": "Inherit"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "background_position",
+      "label": "Background Position",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "left_top",
+          "label": "Left Top"
+        },
+        {
+          "value": "left_center",
+          "label": "Left Center"
+        },
+        {
+          "value": "left_bottom",
+          "label": "Left Bottom"
+        },
+        {
+          "value": "center_top",
+          "label": "Center Top"
+        },
+        {
+          "value": "center_center",
+          "label": "Center Center"
+        },
+        {
+          "value": "center_bottom",
+          "label": "Center Bottom"
+        }
+      ],
+      "default": "center_center"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section Margin Top",
+	  "info": "45px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section Margin Bottom",
+      "default" : "0",
+	  "info": "45px"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Section Padding",
+      "default" : "0 0 0 0",
+      "info": "Ex:(40px 40px 40px) (top right bottom left)"
+    },  
+    {
+      "type": "image_picker",
+      "id": "content_image",
+      "label": "Content image" 
+    }, 
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Explore the striking exclusive collections"
+    }, 
+    {
+      "type": "textarea",
+      "id": "content",
+      "label": "Content",
+      "default": "On projection apartments unsatiable so if he entreaties appearance. Rose you wife how set lady half wish. Hard sing an in true felt. Welcomed stronger if steepest ecstatic an suitable finished of oh entered."
+    }, 
+    {
+      "type": "textarea",
+      "id": "content2",
+      "label": "Content 2",
+      "default": "And produce say the ten moments parties. Simple innate summer fat appear basket his desire joy. Outward clothes promise at gravity."
+    }, 
+    {
+      "type": "text",
+      "id": "about_name",
+      "label": "About name",
+      "default": "Marty Randell"
+    }, 
+    {
+      "type": "image_picker",
+      "id": "signature_image",
+      "label": "Signature Image" 
+    }, 
+    {
+      "type": "select",
+      "id": "content_color",
+      "label": "Content Color",
+      "default": "dark",
+      "options": [ 
+        {
+          "value": "dark",
+          "label": "Dark"
+        },
+        {
+          "value": "light",
+          "label": "Light"
+        } 
+      ]
+    },  
+    {
+      "type": "header", 
+      "content": "Social Media"
+    },
+    {
+      "type": "text",
+      "id": "link_share",
+      "label": "Link share"
+    }
+  ], 
+  "presets": [{
+    "name": "About Us",
+    "category": "Banner"
+  }]
+}
+{% endschema %}

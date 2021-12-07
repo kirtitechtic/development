@@ -1,0 +1,397 @@
+<script>
+  console.log('asdasd')
+var uri = window.location.href.toString();
+if (uri.indexOf("?") > 0) {
+    var clean_uri = uri.substring(0, uri.indexOf("?"));
+    window.history.replaceState({}, document.title, clean_uri);
+}
+</script>
+<!-- /templates/page.contact.liquid -->
+<div class="main-page-wrapper"> 
+  <div data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true" class="vc_row-fluid vc_custom_1496927007057 vc_row-no-padding">
+    <div class="wpb_column vc_column_container"> 
+      <div class="wpb_wrapper">
+        {%- if settings.contact_store != '' -%}
+        <div class="google-map-container  content-vertical-middle content-horizontal-left map-container-with-content" style="height: 500px;">
+          <div class="woodmart-google-map-wrapper">
+            <div class="woodmart-google-map with-content google-map-store"></div>
+          </div>
+          <div class="woodmart-google-map-content-wrap">
+            <div class="woodmart-google-map-content" style="max-width: 340px;">
+              <div class=" cursor-pointer woodmart-info-box text-left box-title-default icon-alignment-left box- color-scheme-dark with-btn btn-position-static vc_custom_1493369132147">
+                <div class="info-box-content"> 
+                  {%- if settings.contact_store != '' -%}
+                  <div class="info-box-subtitle subtitle-style-default subtitle-color-default">
+                    {% if settings.language_enable %}
+                    <span class="lang1">{{ settings.contact_store | split: '|' | first }}</span>
+                    <span class="lang2">{{ settings.contact_store | split: '|' | last }}</span>
+                    {% else %}
+                    {{ settings.contact_store | split: '|' | first }}
+                    {% endif %}
+                  </div>
+                  {%- endif -%}
+                  {%- if settings.contact_heading != '' -%}
+                  <h4 class="info-box-title">
+                    {% if settings.language_enable %}
+                    <span class="lang1">{{ settings.contact_heading | split: '|' | first }}</span>
+                    <span class="lang2">{{ settings.contact_heading | split: '|' | last }}</span>
+                    {% else %}
+                    {{ settings.contact_heading | split: '|' | first }}
+                    {% endif %}
+                  </h4>
+                  {%- endif -%}
+                  {%- if settings.contact_text != '' -%}
+                  <div class="info-box-inner">
+                    {% if settings.language_enable %}
+                    <span class="lang1">{{ settings.contact_text | split: '|' | first }}</span>
+                    <span class="lang2">{{ settings.contact_text | split: '|' | last }}</span>
+                    {% else %}
+                    {{ settings.contact_text | split: '|' | first }}
+                    {% endif %}
+                  </div>
+                  {%- endif -%}
+                  {%- if settings.contact_button_title != '' -%}
+                  <div class="info-btn-wrapper">
+                    <div class="woodmart-button-wrapper text-left">
+                      <a href="{{settings.contact_button_url}}" class="btn btn-color-default btn-style-link btn-size-default">
+                        {% if settings.language_enable %}
+                        <span class="lang1">{{ settings.contact_button_title | split: '|' | first }}</span>
+                        <span class="lang2">{{ settings.contact_button_title | split: '|' | last }}</span>
+                        {% else %}
+                        {{ settings.contact_button_title | split: '|' | first }}
+                        {% endif %}
+                      </a>
+                    </div>
+                  </div>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+          {% endif %}
+      </div> 
+    </div>
+  </div>
+  <div class="vc_row-full-width vc_clearfix"></div>
+  <div class="container">
+    <div class="row content-layout-wrapper">
+      <div class="site-content col-sm-12">
+        <div class="entry-content">
+          <div class="vc_row wpb_row vc_row-fluid vc_custom_1498580074265 vc_row-o-equal-height vc_row-flex">
+            <div class="wpb_column vc_column_container vc_col-sm-12 vc_col-lg-6 vc_col-md-6 vc_col-has-fill">
+              <div class="vc_column-inner vc_custom_1496932335926">
+                <div class="wpb_wrapper">
+                  <div class="title-wrapper  woodmart-title-color-default woodmart-title-style-bordered woodmart-title-size-default woodmart-title-width-100 text-left vc_custom_1484242758590">
+                    <div class="liner-continer">
+                      <span class="left-line"></span>
+                      <h4 class="woodmart-title-container title  woodmart-font-weight-" {% if settings.language_enable %}data-translate="contact.form.title"{% endif %}>{{'contact.form.title' | t}}</h4>
+                      <span class="right-line"></span>
+                    </div>
+                  </div>
+                  {% form 'contact' %}  
+                  {% if form.posted_successfully? %}
+                  
+                  <p class="note form-success" {% if settings.language_enable %}data-translate="contact.form.post_success"{% endif %}>
+                    {{ 'contact.form.post_success' | t }}
+                  </p>
+                  {% endif %} 
+                  {{ form.errors | default_errors }} 
+                  {% assign name_attr = 'contact.form.name' | t | handle %}  
+                  <div class="row">
+                    <div class="col-sm-12" style="margin-bottom:20px;">
+                      <ul class="form-list">
+                        <li>
+                          <label for="name" style="font-weight: 400;">{{ 'contact.form.name' | t }}<em>*</em></label>
+                          <input required="required" input type="text" id="ContactFormName" class="input-full" name="contact[{{ name_attr }}]" placeholder="{{ 'contact.form.name' | t }}" autocapitalize="words" value="{% if form[name_attr] %}{{ form[name_attr] }}{% elsif customer %}{{ customer.name }}{% endif %}">
+                        </li> 
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6" style="margin-bottom:20px;">
+                      <ul class="form-list"> 
+                        <li>
+                          <label for="name" style="font-weight: 400;">{{ 'contact.form.email' | t }}<em>*</em></label>
+                          <input required="required" input type="email" id="ContactFormEmail" class="input-full" name="contact[email]" placeholder="{{ 'contact.form.email' | t }}" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}">
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-sm-6">
+                      <ul class="form-list" style="margin-bottom:20px;">
+                        <li>
+                          <label for="name" style="font-weight: 400;">{{ 'contact.form.phone' | t }}</label>
+                          {% assign name_attr = 'contact.form.phone' | t | handle %} 
+                          <input type="tel" id="ContactFormPhone" class="input-full" name="contact[{{ name_attr }}]" placeholder="{{ 'contact.form.phone' | t }}" pattern="[0-9\-]*" value="{% if form[name_attr] %}{{ form[name_attr] }}{% elsif customer %}{{ customer.default_address.phone }}{% endif %}">
+                        </li>
+                      </ul> 
+                    </div>
+                  </div> 
+                  <div class="row">
+                    <div class="col-sm-6" style="margin-bottom:20px;">
+                      <ul class="form-list"> 
+                        <li>
+                          <label for="name" style="font-weight: 400;">Select Department</label>
+                          <select id="ContactFormPhone" class="input-full" name="contact[contact_department]">
+                            <option>-- Select Department --</option>
+                            <option value="Dept 1">Kundeservice Helsemin Club</option>
+                             <option value="Dept 2">Kundeservice webshop</option>
+                             <option value="Dept 3">Nye Produkter</option>
+                             <option value="Dept 4">Ris, ros & forslag</option>
+                             <option value="Dept 5">Spørgsmål til leverandør og samarbejdsaftale</option>
+                          </select>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-sm-6">
+                      <ul class="form-list" style="margin-bottom:20px;">
+                        <li>
+                          <label for="name" style="font-weight: 400;">Order reference</label>
+                          
+                          <input type="text" id="ContactFormPhone" class="input-full" name="contact[order_reference]" placeholder="{{ 'Order reference'}}">{% if form.body %}{{ form.body }}{% endif %}
+                                     
+                        </li>
+                      </ul> 
+                    </div>
+                  </div> 
+                  <p> 
+                    <label for="name" style="font-weight: 400;">{{ 'contact.form.comment' | t }}<em>*</em></label>
+                    <textarea cols="40" rows="10" id="ContactFormMessage" class="input-full" name="contact[body]" placeholder="{{ 'contact.form.comment' | t }}">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+                  </p>
+                  <p> 
+                    <input required="required" input type="submit" class="btn-color-black" {% if settings.language_enable %}data-translate="contact.form.submit"{% endif %} value="{{ 'contact.form.submit' | t }}">
+                  </p>
+                  {% endform %}
+                </div>
+              </div>
+            </div>
+            <div class="wpb_column vc_column_container vc_col-sm-12 vc_col-lg-6 vc_col-md-6">
+              <div class="vc_column-inner vc_custom_1496932331302">
+                <div class="wpb_wrapper">
+                  {%- if settings.contact_info_heading1 != '' -%}
+                  <div class="title-wrapper  woodmart-title-color-default woodmart-title-style-bordered woodmart-title-size-default woodmart-title-width-100 text-left vc_custom_1484251594500">
+                    <div class="liner-continer">
+                      <span class="left-line"></span>
+                      <h4 class="woodmart-title-container title  woodmart-font-weight-">
+                        {% if settings.language_enable %}
+                        <span class="lang1">{{ settings.contact_info_heading1 | split: '|' | first }}</span>
+                        <span class="lang2">{{ settings.contact_info_heading1 | split: '|' | last }}</span>
+                        {% else %}
+                        {{ settings.contact_info_heading1 | split: '|' | first }}
+                        {% endif %}
+                      </h4>
+                      <span class="right-line"></span>
+                    </div>
+                  </div>
+                  {%- endif -%}
+                  {%- if settings.contact_info_content1 != '' -%}
+                  <div class="wpb_text_column wpb_content_element ">
+                    <div class="wpb_wrapper">
+                      {% if settings.language_enable %}
+                      <div class="lang1">{{ settings.contact_info_content1 | split: '[lang2]' | first }}</div>
+                      <div class="lang2">{{ settings.contact_info_content1 | split: '[lang2]' | last }}</div>
+                      {% else %}
+                      {{ settings.contact_info_content1 | split: '[lang2]' | first }}
+                      {% endif %}
+                    </div>
+                  </div>
+                  {%- endif -%}
+                  {%- if settings.contact_info_heading2 != '' -%}
+                  <div class="title-wrapper woodmart-title-color-default woodmart-title-style-bordered woodmart-title-size-default woodmart-title-width-100 text-left vc_custom_1484253141262"><div class="liner-continer">
+                    <span class="left-line"></span>
+                    <h4 class="woodmart-title-container title  woodmart-font-weight-">
+                      {% if settings.language_enable %}
+                      <span class="lang1">{{ settings.contact_info_heading2 | split: '|' | first }}</span>
+                      <span class="lang2">{{ settings.contact_info_heading2 | split: '|' | last }}</span>
+                      {% else %}
+                      {{ settings.contact_info_heading2 | split: '|' | first }}
+                      {% endif %}
+                    </h4>
+                    <span class="right-line"></span>
+                    </div>
+                  </div>
+                  {%- endif -%}
+                  <div class="vc_row wpb_row vc_inner vc_row-fluid vc_custom_1484253288811">
+                    <div class="wpb_column vc_column_container vc_col-sm-6">
+                      <div class="vc_column-inner ">
+                        <div class="wpb_wrapper">
+                          {%- if settings.contact_info_content21 != '' -%}
+                          <div class=" woodmart-info-box text-left box-title-small icon-alignment-left box- color-scheme-dark vc_custom_1494489920833">
+                            {%- if settings.contact_info_icon1 != '' or settings.contact_info_icon_svg1 != '' -%}
+                            <div class="box-icon-wrapper  with-icon icon-style-simple">
+                              <div class="info-box-icon">
+                                <div class="info-svg-wrapper info-icon" style="width: 40px;height: 40px;">
+                                  {%- if settings.contact_info_icon_svg1 != '' -%}
+                                  {{settings.contact_info_icon_svg1}}
+                                  {%- else -%}
+                                  <i class="fa fa-{{settings.contact_info_icon1}}" style="font-size:40px;"></i>
+                                  {%- endif -%}
+                                </div>
+                              </div>
+                            </div>
+                            {%- endif -%}
+                            <div class="info-box-content">
+                              <div class="info-box-inner">
+                                {% if settings.language_enable %}
+                                <div class="lang1">{{ settings.contact_info_content21 | split: '|' | first }}</div>
+                                <div class="lang2">{{ settings.contact_info_content21 | split: '|' | last }}</div>
+                                {% else %}
+                                {{ settings.contact_info_content21 | split: '|' | first }}
+                                {% endif %}
+                              </div>
+                            </div>
+                          </div>
+                          {%- endif -%}
+                          {%- if settings.contact_info_content22 != '' -%}
+                          <div class=" woodmart-info-box text-left box-title-small icon-alignment-left box- color-scheme-dark vc_custom_1494489920833">
+                            {%- if settings.contact_info_icon2 != '' or settings.contact_info_icon_svg2 != '' -%}
+                            <div class="box-icon-wrapper  with-icon icon-style-simple">
+                              <div class="info-box-icon">
+                                <div class="info-svg-wrapper info-icon" style="width: 40px;height: 40px;">
+                                  {%- if settings.contact_info_icon_svg2 != '' -%}
+                                  {{settings.contact_info_icon_svg2}}
+                                  {%- else -%}
+                                  <i class="fa fa-{{settings.contact_info_icon2}}" style="font-size:40px;"></i>
+                                  {%- endif -%}
+                                </div>
+                              </div>
+                            </div>
+                            {%- endif -%}
+                            <div class="info-box-content">
+                              <div class="info-box-inner">
+                                {% if settings.language_enable %}
+                                <div class="lang1">{{ settings.contact_info_content22 | split: '|' | first }}</div>
+                                <div class="lang2">{{ settings.contact_info_content22 | split: '|' | last }}</div>
+                                {% else %}
+                                {{ settings.contact_info_content22 | split: '|' | first }}
+                                {% endif %}
+                              </div>
+                            </div>
+                          </div>
+                          {%- endif -%}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="wpb_column vc_column_container vc_col-sm-6">
+                      <div class="vc_column-inner ">
+                        <div class="wpb_wrapper">
+                          {%- if settings.contact_info_content23 != '' -%}
+                          <div class=" woodmart-info-box text-left box-title-small icon-alignment-left box- color-scheme-dark vc_custom_1494489920833">
+                            {%- if settings.contact_info_icon3 != '' or settings.contact_info_icon_svg3 != '' -%}
+                            <div class="box-icon-wrapper  with-icon icon-style-simple">
+                              <div class="info-box-icon">
+                                <div class="info-svg-wrapper info-icon" style="width: 40px;height: 40px;">
+                                  {%- if settings.contact_info_icon_svg3 != '' -%}
+                                  {{settings.contact_info_icon_svg3}}
+                                  {%- else -%}
+                                  <i class="fa fa-{{settings.contact_info_icon3}}" style="font-size:40px;"></i>
+                                  {%- endif -%}
+                                </div>
+                              </div>
+                            </div>
+                            {%- endif -%}
+                            <div class="info-box-content">
+                              <div class="info-box-inner">
+                                {% if settings.language_enable %}
+                                <div class="lang1">{{ settings.contact_info_content23 | split: '|' | first }}</div>
+                                <div class="lang2">{{ settings.contact_info_content23 | split: '|' | last }}</div>
+                                {% else %}
+                                {{ settings.contact_info_content23 | split: '|' | first }}
+                                {% endif %}
+                              </div>
+                            </div>
+                          </div>
+                          {%- endif -%}
+                          {%- if settings.contact_info_content24 != '' -%}
+                          <div class=" woodmart-info-box text-left box-title-small icon-alignment-left box- color-scheme-dark vc_custom_1494489920833">
+                            {%- if settings.contact_info_icon4 != '' or settings.contact_info_icon_svg4 != '' -%}
+                            <div class="box-icon-wrapper  with-icon icon-style-simple">
+                              <div class="info-box-icon">
+                                <div class="info-svg-wrapper info-icon" style="width: 40px;height: 40px;">
+                                  {%- if settings.contact_info_icon_svg4 != '' -%}
+                                  {{settings.contact_info_icon_svg4}}
+                                  {%- else -%}
+                                  <i class="fa fa-{{settings.contact_info_icon4}}" style="font-size:40px;"></i>
+                                  {%- endif -%}
+                                </div>
+                              </div>
+                            </div>
+                            {%- endif -%}
+                            <div class="info-box-content">
+                              <div class="info-box-inner">
+                                {% if settings.language_enable %}
+                                <div class="lang1">{{ settings.contact_info_content24 | split: '|' | first }}</div>
+                                <div class="lang2">{{ settings.contact_info_content24 | split: '|' | last }}</div>
+                                {% else %}
+                                {{ settings.contact_info_content24 | split: '|' | first }}
+                                {% endif %}
+                              </div>
+                            </div>
+                          </div>
+                          {%- endif -%}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="vc_separator wpb_content_element vc_separator_align_center vc_sep_width_100 vc_sep_pos_align_center vc_separator_no_text vc_sep_color_grey vc_custom_1484254145420  vc_custom_1484254145420"><span class="vc_sep_holder vc_sep_holder_l"><span class="vc_sep_line"></span></span><span class="vc_sep_holder vc_sep_holder_r"><span class="vc_sep_line"></span></span></div>
+                  {%- if settings.contact_info_content3 != '' -%}
+                  <div class="wpb_text_column wpb_content_element  vc_custom_1496932258119">
+                    <div class="wpb_wrapper">
+                      <p>
+                        {% if settings.language_enable %}
+                        <span class="lang1">{{ settings.contact_info_content3 | split: '|' | first }}</span>
+                        <span class="lang2">{{ settings.contact_info_content3 | split: '|' | last }}</span>
+                        {% else %}
+                        {{ settings.contact_info_content3 | split: '|' | first }}
+                        {% endif %}
+                      </p>
+                    </div>
+                  </div>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style type="text/css" data-type="vc_shortcodes-custom-css">.vc_custom_1496927007057{margin-top:-40px !important;margin-bottom:8vh !important}.vc_custom_1493369132147{margin-bottom:0px !important;padding-top:10px !important;padding-right:10px !important;padding-bottom:10px !important;padding-left:10px !important;background-color:#fff !important;background-position:center !important;background-repeat:no-repeat !important;background-size:cover !important}.vc_custom_1496927710186{border-right-width:1px !important;padding-top:20px !important;padding-right:50px !important;padding-bottom:10px !important;padding-left:50px !important;border-right-color:#e8e8e8 !important;border-right-style:solid !important}.vc_custom_1496927688909{padding-top:20px !important;padding-right:50px !important;padding-bottom:10px !important;padding-left:50px !important}</style>
+<style type="text/css" data-type="vc_shortcodes-custom-css">.vc_custom_1484584585742{margin-top:-40px !important;margin-bottom:8vh !important}.vc_custom_1498580074265{margin-right:-40px !important;margin-left:-40px !important;}.vc_custom_1496932335926{border-right-width:1px !important;padding-top:20px !important;padding-right:40px !important;padding-bottom:10px !important;padding-left:40px !important;border-right-color:rgba(129,129,129,0.2) !important;border-right-style:solid !important}.vc_custom_1496932331302{padding-top:20px !important;padding-right:40px !important;padding-bottom:10px !important;padding-left:40px !important}.vc_custom_1484242758590{margin-bottom:20px !important}.vc_custom_1484251594500{margin-bottom:20px !important}.vc_custom_1484253141262{margin-bottom:35px !important}.vc_custom_1484253288811{margin-bottom:0px !important}.vc_custom_1484254145420{margin-bottom:30px !important}.vc_custom_1496932258119{margin-bottom:0px !important}.vc_custom_1494489920833{background-position:center !important;background-repeat:no-repeat !important;background-size:cover !important}.vc_custom_1494489657344{background-position:center !important;background-repeat:no-repeat !important;background-size:cover !important}.vc_custom_1494429249814{background-position:center !important;background-repeat:no-repeat !important;background-size:cover !important}.vc_custom_1494483858286{background-position:center !important;background-repeat:no-repeat !important;background-size:cover !important}</style>
+{%- if settings.google_map_enable != blank -%}
+<script src="//maps.googleapis.com/maps/api/js{% if settings.google_map_api_key != '' %}?key={{settings.google_map_api_key}}{% else %}?v=3.17{% endif %}" type="text/javascript"></script>
+{{ 'maplace.min.js' | asset_url | script_tag }}
+<script type="text/javascript">
+  
+  
+  jQuery(document).ready(function() {
+    new Maplace({
+      locations: [
+        {
+          lat: {{ settings.google_map_pin_latitude }},
+          lon: {{settings.google_map_pin_longitude}},
+          title: '',
+          icon: '{{'google-icon.png' | asset_url }}',
+          animation: google.maps.Animation.DROP
+        }
+      ],
+      controls_on_map: false,
+      title: '',
+      map_div: '.google-map-store',
+      start: 1,
+      map_options: {
+        zoom: 15,
+        scrollwheel: false				    },
+      styles: {
+        'Custom style': [{"featureType":"landscape.man_made","elementType":"all","stylers":[{"color":"#faf5ed"},{"lightness":"0"},{"gamma":"1"}]},{"featureType":"poi.park","elementType":"geometry.fill","stylers":[{"color":"#bae5a6"}]},{"featureType":"road","elementType":"all","stylers":[{"weight":"1.00"},{"gamma":"1.8"},{"saturation":"0"}]},{"featureType":"road","elementType":"geometry.fill","stylers":[{"hue":"#ffb200"}]},{"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"lightness":"0"},{"gamma":"1"}]},{"featureType":"transit.station.airport","elementType":"all","stylers":[{"hue":"#b000ff"},{"saturation":"23"},{"lightness":"-4"},{"gamma":"0.80"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#a0daf2"}]}]				    }
+    }).Load();
+    
+
+
+  });
+  
+  
+  
+</script>
+{%- endif -%}

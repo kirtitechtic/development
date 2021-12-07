@@ -1,0 +1,250 @@
+<script>
+  // (c) Copyright 2014 Caroline Schnapp. All Rights Reserved. Contact: mllegeorgesand@gmail.com
+  // See http://docs.shopify.com/manual/configuration/store-customization/advanced-navigation/linked-product-options
+  Shopify.optionsMap = {};
+  Shopify.updateOptionsInSelector = function(selectorIndex) {
+
+    switch (selectorIndex) {
+      case 0:
+        var key = 'root';
+        var selector = jQuery('.single-product-page .single-option-selector:eq(0)');
+        break;
+      case 1:
+        var key = jQuery('.single-product-page .single-option-selector:eq(0)').val();
+        var selector = jQuery('.single-product-page .single-option-selector:eq(1)');
+        break;
+      case 2:
+        var key = jQuery('.single-product-page .single-option-selector:eq(0)').val();
+        key += ' / ' + jQuery('.single-product-page .single-option-selector:eq(1)').val();
+        var selector = jQuery('.single-product-page .single-option-selector:eq(2)');
+    }
+
+    var initialValue = selector.val();
+    selector.empty();
+    var availableOptions = Shopify.optionsMap[key];
+    if (availableOptions && availableOptions.length) {
+      for (var i = 0; i < availableOptions.length; i++) {
+        var option = availableOptions[i];
+        var newOption = jQuery('<option></option>').val(option).html(option);
+        selector.append(newOption);
+      }
+      jQuery('.single-product-page .swatch[data-option-index="' + selectorIndex + '"] .swatch-element').each(function() {
+        if (jQuery.inArray(jQuery(this).attr('data-value'), availableOptions) !== -1) {
+          jQuery(this).removeClass('soldout').show().find(':radio').removeAttr('disabled', 'disabled').removeAttr('checked');
+        } else {
+          jQuery(this).addClass('soldout').hide().find(':radio').removeAttr('checked').attr('disabled', 'disabled');
+        }
+      });
+      if (jQuery.inArray(initialValue, availableOptions) !== -1) {
+        selector.val(initialValue);
+      }
+      selector.trigger('change');
+    }
+  };
+  Shopify.linkOptionSelectors = function(product) {
+    // Building our mapping object.
+    for (var i = 0; i < product.variants.length; i++) {
+      var variant = product.variants[i];
+      //if (variant.available) {
+      // Gathering values for the 1st drop-down.
+      Shopify.optionsMap['root'] = Shopify.optionsMap['root'] || [];
+      Shopify.optionsMap['root'].push(variant.option1);
+      Shopify.optionsMap['root'] = Shopify.uniq(Shopify.optionsMap['root']);
+      // Gathering values for the 2nd drop-down.
+      if (product.options.length > 1) {
+        var key = variant.option1;
+        Shopify.optionsMap[key] = Shopify.optionsMap[key] || [];
+        Shopify.optionsMap[key].push(variant.option2);
+        Shopify.optionsMap[key] = Shopify.uniq(Shopify.optionsMap[key]);
+      }
+      // Gathering values for the 3rd drop-down.
+      if (product.options.length === 3) {
+        var key = variant.option1 + ' / ' + variant.option2;
+        Shopify.optionsMap[key] = Shopify.optionsMap[key] || [];
+        Shopify.optionsMap[key].push(variant.option3);
+        Shopify.optionsMap[key] = Shopify.uniq(Shopify.optionsMap[key]);
+      }
+      //}
+    }
+    // Update options right away.
+    Shopify.updateOptionsInSelector(0);
+    if (product.options.length > 1) Shopify.updateOptionsInSelector(1);
+    if (product.options.length === 3) Shopify.updateOptionsInSelector(2);
+    // When there is an update in the first dropdown.
+    jQuery(".single-product-page .single-option-selector:eq(0)").change(function() {
+      Shopify.updateOptionsInSelector(1);
+      if (product.options.length === 3) Shopify.updateOptionsInSelector(2);
+      return true;
+    });
+    // When there is an update in the second dropdown.
+    jQuery(".single-product-page .single-option-selector:eq(1)").change(function() {
+      if (product.options.length === 3) Shopify.updateOptionsInSelector(2);
+      return true;
+    });
+
+  };
+  Shopify.quickviewOptionsMap = {};
+  Shopify.quickviewUpdateOptionsInSelector = function(selectorIndex) {
+
+    switch (selectorIndex) {
+      case 0:
+        var key = 'root';
+        var selector = jQuery('.product-quick-view .single-option-selector:eq(0)');
+        break;
+      case 1:
+        var key = jQuery('.product-quick-view .single-option-selector:eq(0)').val();
+        var selector = jQuery('.product-quick-view .single-option-selector:eq(1)');
+        break;
+      case 2:
+        var key = jQuery('.product-quick-view .single-option-selector:eq(0)').val();
+        key += ' / ' + jQuery('.product-quick-view .single-option-selector:eq(1)').val();
+        var selector = jQuery('.product-quick-view .single-option-selector:eq(2)');
+    }
+
+    var initialValue = selector.val();
+    selector.empty();
+    var availableOptions = Shopify.quickviewOptionsMap[key];
+    if (availableOptions && availableOptions.length) {
+      for (var i = 0; i < availableOptions.length; i++) {
+        var option = availableOptions[i];
+        var newOption = jQuery('<option></option>').val(option).html(option);
+        selector.append(newOption);
+      }
+      jQuery('.product-quick-view .swatch[data-option-index="' + selectorIndex + '"] .swatch-element').each(function() {
+        if (jQuery.inArray(jQuery(this).attr('data-value'), availableOptions) !== -1) {
+          jQuery(this).removeClass('soldout').show().find(':radio').removeAttr('disabled', 'disabled').removeAttr('checked');
+        } else {
+          jQuery(this).addClass('soldout').hide().find(':radio').removeAttr('checked').attr('disabled', 'disabled');
+        }
+      });
+      if (jQuery.inArray(initialValue, availableOptions) !== -1) {
+        selector.val(initialValue);
+      }
+      selector.trigger('change');
+    }
+  };
+  Shopify.quickviewLinkOptionSelectors = function(product) {
+    // Building our mapping object.
+    for (var i = 0; i < product.variants.length; i++) {
+      var variant = product.variants[i];
+      //if (variant.available) {
+      // Gathering values for the 1st drop-down.
+      Shopify.quickviewOptionsMap['root'] = Shopify.quickviewOptionsMap['root'] || [];
+      Shopify.quickviewOptionsMap['root'].push(variant.option1);
+      Shopify.quickviewOptionsMap['root'] = Shopify.uniq(Shopify.quickviewOptionsMap['root']);
+      // Gathering values for the 2nd drop-down.
+      if (product.options.length > 1) {
+        var key = variant.option1;
+        Shopify.quickviewOptionsMap[key] = Shopify.quickviewOptionsMap[key] || [];
+        Shopify.quickviewOptionsMap[key].push(variant.option2);
+        Shopify.quickviewOptionsMap[key] = Shopify.uniq(Shopify.quickviewOptionsMap[key]);
+      }
+      // Gathering values for the 3rd drop-down.
+      if (product.options.length === 3) {
+        var key = variant.option1 + ' / ' + variant.option2;
+        Shopify.quickviewOptionsMap[key] = Shopify.quickviewOptionsMap[key] || [];
+        Shopify.quickviewOptionsMap[key].push(variant.option3);
+        Shopify.quickviewOptionsMap[key] = Shopify.uniq(Shopify.quickviewOptionsMap[key]);
+      }
+      //}
+    }
+    // Update options right away.
+    Shopify.quickviewUpdateOptionsInSelector(0);
+    if (product.options.length > 1) Shopify.quickviewUpdateOptionsInSelector(1);
+    if (product.options.length === 3) Shopify.quickviewUpdateOptionsInSelector(2);
+    // When there is an update in the first dropdown.
+    jQuery(".product-quick-view .single-option-selector:eq(0)").change(function() {
+      Shopify.quickviewUpdateOptionsInSelector(1);
+      if (product.options.length === 3) Shopify.quickviewUpdateOptionsInSelector(2);
+      return true;
+    });
+    // When there is an update in the second dropdown.
+    jQuery(".product-quick-view .single-option-selector:eq(1)").change(function() {
+      if (product.options.length === 3) Shopify.quickviewUpdateOptionsInSelector(2);
+      return true;
+    });
+
+  };
+  Shopify.quickshopOptionsMap = {};
+  Shopify.quickshopUpdateOptionsInSelector = function(selectorIndex) {
+
+    switch (selectorIndex) {
+      case 0:
+        var key = 'root';
+        var selector = jQuery('.product-quick-shop .single-option-selector:eq(0)');
+        break;
+      case 1:
+        var key = jQuery('.product-quick-shop .single-option-selector:eq(0)').val();
+        var selector = jQuery('.product-quick-shop .single-option-selector:eq(1)');
+        break;
+      case 2:
+        var key = jQuery('.product-quick-shop .single-option-selector:eq(0)').val();
+        key += ' / ' + jQuery('.product-quick-shop .single-option-selector:eq(1)').val();
+        var selector = jQuery('.product-quick-shop .single-option-selector:eq(2)');
+    }
+
+    var initialValue = selector.val();
+    selector.empty();
+    var availableOptions = Shopify.optionsMap[key];
+    if (availableOptions && availableOptions.length) {
+      for (var i = 0; i < availableOptions.length; i++) {
+        var option = availableOptions[i];
+        var newOption = jQuery('<option></option>').val(option).html(option);
+        selector.append(newOption);
+      }
+      jQuery('.product-quick-shop .swatch[data-option-index="' + selectorIndex + '"] .swatch-element').each(function() {
+        if (jQuery.inArray(jQuery(this).attr('data-value'), availableOptions) !== -1) {
+          jQuery(this).removeClass('soldout').show().find(':radio').removeAttr('disabled', 'disabled').removeAttr('checked');
+        } else {
+          jQuery(this).addClass('soldout').hide().find(':radio').removeAttr('checked').attr('disabled', 'disabled');
+        }
+      });
+      if (jQuery.inArray(initialValue, availableOptions) !== -1) {
+        selector.val(initialValue);
+      }
+      selector.trigger('change');
+    }
+  };
+  Shopify.quickshopLinkOptionSelectors = function(product) {
+    // Building our mapping object.
+    for (var i = 0; i < product.variants.length; i++) {
+      var variant = product.variants[i];
+      //if (variant.available) {
+      // Gathering values for the 1st drop-down.
+      Shopify.quickshopOptionsMap['root'] = Shopify.quickshopOptionsMap['root'] || [];
+      Shopify.quickshopOptionsMap['root'].push(variant.option1);
+      Shopify.quickshopOptionsMap['root'] = Shopify.uniq(Shopify.quickshopOptionsMap['root']);
+      // Gathering values for the 2nd drop-down.
+      if (product.options.length > 1) {
+        var key = variant.option1;
+        Shopify.quickshopOptionsMap[key] = Shopify.quickshopOptionsMap[key] || [];
+        Shopify.quickshopOptionsMap[key].push(variant.option2);
+        Shopify.quickshopOptionsMap[key] = Shopify.uniq(Shopify.quickshopOptionsMap[key]);
+      }
+      // Gathering values for the 3rd drop-down.
+      if (product.options.length === 3) {
+        var key = variant.option1 + ' / ' + variant.option2;
+        Shopify.quickshopOptionsMap[key] = Shopify.quickshopOptionsMap[key] || [];
+        Shopify.quickshopOptionsMap[key].push(variant.option3);
+        Shopify.quickshopOptionsMap[key] = Shopify.uniq(Shopify.quickshopOptionsMap[key]);
+      }
+      //}
+    }
+    // Update options right away.
+    Shopify.quickshopUpdateOptionsInSelector(0);
+    if (product.options.length > 1) Shopify.quickshopUpdateOptionsInSelector(1);
+    if (product.options.length === 3) Shopify.quickshopUpdateOptionsInSelector(2);
+    // When there is an update in the first dropdown.
+    jQuery(".product-quick-shop .single-option-selector:eq(0)").change(function() {
+      Shopify.quickshopUpdateOptionsInSelector(1);
+      if (product.options.length === 3) Shopify.quickshopUpdateOptionsInSelector(2);
+      return true;
+    });
+    // When there is an update in the second dropdown.
+    jQuery(".product-quick-shop .single-option-selector:eq(1)").change(function() {
+      if (product.options.length === 3) Shopify.quickshopUpdateOptionsInSelector(2);
+      return true;
+    });
+
+  };
+</script>

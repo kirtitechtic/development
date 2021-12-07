@@ -1,0 +1,663 @@
+{%- case section.settings.section_layout -%}
+{%- when '0' -%}
+{%- capture data_fullwidth -%}{%- endcapture -%}
+{%- when '1' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true"{%- endcapture -%}
+{%- when '2' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- when '3' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- endcase -%} 
+<div class="product-grid" data-section-id="{{ section.id }}" data-section-type="product-grid-section">
+  <div {{data_fullwidth}} id="product-grid-{{section.id}}" class="vc_row wpb_row vc_row-fluid {% if section.settings.hide_background_mobile != blank %}mobile-bg-img-hidden{% endif %} vc_custom_{{section.id}} vc_row-has-fill {% if section.settings.section_layout == '3' %}vc_row-no-padding{% endif %}" style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.padding}};">
+    <div class="wpb_column vc_column_container vc_col-sm-12">
+      <div class="vc_column-inner">
+        <div class="wpb_wrapper">
+          <div class="title-wrapper woodmart-title-color-{{section.settings.heading_color}} woodmart-title-style-{{section.settings.heading_style}} woodmart-title-size-{{section.settings.heading_size}} woodmart-title-width-100 text-{{section.settings.heading_postion}}">
+            {%- if section.settings.heading_top != '' -%}
+            <div class="title-subtitle font-default style-{{section.settings.heading_style}}">
+              {%- if settings.language_enable -%}
+              <span class="lang1">{{ section.settings.heading_top | split: '|' | first }}</span>
+              <span class="lang2">{{ section.settings.heading_top | split: '|' | last }}</span>
+              {%- else -%}
+              {{ section.settings.heading_top | split: '|' | first }}
+              {%- endif -%}
+            </div>
+            {%- endif -%} 
+            {%- if section.settings.title != '' -%}
+            <div class="liner-continer">
+              <span class="left-line"></span>
+              <h4 class="woodmart-title-container title  woodmart-font-weight-">
+                {%- if settings.language_enable -%}
+                <span class="lang1">{{ section.settings.title | split: '|' | first }}</span>
+                <span class="lang2">{{ section.settings.title | split: '|' | last }}</span>
+                {%- else -%}
+                {{ section.settings.title | split: '|' | first }}
+                {%- endif -%}
+              </h4>
+              <span class="right-line"></span>
+            </div>
+            {%- endif -%}
+            {%- if section.settings.heading_content != '' -%}
+            <div class="title-after_title">
+              {%- if settings.language_enable -%}
+              <span class="lang1">{{ section.settings.heading_content | split: '|' | first }}</span>
+              <span class="lang2">{{ section.settings.heading_content | split: '|' | last }}</span>
+              {%- else -%}
+              {{ section.settings.heading_content | split: '|' | first }}
+              {%- endif -%}
+            </div>
+            {%- endif -%}
+            <style> 
+              {%- if section.settings.heading_top == '' and section.settings.title == '' and section.settings.heading_content == '' -%}
+              .vc_custom_{{section.id}} .title-wrapper {
+                margin-bottom: 0;
+              }
+              {%- endif -%} 
+            </style>
+          </div>
+          {%- case section.settings.hover_product -%}
+          {%- when 'base' -%}
+          {%- assign pl_include = 'section_hover_product_base' -%} 
+          {%- when 'alt' -%}
+          {%- assign pl_include = 'section_hover_product_alt' -%}
+          {%- when 'info' -%}
+          {%- assign pl_include = 'section_hover_product_info' -%}
+          {%- when 'info-alt' -%}
+          {%- assign pl_include = 'section_hover_product_info_alt' -%}
+          {%- when 'button' -%}
+          {%- assign pl_include = 'section_hover_product_button' -%}
+          {%- when 'icon' -%}
+          {%- assign pl_include = 'section_hover_product_icon' -%}
+          {%- when 'standard' -%}
+          {%- assign pl_include = 'section_hover_product_standard' -%} 
+          {%- when 'quick' -%}
+          {%- assign pl_include = 'section_hover_product_quick' -%}
+          {%- when 'tiled' -%}
+          {%- assign pl_include = 'section_hover_product_tiled' -%}
+          {%- endcase -%}
+          {%- case section.settings.columns -%}
+          {%- when '2' -%}
+          {%- assign colum_width = 'col-xs-6 col-sm-4 col-md-6' -%}
+          {%- when '3' -%}
+          {%- assign colum_width = 'col-xs-6 col-sm-4 col-md-4' -%}
+          {%- when '4' -%}
+          {%- assign colum_width = 'col-xs-6 col-sm-4 col-md-3' -%}
+          {%- when '6' -%}
+          {%- assign colum_width = 'col-xs-6 col-sm-4 col-md-2' -%}
+          {%- endcase -%}
+          {%- if section.settings.collection == blank -%}
+            {%- if collections["frontpage"].products.size > 0 -%}
+              {%- assign collection = collections["frontpage"] -%}
+            {%- else -%}
+              {%- assign collection = collections["all"] -%}
+            {%- endif -%}
+          {%- else -%}
+            {%- assign collection = collections[section.settings.collection] -%}
+          {%- endif -%}
+          {%- assign paginate_index = section.settings.limit | plus: 0 -%}
+          {%- paginate collection.products by paginate_index -%} 
+          <div class="woodmart-products-element">
+            {%- if section.settings.pagination == 'arrows' -%}
+            <div class="woodmart-products-loader hidden-loader"></div>
+            {%- endif -%}  
+            <div class="products elements-grid row woodmart-products-holder woodmart-spacing-{{section.settings.space_product}} products-spacing-{{section.settings.space_product}} grid-columns-{{section.settings.columns}} pagination-{{section.settings.pagination}}" data-paged="{{paginate.current_page}}">
+              {%- for product in collection.products -%}
+                {%- assign sold_out = true -%}
+                {%- if product.available -%}
+                  {%- assign sold_out = false -%}
+                {%- endif -%}
+                {%- assign on_sale = false -%}
+                {%- if product.compare_at_price_min > product.price_min -%}
+                  {%- assign on_sale = true -%}
+                {%- endif -%}
+                {%- assign variant_tmp = product.selected_or_first_available_variant -%}
+                {%- for variant in product.variants -%}
+                  {%- if variant.available == true and variant.price < variant_tmp.price -%}
+                    {%- assign variant_tmp = variant -%}	
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- case settings.collection_aspect_ratio -%}
+                {%- when '1' -%}
+                  {%- assign image_width = settings.collection_ratio_width -%}
+                  {%- assign image_height = '' -%} 
+                {%- else -%}
+                  {%- assign image_width = settings.collection_ratio_width -%}
+                  {%- assign image_height = settings.collection_ratio_height -%}
+                {%- endcase -%} 
+                {%- capture image_size -%}{{ image_width }}x{{ image_height }}{%- endcapture -%}
+                {%- include pl_include, countdown: settings.collection_product_countdown -%}
+                {%- cycle '', '<div class="clearfix visible-xs-block"></div>' -%}
+                {%- cycle '','','<div class="clearfix clearfix visible-sm-block"></div>' -%}
+                {%- case section.settings.columns -%}
+                {%- when '2' -%}
+                  {%- cycle '','<div class="clearfix visible-md-block visible-lg-block"></div>' -%}
+                {%- when '3' -%}
+                  {%- cycle '','','<div class="clearfix visible-md-block visible-lg-block"></div>' -%}
+                {%- when '4' -%}
+                  {%- cycle '','','','<div class="clearfix visible-md-block visible-lg-block"></div>' -%}
+                {%- when '6' -%}
+                  {%- cycle '','','','','','<div class="clearfix visible-md-block visible-lg-block"></div>' -%}
+                {%- endcase -%}
+              {%- endfor-%}
+            </div>
+            {%- if section.settings.pagination != 'none' and paginate.pages > 1 -%}
+            <div class="products-footer" data-status="{% if paginate.next.is_link %}have-posts{% else %}no-more-posts{% endif %}">
+              {%- if section.settings.pagination == 'arrows' -%}
+              <div class="wrap-loading-arrow">
+                  {%- if paginate.previous.is_link -%} 
+                    <div class="woodmart-products-load-prev">
+                      {%- assign previous_url = paginate.previous.url | split: '?' | last -%} 
+                      <a href="{{collection.url}}?{{previous_url}}&q=hover_{{section.settings.hover_product}}+columns_{{section.settings.columns}}+limit_{{paginate_index}}+pagination_{{section.settings.pagination}}+space_{{section.settings.space_product}}&view=ajax">Load previous products</a>
+                    </div>
+                  {%- else -%}
+                    <div class="woodmart-products-load-prev disabled">Load previous products</div>
+                  {%- endif -%} 
+                  {%- if paginate.next.is_link -%} 
+                    <div class="woodmart-products-load-next">
+                      {%- assign next_url = paginate.next.url | split: '?' | last -%} 
+                      <a href="{{collection.url}}?{{next_url}}&q=hover_{{section.settings.hover_product}}+columns_{{section.settings.columns}}+limit_{{paginate_index}}+pagination_{{section.settings.pagination}}+space_{{section.settings.space_product}}&view=ajax">Load next products</a>
+                    </div>
+                  {%- else -%}
+                    <div class="woodmart-products-load-next disabled">Load next products</div>
+                  {%- endif -%}
+              </div>
+              {%- endif -%}
+              {%- if section.settings.pagination == 'more-btn' -%}  
+              {%- if paginate.next.is_link -%} 
+              {%- assign next_url = paginate.next.url | split: '?' | last -%} 
+              <a href="{{collection.url}}?{{next_url}}&q=hover_{{section.settings.hover_product}}+columns_{{section.settings.columns}}+limit_{{paginate_index}}+pagination_{{section.settings.pagination}}+space_{{section.settings.space_product}}&view=ajax" class="btn woodmart-load-more woodmart-products-load-more load-on-click">
+                <span class="load-more-label" {% if settings.enable_multilang %}data-translate="collections.general.show_more"{% endif %}>{{ 'collections.general.show_more' | t}}</span>
+                <span class="load-more-loading" {% if settings.enable_multilang %}data-translate="collections.general.loading"{% endif %}>{{ 'collections.general.loading' | t}} ...</span>
+              </a>
+              {%- endif -%}  
+              {%- endif -%}  
+              {%- if section.settings.pagination == 'view-all' -%}
+              <a href="{{ collection.url}}" class="btn woodmart-load-more">
+                <span class="load-more-label" {% if settings.enable_multilang %}data-translate="homepage.sections.view_all"{% endif %}>{{ 'homepage.sections.view_all' | t}}</span> 
+              </a>
+              {%- endif -%}
+            </div>
+            {%- endif -%}  
+          </div>
+          {%- endpaginate -%}
+        </div>
+      </div>
+    </div>
+  </div>
+  {%- if section.settings.section_layout != '0' -%}
+  <div class="vc_row-full-width vc_clearfix"></div>
+  {%- endif -%} 
+  <style>
+    .vc_custom_{{section.id}} { 
+      border-top-width: 0px !important; 
+      {%- if section.settings.background_image != blank -%}
+      background-image: url({{section.settings.background_image | img_url: 'master'}}) !important;
+      background-position: {{section.settings.background_position | replace: '_', ' ' }} !important;
+      background-repeat: {{section.settings.background_image_repeat}} !important;
+      background-size: {{section.settings.background_size}} !important;
+      background-attachment: {{section.settings.background_attachment}} !important;
+      {%- endif -%}
+      background-color: {{section.settings.background_color}};
+    }   
+    {%- if section.settings.section_layout == '2' -%}
+    .vc_custom_{{section.id}} .vc_column_container>.vc_column-inner { 
+      padding-left: {{section.settings.space_product}}px;
+      padding-right: {{section.settings.space_product}}px; 
+    }
+    {%- endif -%}
+  </style>
+</div>
+{%- schema -%}
+{
+  "name": "Product Grid",
+  "settings": [
+    {
+      "type": "header", 
+      "content": "Section Settings"
+    },
+    {
+      "type": "select",
+      "id": "section_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "0",
+          "label": "Default"
+        },
+        {
+          "value": "1",
+          "label": "Fullwidth row"
+        },
+        {
+          "value": "2",
+          "label": "Fullwidth row and content"
+        },
+        {
+          "value": "3",
+          "label": "Fullwidth row and content (no padding)"
+        }
+      ],
+      "default": "0"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color", 
+	  "default": "transparent"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section background image" 
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_background_mobile",
+      "label": "Hide background image on mobile?", 
+	  "default": false
+    },
+    {
+      "type": "select",
+      "id": "background_image_repeat",
+      "label": "Background Repeat",
+      "options": [
+        {
+          "value": "no-repeat",
+          "label": "No Repeat"
+        },
+        {
+          "value": "repeat-x",
+          "label": "Repeat x (Repeat Horizontal)"
+        },
+        {
+          "value": "repeat-y",
+          "label": "Repeat y (Repeat Verticle)"
+        },
+        {
+          "value": "repeat",
+          "label": "Repeat All"
+        }
+      ],
+      "default": "no-repeat"
+    },
+    {
+      "type": "select",
+      "id": "background_size",
+      "label": "Background Size",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "background_attachment",
+      "label": "Background Attachment",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "fixed",
+          "label": "Fixed"
+        },
+        {
+          "value": "scroll",
+          "label": "Scroll"
+        },
+        {
+          "value": "inherit",
+          "label": "Inherit"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "background_position",
+      "label": "Background Position",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "left_top",
+          "label": "Left Top"
+        },
+        {
+          "value": "left_center",
+          "label": "Left Center"
+        },
+        {
+          "value": "left_bottom",
+          "label": "Left Bottom"
+        },
+        {
+          "value": "center_top",
+          "label": "Center Top"
+        },
+        {
+          "value": "center_center",
+          "label": "Center Center"
+        },
+        {
+          "value": "center_bottom",
+          "label": "Center Bottom"
+        }
+      ],
+      "default": "center_center"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    },
+    {
+      "type": "text",
+      "id": "heading_top",
+      "label": "Heading Top",
+      "default": "WELCOME TO WOODMART"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "FEATURED PRODUCTS"
+    },
+    {
+      "type": "textarea",
+      "id": "heading_content",
+      "label": "Content",
+      "default": "Visit our shop to see amazing creations from our designers."
+    },  
+    {
+      "type": "select",
+      "id": "heading_style",
+      "label": "Heading Style",
+      "default": "default",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "simple",
+          "label": "Simple"
+        },
+        {
+          "value": "bordered",
+          "label": "Bordered"
+        },
+        {
+          "value": "underlined",
+          "label": "Underlined"
+        },
+        {
+          "value": "shadow",
+          "label": "Shadow"
+        } 
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "default",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "primary",
+          "label": "Primary"
+        },
+        {
+          "value": "alt",
+          "label": "Alt"
+        },
+        {
+          "value": "black",
+          "label": "Black"
+        },
+        {
+          "value": "white",
+          "label": "White"
+        },
+        {
+          "value": "gradient",
+          "label": "Gradient"
+        } 
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_postion",
+      "label": "Heading Text Algin",
+      "default": "center",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        } 
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading Text Size",
+      "default": "medium",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "extra-large",
+          "label": "Extra Large"
+        }
+      ]
+    },
+    {
+      "type": "header", 
+      "content": "General Settings"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "text",
+      "id": "limit",
+      "label": "Limit",
+      "info": "Number of items to show per page.",
+      "default": "8"
+    },
+    {
+      "type": "select",
+      "id": "pagination",
+      "label": "Pagination",
+      "default": "arrows",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "more-btn",
+          "label": "Load more button"
+        },
+        {
+          "value": "arrows",
+          "label": "Arrows"
+        },
+        {
+          "value": "view-all",
+          "label": "View all products"
+		}
+      ]
+    },
+    {
+      "type": "select",
+      "id": "columns",
+      "label": "Columns",
+      "options": [
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "hover_product",
+      "label": "Hover On Product",
+      "info": "Choose one of those hover effects for products",
+      "options": [
+        {
+          "value": "base",
+          "label": "Base"
+        },
+        {
+          "value": "alt",
+          "label": "Alternative"
+        },
+        {
+          "value": "info",
+          "label": "Full info on image"
+        },
+        {
+          "value": "info-alt",
+          "label": "All info on hover"
+        },
+        {
+          "value": "button",
+          "label": "Button on image"
+        },
+        {
+          "value": "icon",
+          "label": "Icon on image"
+        },
+        {
+          "value": "standard",
+          "label": "Standard button"
+        },
+        {
+          "value": "quick",
+          "label": "Quick shop"
+        },
+        {
+          "value": "tiled",
+          "label": "Tiled"
+        }
+      ],
+      "default": "base"
+    }, 
+    {
+      "type": "select",
+      "id": "space_product",
+      "label": "Space between products",
+      "options": [
+        {
+          "value": "30",
+          "label": "30"
+        },
+        {
+          "value": "20",
+          "label": "20"
+        },
+        {
+          "value": "10",
+          "label": "10"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "0",
+          "label": "0"
+        }
+	  ],
+      "default": "20"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Products Grid",
+      "category": "collection" 
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

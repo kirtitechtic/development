@@ -1,0 +1,153 @@
+{%- layout none -%}
+{%- if canonical_url contains 'q=' -%}
+  {%- assign data_url = canonical_url | split: 'q=' | last -%}
+  {%- assign data_url = data_url | split: '+' -%}
+  {%- assign layout = data_url[0] | remove: 'layout_' -%}
+  {%- assign hover_product = data_url[1] | remove: 'hover_' -%}
+  {%- assign columns = data_url[2] | remove: 'columns_' -%}
+  {%- assign limit = data_url[3] | remove: 'limit_' | plus: 0 -%}
+  {%- if layout == 'carousel' -%}
+    {%- assign autoplay = data_url[4] | remove: 'autoplay_' -%}
+    {%- assign pagenav = data_url[5] | remove: 'pagination_' -%}
+    {%- assign control = data_url[6] | remove: 'navigation_' -%}
+    {%- assign loop = data_url[7] | remove: 'loop_' -%}
+    {%- assign space_product = data_url[8] | remove: 'space_' -%}
+  {%- else -%}
+    {%- assign pagination = data_url[4] | remove: 'pagination_' -%}
+    {%- assign space_product = data_url[5] | remove: 'space_' -%}
+  {%- endif -%}
+{%- endif -%}
+{%- case hover_product -%}
+{%- when 'base' -%}
+{%- assign pl_include = 'section_hover_product_base' -%} 
+{%- when 'alt' -%}
+{%- assign pl_include = 'section_hover_product_alt' -%}
+{%- when 'info' -%}
+{%- assign pl_include = 'section_hover_product_info' -%}
+{%- when 'info-alt' -%}
+{%- assign pl_include = 'section_hover_product_info_alt' -%}
+{%- when 'button' -%}
+{%- assign pl_include = 'section_hover_product_button' -%}
+{%- when 'icon' -%}
+{%- assign pl_include = 'section_hover_product_icon' -%}
+{%- when 'standard' -%}
+{%- assign pl_include = 'section_hover_product_standard' -%} 
+{%- when 'quick' -%}
+{%- assign pl_include = 'section_hover_product_quick' -%}
+{%- when 'tiled' -%}
+{%- assign pl_include = 'section_hover_product_tiled' -%}
+{%- endcase -%} 
+{%- if layout != 'carousel' -%}
+  {%- case columns -%}
+  {%- when '2' -%}
+  {%- assign colum_width = 'col-xs-6 col-sm-4 col-md-6' -%}
+  {%- when '3' -%}
+  {%- assign colum_width = 'col-xs-6 col-sm-4 col-md-4' -%}
+  {%- when '4' -%}
+  {%- assign colum_width = 'col-xs-6 col-sm-4 col-md-3' -%}
+  {%- when '6' -%}
+  {%- assign colum_width = 'col-xs-6 col-sm-4 col-md-2' -%}
+  {%- endcase -%}
+{%- endif -%}
+{%- paginate collection.products by limit -%}
+<div class="woodmart-products-element">
+  {%- if pagination == 'arrows' and layout != 'carousel' -%}
+  <div class="woodmart-products-loader hidden-loader"></div>
+  {%- endif -%} 
+  {%- if layout == 'carousel' -%}
+  <div class="products elements-grid row woodmart-products-holder woodmart-spacing-{{space_product}} products-spacing-{{space_product}}">
+  {%- else -%}
+  <div class="products elements-grid row woodmart-products-holder woodmart-spacing-{{space_product}} products-spacing-{{space_product}} grid-columns-{{columns}} pagination-{{pagination}}" data-paged="{{paginate.current_page}}">
+  {%- endif -%}
+    {%- if layout == 'carousel' -%}
+    <div class="data-carousel" data-items="{{ columns }}" data-auto="{{ autoplay }}" data-paging="{{ pagenav }}" data-loop="{{loop}}" data-320="2" data-414="2" data-768="2" data-992="3" data-1200="{{ columns }}" data-margin="0" data-nav="{{ control }}" data-prev='' data-next='' style="display: none;"></div>
+    <div class="owl-carousel">
+    {%- endif -%}
+    {%- for product in collection.products -%}
+      {%- assign sold_out = true -%}
+      {%- if product.available -%}
+        {%- assign sold_out = false -%}
+      {%- endif -%}
+      {%- assign on_sale = false -%}
+      {%- if product.compare_at_price_min > product.price_min -%}
+        {%- assign on_sale = true -%}
+      {%- endif -%}
+      {%- assign variant_tmp = product.selected_or_first_available_variant -%}
+      {%- for variant in product.variants -%}
+        {%- if variant.available == true and variant.price < variant_tmp.price -%}
+          {%- assign variant_tmp = variant -%}	
+        {%- endif -%}
+      {%- endfor -%}
+      {%- case settings.collection_aspect_ratio -%}
+      {%- when '1' -%}
+        {%- assign image_width = settings.collection_ratio_width -%}
+        {%- assign image_height = '' -%} 
+      {%- else -%}
+        {%- assign image_width = settings.collection_ratio_width -%}
+        {%- assign image_height = settings.collection_ratio_height -%}
+      {%- endcase -%} 
+      {%- capture image_size -%}{{ image_width }}x{{ image_height }}{%- endcapture -%}
+      {%- if layout == 'carousel' -%}
+        {%- include pl_include, carousel: true, countdown: settings.collection_product_countdown -%}
+      {%- else -%}
+        {%- include pl_include, countdown: settings.collection_product_countdown -%}
+      {%- endif -%}
+      {%- if layout != 'carousel' -%}
+      {%- cycle '', '<div class="clearfix visible-xs-block"></div>' -%}
+      {%- cycle '','','<div class="clearfix clearfix visible-sm-block"></div>' -%}
+        {%- case columns -%}
+        {%- when '2' -%}
+          {%- cycle '','<div class="clearfix visible-md-block visible-lg-block"></div>' -%}
+        {%- when '3' -%}
+          {%- cycle '','','<div class="clearfix visible-md-block visible-lg-block"></div>' -%}
+        {%- when '4' -%}
+          {%- cycle '','','','<div class="clearfix visible-md-block visible-lg-block"></div>' -%}
+        {%- when '6' -%}
+          {%- cycle '','','','','','<div class="clearfix visible-md-block visible-lg-block"></div>' -%}
+        {%- endcase -%}
+      {%- endif -%}
+    {%- endfor-%}
+    {%- if layout == 'carousel' -%}
+    </div>
+    {%- endif -%}
+  </div>
+  {%- if pagination != 'none' and paginate.pages > 1 and layout != 'carousel' -%}
+  <div class="products-footer" data-status="{% if paginate.next.is_link %}have-posts{% else %}no-more-posts{% endif %}">
+    {%- if pagination == 'arrows' -%}
+    <div class="wrap-loading-arrow"> 
+        {%- if paginate.previous.is_link -%} 
+          <div class="woodmart-products-load-prev">
+            {%- assign previous_url = paginate.previous.url | split: '?' | last -%} 
+            <a href="{{collection.url}}?{{previous_url}}&q=layout_{{layout}}+hover_{{hover_product}}+columns_{{columns}}+limit_{{limit}}+pagination_{{pagination}}+space_{{space_product}}&view=ajax_tab">Load previous products</a>
+          </div>
+        {%- else -%}
+          <div class="woodmart-products-load-prev disabled">Load previous products</div>
+        {%- endif -%}  
+      {%- if paginate.next.is_link -%} 
+        <div class="woodmart-products-load-next">
+          {%- assign next_url = paginate.next.url | split: '?' | last -%} 
+          <a href="{{collection.url}}?{{next_url}}&q=layout_{{layout}}+hover_{{hover_product}}+columns_{{columns}}+limit_{{limit}}+pagination_{{pagination}}+space_{{space_product}}&view=ajax_tab">Load next products</a>
+        </div>
+      {%- else -%} 
+        <div class="woodmart-products-load-next disabled">Load next products</div>
+      {%- endif -%} 
+    </div>
+    {%- endif -%}
+    {%- if pagination == 'more-btn' -%}  
+    {%- if paginate.next.is_link -%} 
+    {%- assign next_url = paginate.next.url | split: '?' | last -%} 
+    <a href="{{collection.url}}?{{next_url}}&q=layout_{{layout}}+hover_{{hover_product}}+columns_{{columns}}+limit_{{limit}}+pagination_{{pagination}}+space_{{space_product}}&view=ajax_tab" class="btn woodmart-load-more woodmart-products-load-more load-on-click">
+      <span class="load-more-label" {% if settings.enable_multilang %}data-translate="collections.general.show_more"{% endif %}>{{ 'collections.general.show_more' | t}}</span>
+      <span class="load-more-loading" {% if settings.enable_multilang %}data-translate="collections.general.loading"{% endif %}>{{ 'collections.general.loading' | t}} ...</span>
+    </a>
+    {%- endif -%}  
+    {%- endif -%}  
+    {%- if pagination == 'view-all' -%}
+    <a href="{{ collection.url}}" class="btn woodmart-load-more">
+      <span class="load-more-label" {% if settings.enable_multilang %}data-translate="homepage.sections.view_all"{% endif %}>{{ 'homepage.sections.view_all' | t}}</span> 
+    </a>
+    {%- endif -%}
+  </div>
+  {%- endif -%} 
+</div>
+{%- endpaginate -%}

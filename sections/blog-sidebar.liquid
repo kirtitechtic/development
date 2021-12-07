@@ -1,0 +1,306 @@
+{%- if section.blocks.size > 0 -%}
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+    {%- when 'categories' -%}
+      <div id="categories-{{block.id}}" class="woodmart-widget sidebar-widget widget_categories {% if forloop.last %}last{% endif %}">
+        {%- if block.settings.title != '' -%}
+        <h5 class="widget-title">
+          {% if settings.language_enable %}
+          <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+          <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+          {% else %}
+          {{ block.settings.title | split: '|' | first }}
+          {% endif %}
+        </h5>
+        {%- endif -%}
+        <ul>
+          {%- for link in linklists[block.settings.menu].links -%}
+          <li class="cat-item {% if blog.handle == link.handle %}current-cat{% endif %}">
+            <a href="{{link.url}}">
+              {% if settings.language_enable %}
+              <span class="lang1">{{ link.title | split: '|' | first }}</span>
+              <span class="lang2">{{ link.title | split: '|' | last }}</span>
+              {% else %}
+              {{ link.title | split: '|' | first }}
+              {% endif %}
+            </a>
+          </li>
+          {%- endfor-%}
+        </ul>
+      </div>
+    {%- when 'recent' -%}
+      <div class="woodmart-widget sidebar-widget woodmart-recent-posts {% if forloop.last %}last{% endif %}">
+        {%- if block.settings.title != '' -%}
+        <h5 class="widget-title">
+          {% if settings.language_enable %}
+          <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+          <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+          {% else %}
+          {{ block.settings.title | split: '|' | first }}
+          {% endif %}
+        </h5>
+        {%- endif -%}
+        <ul>
+          {%- assign blog = blogs[blog.handle] -%}
+          {%- assign blog_limit = block.settings.recent_limit -%}
+          {%- unless blog.empty? -%}
+          {%- for article in blog.articles limit:blog_limit -%}
+          <li>
+            {%- if article.image -%}
+            <a class="recent-posts-thumbnail" href="{{ article.url }}">
+              {%- if settings.blog_aspect_ratio == '0' -%}
+              <img class="attachment-large sp-post-image " src="{{ article | img_url: '105x84', crop: 'center' }}" width="75" /> 
+              {%- else -%}
+              <img class="attachment-large sp-post-image " src="{{ article | img_url: '105x' }}" width="75" /> 
+              {%- endif -%}
+            </a>
+            {%- endif -%}
+            <div class="recent-posts-info">
+              <h5 class="entry-title">
+                <a href="{{ article.url }}">
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ article.title | split: '|' | first }}</span>
+                  <span class="lang2">{{ article.title | split: '|' | last }}</span>
+                  {% else %}
+                  {{ article.title | split: '|' | first }}
+                  {% endif %}
+                </a>
+              </h5>
+              <time class="recent-posts-time">{{ article.published_at | date: '%b %d, %Y' }}</time>
+              {%- assign number_of_comments = article.comments_count -%} 
+              <a class="recent-posts-comment" href="{{ article.comment_post_url }}" {% if settings.language_enable %}data-translate="blogs.comments.comments_with_count|count:{{number_of_comments}}"{%endif%}>{{ 'blogs.comments.comments_with_count' | t: count: number_of_comments }}</a>
+            </div>
+          </li> 
+          {%- endfor -%}
+          {%- endunless -%}
+        </ul>
+      </div>
+	{%- when 'instagram' -%}
+      <div id="woodmart-instagram-{{block.id}}" class="woodmart-widget sidebar-widget woodmart-instagram {% if forloop.last %}last{% endif %}">
+        {%- if block.settings.title != '' -%}
+        <h5 class="widget-title">
+          {% if settings.language_enable %}
+          <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+          <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+          {% else %}
+          {{ block.settings.title | split: '|' | first }}
+          {% endif %}
+        </h5>
+        {%- endif -%}
+        <div class="instagram-widget instagram-per-row-">
+          <div class="instagram-pics"></div>
+          <p class="clear">
+            <a href="//instagram.com/" class="insta-name"rel="me" target="_blank">
+              {% if settings.language_enable %}
+              <span class="lang1">{{ block.settings.view_profile | split: '|' | first }}</span>
+              <span class="lang2">{{ block.settings.view_profile | split: '|' | last }}</span>
+              {% else %}
+              {{ block.settings.view_profile | split: '|' | first }}
+              {% endif %}
+            </a>
+          </p>
+        </div>
+      </div>
+      <script>
+        (function($){
+          var feed = $("#woodmart-instagram-{{block.id}}").find(".instagram-pics");
+          var userID = '{{block.settings.user_id}}',
+              token = '{{block.settings.access_token}}',
+              count = 9;
+          var url = "https://api.instagram.com/v1/users/"+userID+"/media/recent/?access_token="+token; 
+          $.ajax({
+            type: "GET",
+            dataType: "jsonp",
+            cache: false,
+            url: url,
+            success: function(data) {
+              var username = data.data[0].user.username;
+              $('.insta-name').attr('href', '//instagram.com/'+username);
+              for (var i = 0; i < count; i++) {
+                if (data.data[i]) {
+                  var caption = "";
+                  if (data.data[i].caption) {
+                    caption = data.data[i].caption.text;
+                  }
+                  var instaClone = [
+                    '<div class="instagram-picture">',
+                      '<div class="wrapp-picture">',
+                        '<a href="'+ data.data[i].link +'" target="_blank"></a>',
+                        '<img src="'+ data.data[i].images.low_resolution.url +'">',
+                        '<div class="hover-mask">',
+                          '<span class="instagram-likes"><span>'+data.data[i].likes.count+'</span></span>',
+                          '<span class="instagram-comments"><span>'+data.data[i].comments.count+'</span></span>',
+                        '</div>',
+                      '</div>',
+                    '</div>',
+                  ].join('');  
+                  feed.append(instaClone);
+                }
+              }
+            }
+          });
+        })(jQuery);  
+      </script>
+    {%- when 'tags' -%}
+      <div id="blog-tag-{{block.id}}" class="woodmart-widget sidebar-widget widget_tags {% if forloop.last %}last{% endif %}">
+        {%- if block.settings.title != '' -%}
+        <h5 class="widget-title">
+          {% if settings.language_enable %}
+          <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+          <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+          {% else %}
+          {{ block.settings.title | split: '|' | first }}
+          {% endif %}
+        </h5>
+        {%- endif -%}
+        {%- if blog.all_tags.size > 0 -%} 
+        <ul class="tags-list">
+          {%- for tag in blog.all_tags -%} 
+          {{ tag | link_to_tag: tag }}  
+          {%- endfor -%}
+        </ul>
+        {%- endif -%}
+      </div>
+    {%- else -%}
+      <div id="html-{{block.id}}" class="woodmart-widget sidebar-widget widget_html">
+        {%- if block.settings.title != '' -%}
+        <h5 class="widget-title">
+          {% if settings.language_enable %}
+          <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+          <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+          {% else %}
+          {{ block.settings.title | split: '|' | first }}
+          {% endif %}
+        </h5>
+        {%- endif -%}
+        <div class="html-content">
+          {% if settings.language_enable %}
+          <div class="lang1">{{ block.settings.html | split: '[lang2]' | first }}</div>
+          <div class="lang2">{{ block.settings.html | split: '[lang2]' | last }}</div>
+          {% else %}
+          {{ block.settings.html | split: '[lang2]' | first }}
+          {% endif %}
+        </div>
+      </div>
+    {%- endcase -%}
+  {%- endfor -%}
+{%- endif -%}
+{% schema %}
+  {
+    "name": "Blog Sidebar",
+    "settings": [],
+    "blocks": [
+      {
+        "type": "categories",
+        "name": "Categories",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Categories"
+          },
+          {
+            "type": "link_list",
+            "id": "menu",
+            "label": "Blogs Categories menu",
+            "default": "main-menu"
+          }
+        ]
+      },
+      {
+        "type": "recent",
+        "name": "Recent Post",
+        "limit": 1,
+        "settings": [
+         {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Recent Post"
+         },
+         {
+           "type": "text",
+           "id": "recent_limit",
+           "label": "Number of posts to show",
+           "default": "5"
+         }
+        ]
+      },
+      {
+        "type": "instagram",
+        "name": "Instagram feed",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Instagram"
+          },
+          {
+           "type": "text",
+           "id": "access_token",
+           "label": "Access Token",
+           "default": "290116085.dd38710.e727245eec494e069f6e7d51d4743585"
+         },
+          {
+           "type": "text",
+           "id": "user_id",
+           "label": "User Id",
+           "default": "290116085"
+         },
+         {
+           "type": "text",
+           "id": "view_profile",
+           "label": "View profile",
+           "default": "View profile"
+         }
+        ]
+      },
+      {
+        "type": "tags",
+        "name": "Blog Tags",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Blog Tags"
+          },
+          {
+            "type": "checkbox",
+            "id": "count",
+            "label": "Show counnt tag?",
+            "default": true
+          }
+        ]
+      },
+      {
+        "type": "html",
+        "name": "Custom HTML",
+        "settings": [
+         {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Custom HTML"
+          },
+          {
+            "type": "html",
+            "id": "html",
+            "label": "HTML"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

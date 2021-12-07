@@ -1,0 +1,782 @@
+{%- case section.settings.section_layout -%}
+{%- when '0' -%}
+{%- capture data_fullwidth -%}{%- endcapture -%}
+{%- when '1' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true"{%- endcapture -%}
+{%- when '2' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- when '3' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- endcase -%} 
+<div data-section-id="{{ section.id }}" data-section-type="instagram-section">
+  <div id="instagram-{{section.id}}">
+  <div {{data_fullwidth}} class="vc_row wpb_row vc_row-fluid {% if section.settings.hide_background_mobile != blank %}mobile-bg-img-hidden{% endif %} vc_custom_{{section.id}} vc_row-has-fill woodmart-bg-center-top {% if section.settings.section_layout == '3' %}vc_row-no-padding{% endif %} woodmart-bg-left-top" style="margin-top:{{section.settings.margin_top | remove: 'px' | append: 'px' }}; margin-bottom:{{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.padding}};">
+    <div class="wpb_column vc_column_container vc_col-sm-12">
+      <div class="vc_column-inner vc_custom_1495636665835">
+        <div class="wpb_wrapper">
+          <div class="vc_row wpb_row vc_row-fluid vc_row-has-fill vc_row-o-content-middle vc_row-flex">
+          {%- if section.settings.instagram_position == 'left' -%}
+          <div class="default-margins wpb_column vc_column_container vc_col-sm-12 vc_col-md-6 vc_col-has-fill">
+            <div class="vc_column-inner vc_custom_1510838616852">
+              <div class="wpb_wrapper">
+                {%- if section.settings.layout == 'carousel' -%}
+                {%- assign columns = section.settings.columns -%}
+                {%- else -%}
+                {%- assign columns = section.settings.columns_grid -%}
+                {%- endif -%}
+                <div class="instagram-widget {% if section.settings.layout_space != blank %}instagram-with-spaces{% endif %} {% if section.settings.layout == 'grid' %}instagram-grid instagram-per-row-{{ columns }}{% else %}instagram-slider{% endif %}">
+                  {%- if section.settings.layout == 'carousel' -%}
+                  <div class="data-carousel" data-items="{{ section.settings.ins_columns }}" data-auto="{{ section.settings.ins_autoplay }}" data-paging="{{ section.settings.ins_pagination }}" data-loop="{{section.settings.ins_loop}}" data-320="2" data-414="2" data-768="2" data-992="3" data-1200="{{ section.settings.ins_columns }}" data-margin="0" data-nav="{{ section.settings.ins_navigation }}" data-prev='' data-next='' style="display: none;"></div>
+                  {%- endif -%}
+                  {%- if section.settings.show_boxcontent != blank and section.settings.layout == 'grid' -%}
+                  <div class="instagram-content">
+                    <div class="instagram-content-inner">
+                      {%- if settings.language_enable -%}
+                      <div class="lang1">{{ section.settings.box_content | split: '|' | first }}</div>
+                      <div class="lang2">{{ section.settings.box_content | split: '|' | last }}</div>
+                      {%- else -%}
+                      {{ section.settings.box_content | split: '|' | first }}
+                      {%- endif -%}
+                    </div>
+                  </div>
+                  {%- endif -%}
+                  <div class="instagram-pics {% if section.settings.layout == 'carousel' %}owl-carousel{% endif %}" data-access-token="{{section.settings.access_token}}" data-user-id="{{section.settings.user_id}}" data-limit="{{section.settings.limit}}"></div> 
+                </div> 
+              </div>
+            </div>
+          </div>
+          {%- endif -%}
+          <div class="wpb_column vc_column_container vc_col-sm-12 vc_col-md-6">
+            <div class="vc_column-inner vc_custom_1505475718093">
+              <div class="wpb_wrapper"> 
+                <div class="title-wrapper  woodmart-title-color-{{section.settings.heading_color}} woodmart-title-style-{{section.settings.heading_style}} woodmart-title-size-{{section.settings.heading_size}} woodmart-title-width-100 text-{{section.settings.heading_postion}} vc_custom_1489679665882">
+                  {%- if section.settings.sub_title != '' -%}
+                  <div class="title-subtitle  font-default subtitle-style-{{section.settings.subtitle_style}} subtitle-color-{{section.settings.subtitle_color}} woodmart-font-weight-">
+                    {%- if settings.language_enable -%}
+                    <span class="lang1">{{ section.settings.sub_title | split: '|' | first }}</span>
+                    <span class="lang2">{{ section.settings.sub_title | split: '|' | last }}</span>
+                    {%- else -%}
+                    {{ section.settings.sub_title | split: '|' | first }}
+                    {%- endif -%}
+                  </div>
+                  {%- endif -%} 
+                  {%- if section.settings.title != '' -%}
+                  <div class="liner-continer">
+                    <span class="left-line"></span>
+                    <h4 class="woodmart-title-container title  woodmart-font-weight-">
+                      {%- if settings.language_enable -%}
+                      <span class="lang1">{{ section.settings.title | split: '|' | first }}</span>
+                      <span class="lang2">{{ section.settings.title | split: '|' | last }}</span>
+                      {%- else -%}
+                      {{ section.settings.title | split: '|' | first }}
+                      {%- endif -%}
+                    </h4>
+                    <span class="right-line"></span>
+                  </div>
+                  {%- endif -%}
+                </div>
+                <div id="slide_{{section.id}}" class="testimonials-wrapper">
+                  <div class="data-carousel" data-auto="{{ section.settings.autoplay }}" data-items="1" data-1200="1" data-992="1" data-768="1" data-480="1" data-320="1" data-paging="{{section.settings.pagination}}" data-nav="{{section.settings.navigation}}" data-margin="0" data-prev='' data-loop="{{section.settings.loop}}" data-next='' style="display: none;"></div>
+                  <div class="testimonials testimonials-slider testimon-style-standard testimon-columns-3 testimon-align-center owl-carousel">
+                    {%- for block in section.blocks -%} 
+                    <div class="testimonial ">
+                      <div class="testimonial-inner">
+                        <div class="testimonial-avatar">
+                          <img class="testimonial-avatar-image " src="{{block.settings.image | img_url: '100x100'}}" width="100" height="100">
+                        </div>
+                        <div class="testimonial-content">
+                          {%- if settings.language_enable -%}
+                          <div class="lang1">{{ block.settings.content | split: '[lang2]' | first }}</div>
+                          <div class="lang2">{{ block.settings.content | split: '[lang2]' | last }}</div>
+                          {%- else -%}
+                          {{ block.settings.content | split: '[lang2]' | first }}
+                          {%- endif -%} 
+                          <footer>
+                            {%- if settings.language_enable -%}
+                            <div class="lang1">{{ block.settings.info | split: '[lang2]' | first }}</div>
+                            <div class="lang2">{{ block.settings.info | split: '[lang2]' | last }}</div>
+                            {%- else -%}
+                            {{ block.settings.info | split: '[lang2]' | first }}
+                            {%- endif -%}
+                          </footer>
+                        </div>
+                      </div>
+                    </div>
+                    {%- endfor -%}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {%- if section.settings.instagram_position == 'right' -%}
+          <div class="default-margins wpb_column vc_column_container vc_col-sm-12 vc_col-md-6 vc_col-has-fill">
+            <div class="vc_column-inner vc_custom_1495636665835">
+              <div class="wpb_wrapper">
+                {%- if section.settings.layout == 'carousel' -%}
+                {%- assign columns = section.settings.columns -%}
+                {%- else -%}
+                {%- assign columns = section.settings.columns_grid -%}
+                {%- endif -%}
+                <div class="instagram-widget {% if section.settings.layout_space != blank %}instagram-with-spaces{% endif %} {% if section.settings.layout == 'grid' %}instagram-grid instagram-per-row-{{ columns }}{% else %}instagram-slider{% endif %}">
+                  {%- if section.settings.layout == 'carousel' -%}
+                  <div class="data-carousel" data-items="{{ section.settings.ins_columns }}" data-auto="{{ section.settings.ins_autoplay }}" data-paging="{{ section.settings.ins_pagination }}" data-loop="{{section.settings.ins_loop}}" data-320="2" data-414="2" data-768="2" data-992="3" data-1200="{{ section.settings.ins_columns }}" data-margin="0" data-nav="{{ section.settings.ins_navigation }}" data-prev='' data-next='' style="display: none;"></div>
+                  {%- endif -%}
+                  {%- if section.settings.show_boxcontent != blank and section.settings.layout == 'grid' -%}
+                  <div class="instagram-content">
+                    <div class="instagram-content-inner">
+                      {%- if settings.language_enable -%}
+                      <div class="lang1">{{ section.settings.box_content | split: '|' | first }}</div>
+                      <div class="lang2">{{ section.settings.box_content | split: '|' | last }}</div>
+                      {%- else -%}
+                      {{ section.settings.box_content | split: '|' | first }}
+                      {%- endif -%}
+                    </div>
+                  </div>
+                  {%- endif -%}
+                  <div class="instagram-pics {% if section.settings.layout == 'carousel' %}owl-carousel{% endif %}" data-access-token="{{section.settings.access_token}}" data-user-id="{{section.settings.user_id}}" data-limit="{{section.settings.limit}}"></div> 
+                </div> 
+              </div>
+            </div>
+          </div>
+          {%- endif -%}
+          </div>
+        </div>
+      </div> 
+    </div>
+  </div>
+  {%- if section.settings.section_layout != '0' -%}
+  <div class="vc_row-full-width vc_clearfix"></div>
+  {%- endif -%}
+  <style>
+    .vc_custom_{{section.id}} { 
+      border-top-width: 0px !important; 
+      {%- if section.settings.background_image != blank -%}
+      background-image: url({{section.settings.background_image | img_url: 'master'}}) !important;
+      background-position: {{section.settings.background_position | replace: '_', ' ' }} !important;
+      background-repeat: {{section.settings.background_image_repeat}} !important;
+      background-size: {{section.settings.background_size}} !important;
+      background-attachment: {{section.settings.background_attachment}} !important;
+      {%- endif -%}
+      background-color:{{section.settings.bg_color}};
+    }  
+    .vc_custom_1505475718093 {
+      margin-bottom: 4vh !important;
+      padding-top: 0px !important;
+      padding-right: 10% !important;
+      padding-left: 10% !important;
+    }
+    .vc_custom_1495636665835 {
+      margin-bottom: 4vh !important;
+      padding-top: 0px !important;
+    }
+  </style>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Testimonials & Instagram",
+  "settings": [ 
+    {
+      "type": "header", 
+      "content": "Section Settings"
+    },
+    {
+      "type": "select",
+      "id": "section_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "0",
+          "label": "Default"
+        },
+        {
+          "value": "1",
+          "label": "Fullwidth row"
+        },
+        {
+          "value": "2",
+          "label": "Fullwidth row and content"
+        },
+        {
+          "value": "3",
+          "label": "Fullwidth row and content (no padding)"
+        }
+      ],
+      "default": "1"
+    },   
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section background image" 
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_background_mobile",
+      "label": "Hide background image on mobile?", 
+	  "default": false
+    },
+    {
+      "type": "select",
+      "id": "background_image_repeat",
+      "label": "Background Repeat",
+      "options": [
+        {
+          "value": "no-repeat",
+          "label": "No Repeat"
+        },
+        {
+          "value": "repeat-x",
+          "label": "Repeat x (Repeat Horizontal)"
+        },
+        {
+          "value": "repeat-y",
+          "label": "Repeat y (Repeat Verticle)"
+        },
+        {
+          "value": "repeat",
+          "label": "Repeat All"
+        }
+      ],
+      "default": "no-repeat"
+    },
+    {
+      "type": "select",
+      "id": "background_size",
+      "label": "Background Size",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "background_attachment",
+      "label": "Background Attachment",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "fixed",
+          "label": "Fixed"
+        },
+        {
+          "value": "scroll",
+          "label": "Scroll"
+        },
+        {
+          "value": "inherit",
+          "label": "Inherit"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "background_position",
+      "label": "Background Position",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "left_top",
+          "label": "Left Top"
+        },
+        {
+          "value": "left_center",
+          "label": "Left Center"
+        },
+        {
+          "value": "left_bottom",
+          "label": "Left Bottom"
+        },
+        {
+          "value": "center_top",
+          "label": "Center Top"
+        },
+        {
+          "value": "center_center",
+          "label": "Center Center"
+        },
+        {
+          "value": "center_bottom",
+          "label": "Center Bottom"
+        }
+      ],
+      "default": "center_center"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section Margin Top",
+	  "info": "45px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section Margin Bottom",
+      "default" : "46px",
+	  "info": "45px"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Section Padding",
+      "default" : "58px 0 58px 0",
+      "info": "Ex:(40px 40px 40px) (top right bottom left)"
+    }, 
+    {
+      "type": "header",
+      "content": "Instagram Settings"
+    },
+    {
+      "type": "select",
+      "id": "instagram_position",
+      "label": "Instagram Position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        } 
+      ],
+      "default": "left"
+    }, 
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "grid",
+          "label": "Grid"
+        },
+        {
+          "value": "carousel",
+          "label": "Carousel"
+        }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "checkbox",
+      "id": "layout_space",
+      "label": "Layout item with space?",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "columns_grid",
+      "label": "Columns Grid",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        },
+        {
+          "value": "7",
+          "label": "7"
+        },
+        {
+          "value": "8",
+          "label": "8"
+        },
+        {
+          "value": "9",
+          "label": "9"
+        },
+        {
+          "value": "10",
+          "label": "10"
+        },
+        {
+          "value": "11",
+          "label": "11"
+        },
+        {
+          "value": "12",
+          "label": "12"
+        }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "text",
+      "id": "access_token",
+      "label": "Access Token",
+      "default": "290116085.dd38710.e727245eec494e069f6e7d51d4743585"
+    },
+    {
+      "type": "text",
+      "id": "user_id",
+      "label": "User Id",
+      "default": "290116085"
+    },
+    {
+      "type": "text",
+      "id": "limit",
+      "label": "Limit",
+      "default": "4"
+    },
+    {
+      "type": "header",
+      "content": "Instagram Box Content Settings"
+    }, 
+    {
+      "type": "checkbox",
+      "id": "show_boxcontent",
+      "default": false,
+      "label": "Show box content only layout grid?"
+    },
+    {
+      "type": "html",
+      "id": "box_content",
+      "label": "Box Content",
+      "default": "<h4 style=\"text-align: center; margin-bottom: 0;\"><strong>INSTAGRAM</strong></h4><h6 style=\"text-align: center; margin-bottom: 10px;\"><span style=\"color: #c4c4c4;\">@WOOD_FASHION</span></h6><p style=\"text-align: center;\">Porttitor adipiscing a velmus lacinia parturient adipiscing lobortis vestibulum lacinia class.</p>"
+    }, 
+    {
+      "type": "header",
+      "content": "Instagram Carousel Settings"
+    }, 
+    {
+      "type": "text",
+      "id": "ins_autoplay",
+      "label": "Autoplay",
+      "default": "5000"
+    },
+    {
+      "type": "select",
+      "id": "ins_columns",
+      "label": "Columns",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "checkbox",
+      "id": "ins_pagination",
+      "default": true,
+      "label": "Show pagination control?"
+    },
+    {
+      "type": "checkbox",
+      "id": "ins_navigation",
+      "default": true,
+      "label": "Show prev/next buttons?"
+    },
+    {
+      "type": "checkbox",
+      "id": "ins_loop",
+      "default": true,
+      "label": "Slider loop?",
+      "info": "Enables loop mode."
+    },
+    {
+      "type": "header", 
+      "content": "Testimonials Settings"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "WHAT OUR CLIENTS SAY"
+    }, 
+    {
+      "type": "text",
+      "id": "sub_title",
+      "label": "Sub Title" 
+    },  
+    {
+      "type": "select",
+      "id": "subtitle_color",
+      "label": "Subtitle Color",
+      "options": [
+      {
+        "value": "default",
+        "label": "Default"
+      }, 
+      {
+        "value": "alt",
+        "label": "Alt"
+      },
+      {
+        "value": "primary",
+        "label": "Primary"
+      }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "subtitle_style",
+      "label": "Subtitle Style",
+      "options": [
+        {
+        "value": "default",
+        "label": "Default"
+        },
+        {
+        "value": "background",
+        "label": "Background"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "heading_style",
+      "label": "Heading Style",
+      "default": "simple",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "simple",
+          "label": "Simple"
+        },
+        {
+          "value": "bordered",
+          "label": "Bordered"
+        },
+        {
+          "value": "underlined",
+          "label": "Underlined"
+        },
+        {
+          "value": "shadow",
+          "label": "Shadow"
+        } 
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "default",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "primary",
+          "label": "Primary"
+        },
+        {
+          "value": "alt",
+          "label": "Alt"
+        },
+        {
+          "value": "black",
+          "label": "Black"
+        },
+        {
+          "value": "white",
+          "label": "White"
+        },
+        {
+          "value": "gradient",
+          "label": "Gradient"
+        } 
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_postion",
+      "label": "Heading Text Algin",
+      "default": "center",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        } 
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading Text Size",
+      "default": "default",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "extra-large",
+          "label": "Extra Large"
+        }
+      ]
+    }, 
+    {
+      "type": "header", 
+      "content": "Testimonials Carousel Settings"
+    },
+    {
+      "type": "text",
+      "id": "autoplay",
+      "label": "Slideshow",
+      "info": "Change to any integrer for example 5000 to play every 5 seconds. Leave empty to disable autoplay.",
+ 	  "default": "5000"
+    },  
+    {
+      "type": "checkbox",
+      "id": "navigation",
+      "label": "Show Navigation",
+      "default" : true
+    },  
+    {
+      "type": "checkbox",
+      "id": "pagination",
+      "label": "Show Pagination",
+      "default" : false
+    },  
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "Enable Slide Loop",
+      "default" : true
+    }
+  ], 
+  "blocks": [
+    {
+      "type": "items",
+      "name": "Items",
+      "settings": [ 
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Avata"
+        },
+        {
+          "type": "textarea",
+          "id": "content",
+          "label": "Content",
+		  "default": "A faucibus ullamcorper metus class suspendisse scelerisque dui a eget amet pulvinar purus elementum scelerisque massa cursus dolor turpis facilisis a adipiscing penatibus.Id sed molestie mi adipiscing bibendum elit a adipiscing ad malesuada a platea suspendisse varius a magnis taciti consectetur hac a malesuada ante bibendum."
+        }, 
+        {
+          "type": "textarea",
+          "id": "info",
+          "label": "Info",
+		  "default": "Katell Oanez <span>Happy Customer</span>"
+        }
+      ]
+    } 
+  ],
+  "presets": [{
+    "name": "Testimonials & Instagram",
+    "category": "Text Section", 
+    "blocks": [
+      {
+        "type": "items",
+        "settings": {
+          "content": "A faucibus ullamcorper metus class suspendisse scelerisque dui a eget amet pulvinar purus elementum scelerisque massa cursus dolor turpis facilisis a adipiscing penatibus.Id sed molestie mi adipiscing bibendum elit a adipiscing ad malesuada a platea suspendisse varius a magnis taciti consectetur hac a malesuada ante bibendum.",
+          "info": "Katell Oanez <span>Happy Customer</span>"
+        } 
+      },
+      {
+        "type": "items",
+        "settings": {
+          "content": "A faucibus ullamcorper metus class suspendisse scelerisque dui a eget amet pulvinar purus elementum scelerisque massa cursus dolor turpis facilisis a adipiscing penatibus.Id sed molestie mi adipiscing bibendum elit a adipiscing ad malesuada a platea suspendisse varius a magnis taciti consectetur hac a malesuada ante bibendum.",
+          "info": "Katell Oanez <span>Happy Customer</span>"
+        }
+      },
+      {
+        "type": "items",
+        "settings": {
+          "content": "A faucibus ullamcorper metus class suspendisse scelerisque dui a eget amet pulvinar purus elementum scelerisque massa cursus dolor turpis facilisis a adipiscing penatibus.Id sed molestie mi adipiscing bibendum elit a adipiscing ad malesuada a platea suspendisse varius a magnis taciti consectetur hac a malesuada ante bibendum.",
+          "info": "Katell Oanez <span>Happy Customer</span>"
+        } 
+      }
+    ]
+  }]
+}
+{% endschema %}

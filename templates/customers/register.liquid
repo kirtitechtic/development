@@ -1,0 +1,125 @@
+<!-- /templates/customers/login.liquid -->
+<div class="main-page-wrapper">
+  {% include 'page-heading' %} 
+  <div class="container"> 
+    <div class="row content-layout-wrapper">
+      <div class="site-content col-sm-12">
+        <div class="entry-content">
+          <div class="woodmart-registration-page woodmart-register-tabs">
+            <div id="form_customer_login" class="u-columns col2-set">
+              <div class="note form-success" id="ResetSuccess" style="display:none;" {% if settings.language_enable %}data-translate="customer.recover_password.success"{% endif %}>
+                {{ 'customer.recover_password.success' | t }}
+              </div>
+              <div class="u-column1 col-1 col-login"> 
+                <div id="CustomerLoginForm" class="form-vertical">
+                  <div class="login">
+                  <h2 {% if settings.language_enable %}data-translate="customer.login.title"{% endif %}>{{ 'customer.login.title' | t }}</h2>
+                  {% form 'customer_login' %} 
+                  {{ form.errors | default_errors }}
+                  <p class="shopify-FormRow shopify-FormRow--wide form-row form-row-wide form-row-username">
+                    <label for="username"><span {% if settings.language_enable %}data-translate="customer.login.email"{% endif %}>{{ 'customer.login.email' | t }}</span><span class="required">*</span></label>
+                    <input type="email" name="customer[email]" id="CustomerEmail" class="input-full{% if form.errors contains 'email' %} error{% endif %}" autocorrect="off" autocapitalize="off" autofocus>
+                  </p>
+                  {% if form.password_needed %}
+                  <p class="shopify-FormRow shopify-FormRow--wide form-row form-row-wide form-row-password">
+                    <label for="password"><span {% if settings.language_enable %}data-translate="customer.login.password"{% endif %}>{{ 'customer.login.password' | t }}</span> <span class="required">*</span></label>
+                    <input type="password" value="" name="customer[password]" id="CustomerPassword" class="input-full{% if form.errors contains 'password' %} error{% endif %}">
+                  </p>
+                  {% endif %} 
+                  <p class="form-row">
+                    <input type="submit" class="shopify-Button button" {% if settings.language_enable %}data-translate="customer.login.submit"{% endif %} value="{{ 'customer.login.submit' | t }}">                    
+                  </p>
+                  <div class="login-form-footer">
+                    {% if form.password_needed %}
+                    <a href="#recover" id="RecoverPassword" class="shopify-LostPassword lost_password" {% if settings.language_enable %}data-translate="customer.login.forgot_password"{% endif %}>{{ 'customer.login.forgot_password' | t }}</a>
+                    {% endif %}
+                  </div> 
+                  {% endform %}
+                  </div>
+                </div> 
+                <div id="RecoverPasswordForm" class="lost_reset_password" style="display: none;">
+                  <h2 {% if settings.language_enable %}data-translate="customer.recover_password.title"{% endif %}>{{ 'customer.recover_password.title' | t }}</h2> 
+                  <div class="form-box">
+                    {% form 'recover_customer_password' %}
+                    {{ form.errors | default_errors }} 
+                    {% if form.posted_successfully? %}
+                    {% assign resetPassword = true %}
+                    {% endif %}
+                    <p class="shopify-FormRow shopify-FormRow--wide form-row form-row-wide form-row-email">
+                      <label for="username"><span {% if settings.language_enable %}data-translate="customer.recover_password.email"{% endif %}>{{ 'customer.recover_password.email' | t }}</span><span class="required">*</span></label>
+                      <input type="email" value="" name="email" id="RecoverEmail" class="input-full" placeholder="{{ 'customer.recover_password.email' | t }}" autocorrect="off" autocapitalize="off">
+                    </p> 
+                    <p class="form-row">
+                      <input type="submit" class="shopify-Button button" {% if settings.language_enable %}data-translate="customer.recover_password.submit"{% endif %} value="{{ 'customer.recover_password.submit' | t }}"> 
+                    </p>
+                    <div class="login-form-footer">
+                      <a href="javascript:void(0);" id="HideRecoverPasswordLink" class="text-link" {% if settings.language_enable %}data-translate="customer.recover_password.cancel"{% endif %}><small style="font-size:100%;">« </small>{{ 'customer.recover_password.cancel' | t }}?</a>
+                    </div> 
+                    {% endform %}
+                  </div> 
+                </div> 
+                {% if shop.checkout.guest_login %} 
+                <h2 {% if settings.language_enable %}data-translate="customer.login.guest_title"{% endif %}>{{ 'customer.login.guest_title' | t }}</h2> 
+                {% form 'guest_login' %}
+                <p class="form-row login">
+                  <input type="submit" class="shopify-Button button" {% if settings.language_enable %}data-translate="customer.login.guest_continue"{% endif %} value="{{ 'customer.login.guest_continue' | t }}">
+                </p> 
+                {% endform %}
+                {% endif %}
+              </div>
+              <div class="u-column2 col-2 col-register">
+                <h2 {% if settings.language_enable %}data-translate="customer.register.title_form"{% endif %}>{{ 'customer.register.title' | t }}</h2>
+               
+                {% form 'create_customer' %}
+                {{ form.errors | default_errors }}
+                 <ul> 
+        {%- for field in form.errors -%}
+          <li>
+            {%- if field == 'form' -%}
+              {{ form.errors.messages[field] }}
+            {%- else -%}
+              <a href="#RegisterForm-{{ field }}">
+                {{ form.errors.translated_fields[field] | capitalize }}
+                {{ form.errors.messages[field] }}
+              </a>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+                <p class="shopify-FormRow shopify-FormRow--wide form-row form-row-wide">
+                  <label for="reg_first_name"><span {% if settings.language_enable %}data-translate="customer.register.first_name"{% endif %}>{{ 'customer.register.first_name' | t }}</span> <span class="required">*</span></label>
+                  <input  required="required"  type="text" name="customer[first_name]" id="FirstName" class="input-full" {% if form.first_name %}value="{{ form.first_name }}"{% endif %} autocapitalize="words" autofocus>
+                </p>
+                <p class="shopify-FormRow shopify-FormRow--wide form-row form-row-wide">
+                  <label for="reg_last_name"><span {% if settings.language_enable %}data-translate="customer.register.last_name"{% endif %}>{{ 'customer.register.last_name' | t }}</span> <span class="required">*</span></label>
+                  <input  required="required"  type="text" name="customer[last_name]" id="LastName" class="input-full" {% if form.last_name %}value="{{ form.last_name }}"{% endif %} autocapitalize="words">
+                </p>
+                <p class="shopify-FormRow shopify-FormRow--wide form-row form-row-wide">
+                  <label for="reg_email"><span {% if settings.language_enable %}data-translate="customer.register.email"{% endif %}>{{ 'customer.register.email' | t }}</span> <span class="required">*</span></label>
+                  <input  required="required"  type="email" name="customer[email]" id="Email" class="input-full{% if form.errors contains 'email' %} error{% endif %}" {% if form.email %} value="{{ form.email }}"{% endif %} autocorrect="off" autocapitalize="off">
+                </p>
+                <p class="shopify-FormRow shopify-FormRow--wide form-row form-row-wide">
+                  <label for="reg_password"><span {% if settings.language_enable %}data-translate="customer.register.password"{% endif %}>{{ 'customer.register.password' | t }}</span> <span class="required">*</span></label>
+                  <input  required="required"  type="password" name="customer[password]" id="CreatePassword" class="input-full{% if form.errors contains 'password' %} error{% endif %}">
+                </p>
+                
+        
+                <p class="shopify-FormRow form-row"> 
+                  
+                  <input type="submit" class="shopify-Button button" {% if settings.language_enable %}data-translate="customer.register.submit"{% endif %} value="{{ 'customer.register.submit' | t }}" class="btn-button bordered">
+                </p>
+                
+                {% endform %}
+              </div>
+              <div class="col-2 col-register-text">
+                <h2 {% if settings.language_enable %}data-translate="customer.login.register"{% endif %}>{{ 'customer.register.title' | t }}</h2>
+                <div class="registration-info" {% if settings.language_enable %}data-translate="customer.register.content"{% endif %}>{{ 'customer.register.content' | t }}</div>
+                <a href="#" class="btn woodmart-switch-to-register" data-login="Login" data-register="Register" {% if settings.language_enable %}data-translate="customer.register.submit"{% endif %}>{{ 'customer.register.submit' | t }}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 
+  </div>
+</div>  

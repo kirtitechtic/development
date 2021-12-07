@@ -1,0 +1,393 @@
+{%- case section.settings.section_layout -%}
+{%- when '0' -%}
+{%- capture data_fullwidth -%}{%- endcapture -%}
+{%- when '1' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true"{%- endcapture -%}
+{%- when '2' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- when '3' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- endcase -%} 
+<div data-section-id="{{ section.id }}" data-section-type="carousel-section">
+  <div {{data_fullwidth}} class="vc_row wpb_row vc_row-fluid vc_row-has-fill vc_custom_{{section.id}} vc_row-o-equal-height vc_row-o-content-middle {% if section.settings.section_layout == '3' %}vc_row-no-padding{% endif %} vc_row-flex">
+    {%- if section.settings.heading_top != '' or section.settings.heading != '' or section.settings.heading_content != '' -%}
+    {%- assign c_class = 'vc_col-sm-4 vc_col-lg-3 vc_col-md-3' -%}
+    {%- assign m_class = 'vc_col-sm-8 vc_col-lg-9 vc_col-md-9' -%}
+    {%- else -%} 
+    {%- assign m_class = 'vc_col-sm-12 vc_col-lg-12 vc_col-md-12' -%}
+    {%- endif -%}
+    {%- if section.settings.heading_top != '' or section.settings.heading != '' or section.settings.heading_content != '' -%}
+    <div class="wpb_column vc_column_container {{c_class}}">
+      <div class="vc_column-inner vc_custom_1497353286307">
+        <div class="wpb_wrapper">
+          <div class="title-wrapper woodmart-title-color-default woodmart-title-style-default woodmart-title-size-default woodmart-title-width-100 text-center vc_custom_1496820709393">
+            {%- if section.settings.heading_top != '' -%}
+            <div class="title-subtitle font-default style-default">
+              {%- if settings.language_enable -%}
+              <span class="lang1">{{ section.settings.heading_top | split: '|' | first }}</span>
+              <span class="lang2">{{ section.settings.heading_top | split: '|' | last }}</span>
+              {%- else -%}
+              {{ section.settings.heading_top | split: '|' | first }}
+              {%- endif -%}
+            </div>
+            {%- endif -%}
+            {%- if section.settings.heading != '' -%}
+            <div class="liner-continer">
+              <span class="left-line"></span>
+              <h4 class="woodmart-title-container title  woodmart-font-weight-">
+                {%- if settings.language_enable -%}
+                <span class="lang1">{{ section.settings.heading | split: '|' | first }}</span>
+                <span class="lang2">{{ section.settings.heading | split: '|' | last }}</span>
+                {%- else -%}
+                {{ section.settings.heading | split: '|' | first }}
+                {%- endif -%}
+              </h4>
+              <span class="right-line"></span>
+            </div>
+            {%- endif -%}
+            {%- if section.settings.heading_content != '' -%}
+            <div class="title-after_title">
+              {%- if settings.language_enable -%}
+              <span class="lang1">{{ section.settings.heading_content | split: '|' | first }}</span>
+              <span class="lang2">{{ section.settings.heading_content | split: '|' | last }}</span>
+              {%- else -%}
+              {{ section.settings.heading_content | split: '|' | first }}
+              {%- endif -%}
+            </div>
+            {%- endif -%}
+            <style> 
+              {%- if section.settings.heading_top == '' and section.settings.title == '' and section.settings.heading_content == '' -%}
+              .vc_custom_{{section.id}} .title-wrapper {
+                margin-bottom: 0;
+              }
+              {%- endif -%} 
+            </style>
+          </div>
+          {%- if section.settings.heading_button_title != '' -%}
+          <div class="woodmart-button-wrapper text-center">
+            <a href="{{section.settings.heading_button_link}}" class="btn btn-color-primary btn-style-link btn-size-default xtemos-show-demos">
+              {%- if settings.language_enable -%}
+              <span class="lang1">{{ section.settings.heading_button_title | split: '|' | first }}</span>
+              <span class="lang2">{{ section.settings.heading_button_title | split: '|' | last }}</span>
+              {%- else -%}
+              {{ section.settings.heading_button_title | split: '|' | first }}
+              {%- endif -%}
+            </a>
+          </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+    {%- endif -%}
+    <div class="wpb_column vc_column_container  {{m_class}}">
+      <div class="vc_column-inner vc_custom_1497353278195">
+        <div class="wpb_wrapper">
+          {%- if section.blocks.size > 0 -%} 
+          <div id="slide_{{section.id}}" class="woodmart-images-gallery woodmart-carousel-spacing-{{section.settings.space_item}} columns-{{ section.settings.columns }} view-carousel{% if section.settings.link_type == 'popup' %} photoswipe-images{% endif %}">
+            <div class="data-carousel" data-auto="{{ section.settings.autoplay }}" data-items="{{ section.settings.columns }}" data-1200="{{ section.settings.columns }}" data-992="3" data-768="3" data-480="2" data-320="2" data-paging="false" data-nav="{{section.settings.navigation}}" data-margin="0" data-prev='' data-next='' style="display: none;"></div>
+            <div class="gallery-images owl-carousel">
+              {%- for block in section.blocks -%}
+              <div class="woodmart-gallery-item">
+                {%- if block.settings.image != blank -%}
+                  {%- if section.settings.image_width != '' -%}
+                	{%- capture image_size -%}{{ section.settings.image_width }}x{%- endcapture -%}
+                  {%- else -%}
+                	{%- capture image_size -%}247x201{%- endcapture -%}
+                  {%- endif -%}
+                  {%- assign img_url = block.settings.image | img_url: image_size -%}
+                  {%- assign _img_url = block.settings.image | img_url: 'master' -%} 
+                  {%- assign img_height = block.settings.image.height -%}
+                  {%- assign img_width = block.settings.image.width -%}
+                {%- else -%}
+                  {%- assign img_url = '247x201.png' | asset_url -%} 
+                  {%- assign _img_url = '' -%}
+                {%- endif -%}
+                {%- if section.settings.link_type == 'link' -%}
+                  {%- assign _img_url = block.settings.link -%} 
+                {%- endif -%}
+                <a href="{{ _img_url }}"{% if section.settings.link_type == 'popup' %}data-index="{{forloop.index}}" data-width="{{img_width}}" data-height="{{img_height}}"{% endif %}> 
+                  <img src="{{ img_url }}" alt="{{ block.settings.image.alt }}"/>
+                </a> 
+              </div>
+              {%- endfor -%}
+            </div>
+          </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div> 
+  </div> 
+  {%- if section.settings.section_layout != '0' -%}
+  <div class="vc_row-full-width vc_clearfix"></div>
+  {%- endif -%}
+  <style>
+    .vc_custom_{{section.id}} {
+      border-top-width: 1px;
+      border-bottom-width: 1px;
+      background-color: {{section.settings.bg_color}};
+      border-top-color: {{section.settings.border_color}};
+      border-top-style: solid;
+      border-bottom-color: {{section.settings.border_color}};
+      border-bottom-style: solid;
+      margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};
+      margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};
+      padding: {{section.settings.padding}};
+    }
+    .vc_custom_1497353286307 {
+      margin-bottom: 30px !important;
+      padding-top: 0px !important;
+    }
+    .vc_custom_1496820709393 {
+      margin-bottom: 15px !important;
+    }
+    .vc_custom_1497353278195 {
+      margin-bottom: -10px !important;
+      padding-top: 0px !important;
+    }
+  </style>
+</div>
+{% schema %}
+{
+  "name": "Gallery Slide",
+  "settings": [ 
+    {
+      "type": "header", 
+      "content": "Section Settings"
+    },
+    {
+      "type": "select",
+      "id": "section_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "0",
+          "label": "Default"
+        },
+        {
+          "value": "1",
+          "label": "Fullwidth row"
+        },
+        {
+          "value": "2",
+          "label": "Fullwidth row and content"
+        },
+        {
+          "value": "3",
+          "label": "Fullwidth row and content (no padding)"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section background color",
+      "default" : "#fbfbfb"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Section border color",
+      "default" : "#f4f4f4"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section Margin Top", 
+	  "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section Margin Bottom",
+      "default" : "-40px",
+	  "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Section Padding",
+      "default" : "20px 0 0 0",
+	  "info": "Ex:(40px 40px 40px) (top right bottom left)"
+    },
+    {
+      "type": "text",
+      "id": "heading_top",
+      "label": "Heading Top",
+      "default": "WOODEN ACCESSORIES"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "FEATURED PRODUCTS"
+    },
+    {
+      "type": "textarea",
+      "id": "heading_content",
+      "label": "Content",
+      "default": "Visit our shop to see amazing creations from our designers."
+    },
+    {
+      "type": "text",
+      "id": "heading_button_title",
+      "label": "Button Title",
+      "default": "View All"
+    },
+    {
+      "type": "text",
+      "id": "heading_button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header", 
+      "content": "Slide Settings"
+    },
+    {
+      "type": "text",
+      "id": "autoplay",
+      "label": "Slideshow",
+      "info": "Change to any integrer for example 5000 to play every 5 seconds. Leave empty to disable autoplay.",
+ 	  "default": "5000"
+    },  
+    {
+      "type": "checkbox",
+      "id": "navigation",
+      "label": "Show Navigation",
+      "default" : false
+    },
+    {
+      "type": "select",
+      "id": "columns",
+      "label": "Columns",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "space_item",
+      "label": "Space between items",
+      "options": [
+        {
+          "value": "30",
+          "label": "30"
+        },
+        {
+          "value": "20",
+          "label": "20"
+        },
+        {
+          "value": "10",
+          "label": "10"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "0",
+          "label": "0"
+        }
+      ],
+      "default": "2"
+    }, 
+    {
+      "type": "text",
+      "id": "image_width",
+      "label": "Image width"
+    }, 
+    {
+      "type": "select",
+      "id": "link_type",
+      "label": "Link type",
+      "options": [
+      {
+        "value": "popup",
+        "label": "Popup"
+      },
+      {
+        "value": "link",
+        "label": "Link"
+      } 
+      ],
+      "default": "link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "gallery",
+      "name": "Gallery Slide",
+      "settings": [ 
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    } 
+  ],
+  "presets": [{
+    "name": "Gallery Slide",
+    "category": "Banner", 
+    "blocks": [
+      {
+        "type": "gallery"
+      },
+      {
+        "type": "gallery"
+      },
+      {
+        "type": "gallery"
+      },
+      {
+        "type": "gallery"
+      },
+      {
+        "type": "gallery"
+      },
+      {
+        "type": "gallery"
+      },
+      {
+        "type": "gallery"
+      },
+      {
+        "type": "gallery"
+      },
+      {
+        "type": "gallery"
+      } 
+    ]
+  }]
+}
+{% endschema %}

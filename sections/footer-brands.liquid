@@ -1,0 +1,94 @@
+<div data-section-id="{{ section.id }}" data-section-type="carousel-section"> 
+  <div class="spb_column vc_column_container vc_row" style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.padding}};">
+    <div class="vc_column-inner vc_custom_1488538101973">
+      <div class="wpb_wrapper">
+        {%- if section.blocks.size > 0 -%} 
+        <div id="slide_{{section.id}}" class="brands-widget slider-brands_{{section.id}} brands-carousel brands-hover-alt brands-columns-3 brands-style-default">
+          <div class="data-carousel" data-auto="{{ section.settings.autoplay }}" data-items="{{ section.settings.columns }}" data-1200="{{ section.settings.columns }}" data-992="3" data-768="3" data-480="2" data-320="2" data-paging="false" data-nav="{{section.settings.navigation}}" data-margin="0" data-prev='' data-next='' style="display: none;"></div>
+          <div class="brands-items-wrapper owl-carousel">
+            {%- for block in section.blocks -%}
+            <div class="brand-item">
+              <a href="{{ block.settings.link }}">
+                {%- if block.settings.image != blank -%}
+                {%- assign img_url = block.settings.image | img_url: '180x100' -%}
+                {%- else -%}
+                {%- assign img_url = '180x100.png' | asset_url -%}
+                {%- endif -%}
+                <img src="{{ img_url }}" alt="{{ block.settings.image.alt }}"/>
+              </a>
+            </div>
+            {%- endfor -%}
+          </div>
+        </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Footer Brands",
+  "settings": [    
+    {
+      "type": "header", 
+      "content": "Slide Settings"
+    },  
+    {
+      "type": "text",
+      "id": "autoplay",
+      "label": "Slideshow",
+      "info": "Change to any integrer for example 5000 to play every 5 seconds. Leave empty to disable autoplay.",
+ 	  "default": "5000"
+    },  
+    {
+      "type": "checkbox",
+      "id": "navigation",
+      "label": "Show Navigation",
+      "default" : false
+    },
+    {
+      "type": "text",
+      "id": "columns",
+      "label": "Columns",
+      "default" : "7"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section Margin Top",
+      "info" : "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section Margin Bottom",
+      "default" : "-40px",
+      "info" : "40px"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Section Padding",
+      "default" : "0 0 0 0"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "brand",
+      "name": "Brand Image",
+      "settings": [ 
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    } 
+  ]
+}
+{% endschema %}

@@ -1,0 +1,79 @@
+{%- if settings.collection_sidebar == 'left' -%}
+   {%- case settings.collection_sidebar_size -%}
+     {% when 'small' %}
+       {%- assign class_main = 'col-sm-10 col-sm-push-2' -%}
+       {%- assign class_sidebar = 'col-sm-2 col-sm-pull-10' -%}
+     {% when 'medium' %}
+       {%- assign class_main = 'col-sm-9 col-sm-push-3' -%}
+       {%- assign class_sidebar = 'col-sm-3 col-sm-pull-9' -%}
+     {% when 'large' %}
+       {%- assign class_main = 'col-sm-8 col-sm-push-4' -%}
+       {%- assign class_sidebar = 'col-sm-4 col-sm-pull-8' -%}
+   {%- endcase -%}
+{%- elsif settings.collection_sidebar == 'right' -%}
+   {%- case settings.collection_sidebar_size -%}
+     {% when 'small' %}
+       {%- assign class_main = 'col-sm-10' -%}
+       {%- assign class_sidebar = 'col-sm-2' -%}
+     {% when 'medium' %}
+       {%- assign class_main = 'col-sm-9' -%}
+       {%- assign class_sidebar = 'col-sm-3' -%}
+     {% when 'medium' %}
+       {%- assign class_main = 'col-sm-8' -%}
+       {%- assign class_sidebar = 'col-sm-4' -%}
+   {%- endcase -%}
+{%- else -%}
+   {%- assign class_main = 'col-sm-12' -%}
+{%- endif -%} 
+{%- if template.suffix != blank -%}
+   {%- assign template_suffix = template.suffix -%}
+   {%- assign check_template_list = true -%} 
+{%- else -%}
+   {%- assign check_template_list = false -%} 
+{%- endif -%}
+{%- capture collection_link_html -%}{{ 'link' | link_to_remove_tag: '' }}{%- endcapture -%}
+{%- assign woodmart_collection_link = collection_link_html | split:'href="' | last | split:'"' | first -%} 
+{%- assign sort_symboy = '?&'-%} 
+{%- if collection.current_vendor %}{%- assign sort_symboy = '&'-%}{%- endif -%}
+{% paginate collection.products by limit %}  
+<div class="woodmart-products-element">
+  <div class="products elements-grid woodmart-products-holder pagination-{{settings.collection_pagination}} row grid-columns-{{settings.collection_view_column}}" data-paged="{{paginate.current_page}}">
+    {%- for product in collection.products -%} 
+    {%- assign sold_out = true -%}
+    {%- if product.available -%}
+    {%- assign sold_out = false -%}
+    {%- endif -%}
+    {%- assign on_sale = false -%}
+    {%- if product.compare_at_price_min > product.price_min -%}
+    {%- assign on_sale = true -%}
+    {%- endif -%}
+    {%- assign variant_tmp = product.selected_or_first_available_variant -%}
+    {%- for variant in product.variants -%}
+    {%- if variant.available == true and variant.price < variant_tmp.price -%}
+    {%- assign variant_tmp = variant -%}	
+    {%- endif -%}
+    {%- endfor -%}
+    {%- case settings.collection_aspect_ratio -%}
+    {%- when '1' -%}
+    {%- assign image_width = settings.collection_ratio_width -%}
+    {%- assign image_height = '' -%} 
+    {%- else -%}
+    {%- assign image_width = settings.collection_ratio_width -%}
+    {%- assign image_height = settings.collection_ratio_height -%}
+    {%- endcase -%}  
+    {%- capture image_size -%}{{ image_width }}x{{ image_height }}{%- endcapture -%}
+    {%- include 'section_hover_product_list' -%} 
+    {%- else -%} 
+    {{ 'collections.general.no_matches' | t }}
+    {%- endfor -%} 
+  </div>
+  <div class="products-footer" data-status="{%- if paginate.next.is_link -%}have-posts{%- else -%}no-more-posts{%- endif -%}"> 
+    {%- if paginate.next.is_link -%} 
+    <a href="{{ paginate.next.url }}" class="btn woodmart-load-more woodmart-products-load-more {% if settings.collection_pagination == 'infinit' %}load-on-scroll{%else%}load-on-click{% endif %}">
+      <span class="load-more-label" {% if settings.enable_multilang %}data-translate="collections.general.show_more"{% endif %}>{{ 'collections.general.show_more' | t}}</span>
+      <span class="load-more-loading" {% if settings.enable_multilang %}data-translate="collections.general.loading"{% endif %}>{{ 'collections.general.loading' | t}} ...</span>
+    </a> 
+    {%- endif -%} 
+  </div>
+</div> 
+{% endpaginate %}

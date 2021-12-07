@@ -1,0 +1,783 @@
+{%- case section.settings.section_layout -%}
+{%- when '0' -%}
+{%- capture data_fullwidth -%}{%- endcapture -%}
+{%- when '1' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true"{%- endcapture -%}
+{%- when '2' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- when '3' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- endcase -%} 
+<div data-section-id="{{ section.id }}" data-section-type="gallery-section">
+  <div {{data_fullwidth}} class="vc_row wpb_row vc_row-fluid {% if section.settings.hide_background_mobile != blank %}mobile-bg-img-hidden{% endif %} vc_custom_{{section.id}} vc_row-has-fill woodmart-bg-center-center {% if section.settings.section_layout == '3' %}vc_row-no-padding{% endif %} vc_row-o-equal-height vc_row-o-content-middle vc_row-flex" style="margin-top:{{section.settings.margin_top | remove: 'px' | append: 'px' }}; margin-bottom:{{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.padding}};">
+    <div class="wpb_column vc_column_container vc_col-sm-12 vc_col-md-6 vc_col-xs-12 vc_col-has-fill">
+      <div class="vc_column-inner vc_custom_1496236506556">
+        <div class="wpb_wrapper">
+          <div id="gallery_{{section.id}}" class="woodmart-images-gallery woodmart-spacing-{{section.settings.gallery_spacing}} gallery-spacing-{{section.settings.gallery_spacing}} columns-2 view-masonry photoswipe-images">
+            <div class="gallery-images">
+              {%- if section.blocks.size > 0 -%}
+              {%- for block in section.blocks -%}
+              <div class="woodmart-gallery-item">
+                {%- if block.settings.image != blank -%}
+                {%- assign img_url = block.settings.image | img_url: '500x500' -%}
+                {%- assign img_height = block.settings.image.height -%}
+                {%- else -%}
+                {%- assign img_url = '500x500.png' | asset_url -%}
+                {%- assign img_height = '500' -%}
+                {%- endif -%}
+                <a href="{{img_url}}" data-index="{{forloop.index}}" data-width="500" data-height="{{img_height}}">
+                  <img width="500" height="{{img_height}}" src="{{img_url}}" class="woodmart-gallery-image image-{{forloop.index}} attachment-full" alt="">
+                </a>
+              </div>
+              {%- endfor -%}
+              {%- endif -%}
+            </div>
+          </div>
+        </div> 
+      </div>
+    </div>
+    <div class="wpb_column vc_column_container vc_col-sm-12 vc_col-md-6 vc_col-xs-12 vc_col-has-fill color-scheme-{{section.settings.content_color}}">
+      <div class="vc_column-inner vc_custom_{{section.id}}22">
+        <div class="wpb_wrapper">
+          {%- if section.settings.heading_top != '' -%}
+          <div class="wpb_text_column wpb_content_element  vc_custom_1493799943936">
+            <div class="wpb_wrapper custom-text">
+              {%- if settings.language_enable -%}
+              <div class="lang1">{{ section.settings.heading_top | split: '|' | first }}</div>
+              <div class="lang2">{{ section.settings.heading_top | split: '|' | last }}</div>
+              {%- else -%}
+              {{ section.settings.heading_top | split: '|' | first }}
+              {%- endif -%} 
+            </div>
+          </div>
+          {%- endif -%}
+          <div class="title-wrapper woodmart-title-color-{{section.settings.heading_color}} woodmart-title-style-{{section.settings.heading_style}} woodmart-title-size-{{section.settings.heading_size}} woodmart-title-width-100 text-{{section.settings.heading_postion}} vc_custom_1499065148167">
+            {%- if section.settings.title != '' -%}
+            <div class="liner-continer">
+              <span class="left-line"></span>
+              <h4 class="woodmart-title-container title  woodmart-font-weight-">
+                {%- if settings.language_enable -%}
+                <span class="lang1">{{ section.settings.title | split: '|' | first }}</span>
+                <span class="lang2">{{ section.settings.title | split: '|' | last }}</span>
+                {%- else -%}
+                {{ section.settings.title | split: '|' | first }}
+                {%- endif -%}
+              </h4>
+              <span class="right-line"></span>
+            </div>
+            {%- endif -%} 
+          </div>
+          {%- if section.settings.heading_bottom != '' -%}
+            {%- if settings.language_enable -%}
+            <div class="lang1">{{ section.settings.heading_bottom | split: '|' | first }}</div>
+            <div class="lang2">{{ section.settings.heading_bottom | split: '|' | last }}</div>
+            {%- else -%}
+            {{ section.settings.heading_bottom | split: '|' | first }}
+            {%- endif -%}
+          {%- endif -%} 
+          <div class="vc_separator wpb_content_element vc_separator_align_center vc_sep_width_10 vc_sep_border_width_2 vc_sep_pos_align_left vc_separator_no_text vc_custom_1497001455031  vc_custom_1497001455031"><span class="vc_sep_holder vc_sep_holder_l"><span style="border-color:#339059;" class="vc_sep_line"></span></span><span class="vc_sep_holder vc_sep_holder_r"><span style="border-color:#339059;" class="vc_sep_line"></span></span></div>
+          {%- if settings.language_enable -%}
+          <div class="lang1">{{ section.settings.content | split: '|' | first }}</div>
+          <div class="lang2">{{ section.settings.content | split: '|' | last }}</div>
+          {%- else -%}
+          {{ section.settings.content | split: '|' | first }}
+          {%- endif -%}
+          {%- if section.settings.button_title1 != '' -%} 
+          <div class="woodmart-button-wrapper text-{{section.settings.content_text_align}} btn-inline">
+            <a href="{{section.settings.button_link1}}" title="" class="btn btn-color-{{section.settings.button_color1}} btn-scheme-light btn-scheme-hover-light btn-shape-rectangle btn-style-{{section.settings.button_style1}} btn-size-{{section.settings.button_size1}}">
+              {%- if settings.language_enable -%}
+              <span class="lang1">{{ section.settings.button_title1 | split: '|' | first }}</span>
+              <span class="lang2">{{ section.settings.button_title1 | split: '|' | last }}</span>
+              {%- else -%}
+              {{ section.settings.button_title1 | split: '|' | first }}
+              {%- endif -%}
+            </a> 
+          </div>
+          {%- endif -%}
+          {%- if section.settings.button_title2 != '' -%} 
+          <div class="woodmart-button-wrapper text-{{section.settings.content_text_align}} btn-inline">
+            <a href="{{section.settings.button_link2}}" title="" class="btn btn-color-{{section.settings.button_color2}} btn-scheme-light btn-scheme-hover-light btn-shape-rectangle btn-style-{{section.settings.button_style2}} btn-size-{{section.settings.button_size2}}">
+              {%- if settings.language_enable -%}
+              <span class="lang1">{{ section.settings.button_title2 | split: '|' | first }}</span>
+              <span class="lang2">{{ section.settings.button_title2 | split: '|' | last }}</span>
+              {%- else -%}
+              {{ section.settings.button_title2 | split: '|' | first }}
+              {%- endif -%}
+            </a> 
+          </div>
+          {%- endif -%} 
+        </div>
+      </div>
+    </div>
+    <style>
+      .vc_custom_{{section.id}} {  
+        {%- if section.settings.background_image != blank -%}
+        background-image: url({{section.settings.background_image | img_url: 'master'}}) !important;
+        background-position: {{section.settings.background_position | replace: '_', ' ' }} !important;
+        background-repeat: {{section.settings.background_image_repeat}} !important;
+        background-size: {{section.settings.background_size}} !important;
+        background-attachment: {{section.settings.background_attachment}} !important;
+        {%- endif -%}
+        background-color: {{section.settings.background_color}};
+        border-top-width: 0 !important;  
+      }
+      .vc_custom_1496236506556 {
+        padding-top: 0px !important;
+        background-position: center !important;
+        background-repeat: no-repeat !important;
+        background-size: cover !important;
+      }
+      .vc_custom_{{section.id}}22 {
+        background-color: {{section.settings.box_background_color}};
+        background-position: 0 0 !important;
+        background-repeat: no-repeat !important;
+        {{section.settings.box_custom_style}}
+      }
+      .vc_custom_1493799943936 {
+        margin-bottom: 10px !important;
+      }
+      .vc_custom_1499065148167 {
+        margin-bottom: 15px !important;
+      }
+      .vc_custom_1497001447309 {
+        margin-top: -10px !important;
+      }
+      .vc_custom_1497001455031 {
+        margin-bottom: 25px !important;
+        padding-top: 5px !important;
+      }
+      .vc_custom_1497001704725 {
+        margin-bottom: 10px !important;
+      }
+    </style>
+  </div>
+  {%- if section.settings.section_layout != '0' -%}
+  <div class="vc_row-full-width vc_clearfix"></div>
+  {%- endif -%} 
+</div>
+{% schema %}
+{
+  "name": "About Us 3",
+  "settings": [ 
+    {
+      "type": "header", 
+      "content": "Section Settings"
+    },
+    {
+      "type": "select",
+      "id": "section_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "0",
+          "label": "Default"
+        },
+        {
+          "value": "1",
+          "label": "Fullwidth row"
+        },
+        {
+          "value": "2",
+          "label": "Fullwidth row and content"
+        },
+        {
+          "value": "3",
+          "label": "Fullwidth row and content (no padding)"
+        }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color", 
+	  "default": "transparent"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section background image" 
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_background_mobile",
+      "label": "Hide background image on mobile?", 
+	  "default": true
+    },
+    {
+      "type": "select",
+      "id": "background_image_repeat",
+      "label": "Background Repeat",
+      "options": [
+        {
+          "value": "no-repeat",
+          "label": "No Repeat"
+        },
+        {
+          "value": "repeat-x",
+          "label": "Repeat x (Repeat Horizontal)"
+        },
+        {
+          "value": "repeat-y",
+          "label": "Repeat y (Repeat Verticle)"
+        },
+        {
+          "value": "repeat",
+          "label": "Repeat All"
+        }
+      ],
+      "default": "no-repeat"
+    },
+    {
+      "type": "select",
+      "id": "background_size",
+      "label": "Background Size",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "background_attachment",
+      "label": "Background Attachment",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "fixed",
+          "label": "Fixed"
+        },
+        {
+          "value": "scroll",
+          "label": "Scroll"
+        },
+        {
+          "value": "inherit",
+          "label": "Inherit"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "background_position",
+      "label": "Background Position",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "left_top",
+          "label": "Left Top"
+        },
+        {
+          "value": "left_center",
+          "label": "Left Center"
+        },
+        {
+          "value": "left_bottom",
+          "label": "Left Bottom"
+        },
+        {
+          "value": "center_top",
+          "label": "Center Top"
+        },
+        {
+          "value": "center_center",
+          "label": "Center Center"
+        },
+        {
+          "value": "center_bottom",
+          "label": "Center Bottom"
+        }
+      ],
+      "default": "center_center"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section Margin Top",
+	  "info": "45px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section Margin Bottom",
+      "default" : "0",
+	  "info": "45px"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Section Padding",
+      "default" : "0 0 0 0",
+      "info": "Ex:(40px 40px 40px) (top right bottom left)"
+    },   
+    {
+      "type": "header", 
+      "content": "Content Settings"
+    }, 
+    {
+      "type": "color",
+      "id": "box_background_color",
+      "label": "Box content background color", 
+	  "default": "#141414"
+    },
+    {
+      "type": "textarea",
+      "id": "box_custom_style",
+      "label": "Box content custom style", 
+	  "default": "padding-top: 5vh !important;padding-right: 7vh !important;padding-bottom: 5vh !important;padding-left: 7vh !important;"
+    },
+    {
+      "type": "select",
+      "id": "content_text_align",
+      "label": "Content Text Align",
+      "default": "left",
+      "options": [ 
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "content_color",
+      "label": "Content Color",
+      "default": "light",
+      "options": [ 
+        {
+          "value": "dark",
+          "label": "Dark"
+        },
+        {
+          "value": "light",
+          "label": "Light"
+        } 
+      ]
+    },
+    {
+      "type": "text",
+      "id": "heading_top",
+      "label": "Custom Text Top",
+	  "default": "<p><strong style=\"color: #fff; font-size: 16px; opacity: 0.7; letter-spacing: 3px; font-weight: 500;\">ULLAMCORPER PARTURIENT</strong></p>"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "ABOUT OUR FACTORY"
+    }, 
+    {
+      "type": "text",
+      "id": "heading_bottom",
+      "label": "Custom Text Bottom",
+	  "default": "<p style=\"font-size: 32px;color: #bcbcbc;line-height: 32px;text-align: left;font-family:Ubuntu;font-weight:300;font-style:normal\" class=\"vc_custom_heading visible-lg vc_custom_1497001447309\">COMPANY HISTORY &amp; FACTS</p>"
+    },
+    {
+      "type": "textarea",
+      "id": "content",
+      "label": "Content",
+      "default": "<div class=\"vc_row wpb_row vc_inner vc_row-fluid vc_custom_1497001704725\"><div class=\"wpb_column vc_column_container vc_col-sm-12 vc_col-lg-6 vc_col-xs-12\"><div class=\"vc_column-inner vc_custom_1496236412384\"><div class=\"wpb_wrapper\"><div class=\"wpb_text_column wpb_content_element  vc_custom_1505468388390\"><div class=\"wpb_wrapper\"><h4 style=\"color: #fff; font-size: 16px; margin-bottom: 10px;\">SAGITTIS RIDILUS VESULUM</h4><p>Praesent a nostra lacus aliquet torquent molestie class ullamcorper leo vulputate ut nascetur sociis mus&nbsp;a mi sem conubia.</p></div></div><div class=\"wpb_text_column wpb_content_element  vc_custom_1505468415302\"><div class=\"wpb_wrapper\"><h4 style=\"color: #fff; font-size: 16px; margin-bottom: 10px;\">EUISMOD PORTA LIGULA</h4><p>Praesent a nostra lacus aliquet torquent molestie class ullamcorper leo vulputate ut nascetur sociis mus&nbsp;a mi sem conubia.</p></div></div></div></div></div><div class=\"wpb_column vc_column_container vc_col-sm-6 vc_hidden-md vc_hidden-sm vc_hidden-xs\"><div class=\"vc_column-inner vc_custom_1496236392182\"><div class=\"wpb_wrapper\"><div class=\"wpb_text_column wpb_content_element  vc_custom_1505468405038\"><div class=\"wpb_wrapper\"><h4 style=\"color: #fff; font-size: 16px; margin-bottom: 10px;\">FUSCE RIDICULUS SCELERIS</h4><p>Praesent a nostra lacus aliquet torquent molestie class ullamcorper leo vulputate ut nascetur sociis mus&nbsp;a mi sem conubia.</p></div></div><div class=\"wpb_text_column wpb_content_element  vc_custom_1505468425245\"><div class=\"wpb_wrapper\"><h4 style=\"color: #fff; font-size: 16px; margin-bottom: 10px;\">ELEIFEND MAURIS VOLUTPAT</h4><p>Praesent a nostra lacus aliquet torquent molestie class ullamcorper leo vulputate ut nascetur sociis mus&nbsp;a mi sem conubia.</p></div></div></div></div></div></div>"
+    },  
+    {
+      "type": "select",
+      "id": "heading_style",
+      "label": "Title Style",
+      "default": "default",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "simple",
+          "label": "Simple"
+        },
+        {
+          "value": "bordered",
+          "label": "Bordered"
+        },
+        {
+          "value": "underlined",
+          "label": "Underlined"
+        },
+        {
+          "value": "shadow",
+          "label": "Shadow"
+        } 
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_color",
+      "label": "Title Color",
+      "default": "default",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "primary",
+          "label": "Primary"
+        },
+        {
+          "value": "alt",
+          "label": "Alt"
+        },
+        {
+          "value": "black",
+          "label": "Black"
+        },
+        {
+          "value": "white",
+          "label": "White"
+        },
+        {
+          "value": "gradient",
+          "label": "Gradient"
+        } 
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_postion",
+      "label": "Title Text Algin",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        } 
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Title Text Size",
+      "default": "extra-large",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "extra-large",
+          "label": "Extra Large"
+        }
+      ]
+    },
+    {
+      "type": "header", 
+      "content": "Button Settings 1"
+    },  
+    {
+      "type": "text",
+      "id": "button_title1",
+      "label": "Button Title", 
+      "default": "CONTACT US"
+    },
+    {
+      "type": "url",
+      "id": "button_link1",
+      "label": "Link"
+    }, 
+    {
+      "type": "select",
+      "id": "button_style1",
+      "label": "Button Style",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "round",
+          "label": "Round"
+        },
+        {
+          "value": "link",
+          "label": "Link"
+        },
+        {
+          "value": "3d",
+          "label": "3D"
+        },
+        {
+          "value": "bordered",
+          "label": "Bordered"
+        } 
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "button_size1",
+      "label": "Button Size",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "extra-large",
+          "label": "Extra-Large"
+        } 
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "button_color1",
+      "label": "Button Color",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "black",
+          "label": "Black"
+        },
+        {
+          "value": "white",
+          "label": "White"
+        },
+        {
+          "value": "alt",
+          "label": "Alt"
+        },
+        {
+          "value": "primary",
+          "label": "Primary"
+        } 
+      ],
+      "default": "primary"
+    }, 
+    {
+      "type": "header", 
+      "content": "Button Settings 2"
+    },    
+    {
+      "type": "text",
+      "id": "button_title2",
+      "label": "Button Title", 
+      "default": "READ MORE"
+    },
+    {
+      "type": "url",
+      "id": "button_link2",
+      "label": "Link"
+    }, 
+    {
+      "type": "select",
+      "id": "button_style2",
+      "label": "Button Style",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "round",
+          "label": "Round"
+        },
+        {
+          "value": "link",
+          "label": "Link"
+        },
+        {
+          "value": "3d",
+          "label": "3D"
+        },
+        {
+          "value": "bordered",
+          "label": "Bordered"
+        } 
+      ],
+      "default": "bordered"
+    },
+    {
+      "type": "select",
+      "id": "button_size2",
+      "label": "Button Size",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "extra-large",
+          "label": "Extra-Large"
+        } 
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "button_color2",
+      "label": "Button Color",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "black",
+          "label": "Black"
+        },
+        {
+          "value": "white",
+          "label": "White"
+        },
+        {
+          "value": "alt",
+          "label": "Alt"
+        },
+        {
+          "value": "primary",
+          "label": "Primary"
+        } 
+      ],
+      "default": "white"
+    },
+    {
+      "type": "header", 
+      "content": "Gallery Settings"
+    },
+    {
+      "type": "select",
+      "id": "gallery_spacing",
+      "label": "Gallery Spacing",
+      "options": [
+        {
+          "value": "30",
+          "label": "30"
+        },
+        {
+          "value": "20",
+          "label": "20"
+        },
+        {
+          "value": "10",
+          "label": "10"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "0",
+          "label": "0"
+        }
+      ],
+      "default": "0"
+    } 
+  ], 
+  "blocks": [
+    {
+      "type": "gallery",
+      "name": "Gallery Item",
+	  "limit": 4,
+      "settings": [ 
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        } 
+      ]
+    } 
+  ],
+  "presets": [{
+    "name": "About Us 3",
+    "category": "Banner",
+    "blocks": [
+      {
+        "type": "gallery"
+      },
+      {
+        "type": "gallery"
+      },
+      {
+        "type": "gallery"
+      },
+      {
+        "type": "gallery"
+      } 
+    ]
+  }]
+}
+{% endschema %}

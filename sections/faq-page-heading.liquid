@@ -1,0 +1,96 @@
+<div data-vc-full-width="true" data-vc-full-width-init="true" class="vc_row wpb_row vc_row-fluid vc_custom_{{section.id}} vc_row-has-fill" style="margin: {{section.settings.margin}};">
+  <div class="wpb_column vc_column_container vc_col-sm-12">
+    <div class="vc_column-inner vc_custom_1484657242560">
+      <div class="wpb_wrapper">
+        {%- if section.settings.title != '' -%}
+        <h1 style="font-size: 52px;color: #ffffff;line-height: 1.1;text-align: center" class="vc_custom_heading vc_custom_1496939608738">
+          {% if settings.language_enable %}
+          <span class="lang1">{{ section.settings.title | split: '|' | first }}</span>
+          <span class="lang2">{{ section.settings.title | split: '|' | last }}</span>
+          {% else %}
+          {{ section.settings.title | split: '|' | first }}
+          {% endif %} 
+        </h1>
+        {%- endif -%}
+        {%- if section.settings.text != '' -%}
+        <p style="font-size: 16px;color: rgba(255,255,255,0.8);text-align: center" class="vc_custom_heading vc_custom_1496939651434">
+          {% if settings.language_enable %}
+          <span class="lang1">{{ section.settings.text | split: '[lang2]' | first }}</span>
+          <span class="lang2">{{ section.settings.text | split: '[lang2]' | last }}</span>
+          {% else %}
+          {{ section.settings.title | text: '[lang2]' | first }}
+          {% endif %}
+        </p>
+        {%- endif -%}
+        {%- if section.settings.link_title != '' -%}
+        <div class="woodmart-button-wrapper text-center">
+          <a href="{{section.settings.link_url}}" title="" class="btn btn-color-white btn-style-link btn-size-extra-large woodmart-open-popup">
+            {% if settings.language_enable %}
+            <span class="lang1">{{ section.settings.link_title | split: '|' | first }}</span>
+            <span class="lang2">{{ section.settings.link_title | split: '|' | last }}</span>
+            {% else %}
+            {{ section.settings.link_title | split: '|' | first }}
+            {% endif %}
+          </a>
+        </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+{%- if section.settings.faq_heading_image != blank -%}
+{%- assign img_url = section.settings.faq_heading_image | img_url: '1920x700' -%}
+{%- else -%}
+{%- assign img_url = '1920x700.png' | asset_url -%}
+{%- endif -%}
+<style>
+.vc_custom_{{section.id}}{margin-bottom:8vh !important;padding-top:27vh !important;padding-bottom:22vh !important;background-image:url({{img_url}}) !important;background-position:center !important;background-repeat:no-repeat !important;background-size:cover !important}
+</style>
+<div class="vc_row-full-width vc_clearfix"></div>
+{% schema %}
+  {
+    "name": "Faqs Page Heading",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Page Heading"
+      },
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Section margin",
+        "default": "-40px 0 0 0",
+		"info": "Ex: -40px 0 0 0 [top right bottom left]"
+      },
+      {
+        "type": "image_picker",
+        "id": "faq_heading_image",
+        "label": "Page Heading Image",
+        "info": "1920x700 (Width x Height)."
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Questions & Answers"
+      },
+      {
+        "type": "textarea",
+        "id": "text",
+        "label": "Text",
+        "default": "Write us an e-mail via the form, or just send us an e-mail directly at."
+      },
+      {
+        "type": "text",
+        "id": "link_title",
+        "label": "Link Title",
+        "default": "CONTACT US"
+      },
+      {
+        "type": "url",
+        "id": "link_url",
+        "label": "Link Url"
+      }
+	]
+  }
+{% endschema %}

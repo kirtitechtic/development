@@ -1,0 +1,189 @@
+<div class="page-width" data-section-id="{{ section.id }}" data-section-type="cart-template"> 
+  <div class="entry-content">
+    {%- if cart.item_count > 0-%}
+    <div class="shopify-cart">
+      <div class="shopify cart-content-wrapper">
+        <form action="/cart" method="post" novalidate class="shopify-cart-form cart-data-form">
+          <div class="cart-table-section"> 
+            <table class="shop_table shop_table_responsive cart shopify-cart-form__contents">
+              <thead>
+                <tr>
+                  <th class="product-remove">&nbsp;</th>
+                  <th class="product-thumbnail">&nbsp;</th>
+                  <th class="product-name" {% if settings.language_enable %}data-translate="cart.label.product"{% endif %}>{{ 'cart.label.product' | t }}</th>
+                  <th class="product-price" {% if settings.language_enable %}data-translate="cart.label.price"{% endif %}>{{ 'cart.label.price' | t }}</th>
+                  <th class="product-quantity" {% if settings.language_enable %}data-translate="cart.label.quantity"{% endif %}>{{ 'cart.label.quantity' | t }}</th>
+                  <th class="product-subtotal" {% if settings.language_enable %}data-translate="cart.label.total"{% endif %}>{{ 'cart.label.total' | t }}</th>
+                </tr>
+              </thead>               
+              <tbody>
+                {% for item in cart.items %}
+                <tr class="shopify-cart-form__cart-item cart_item">
+                  <td class="product-remove"><a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="remove">×</a></td>
+                  <td class="product-thumbnail" data-label="{{ 'customer.order.product' | t }}">
+                    <a href="{{ item.url | within: collections.all }}">
+                      <img class="cart__image" src="{{ item | img_url: '100x100', scale: 2 }}" alt="{{ item.title | escape }}">
+                    </a>
+                  </td>
+                  <td class="product-name">
+                    <a href="{{ item.url }}"> 
+                      {% if settings.language_enable %}
+                      <div class="lang1">{{ item.product.title | split: '|' | first }}</div>
+                      <div class="lang2">{{ item.product.title | split: '|' | last }}</div>
+                      {% else %}
+                      {{ item.product.title | split: '|' | first }}
+                      {% endif %} 
+                    </a>
+                    {% unless item.variant.title contains 'Default' %}
+                    <div class="cart__meta-text" style="width: 100%;">
+                      {% for option in item.product.options %}
+                      {{ option }}: {{ item.variant.options[forloop.index0] }}<br/>
+                      {% endfor %}
+                    </div>
+                    {% endunless %}  
+                    {% comment %}
+                    Optional, loop through custom product line items if available
+
+                    Line item properties come in as having two parts. The first part will be passed with the default form,
+                    but p.last is the actual custom property and may be blank. If it is, don't show it.
+
+                    For more info on line item properties, visit:
+                    - http://docs.shopify.com/support/your-store/products/how-do-I-collect-additional-information-on-the-product-page-Like-for-a-monogram-engraving-or-customization
+                    {% endcomment %}
+                    {%- assign property_size = item.properties | size -%}
+                    {% if property_size > 0 %}
+                    <div class="cart__meta-text" style="width: 100%;">
+                      {% for p in item.properties %}
+                      {% unless p.last == blank %}
+                      {{ p.first }}:
+
+                      {% comment %}
+                      Check if there was an uploaded file associated
+                      {% endcomment %}
+                      {% if p.last contains '/uploads/' %}
+                      <a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
+                      {% else %}
+                      {{ p.last }}
+                      {% endif %}
+                      {% endunless %}
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </td>
+                  <td class="product-price" data-label="{{ 'cart.label.price' | t }}"> 
+                    <span class="shopify-Price-amount amount">
+                      <span class="money">{{ item.price | money }}</span>
+                    </span> 
+                    {% for discount in item.discounts %}
+                    <div class="cart-item__discount medium-up--hide">{{ discount.title }}</div>
+                    {% endfor %}
+                  </td>
+                  <td class="product-quantity" data-label="{{ 'cart.label.quantity' | t }}">
+                    <div class="quantity">
+                      <input type="button" value="-" class="minus reduced" onclick="var result = document.getElementById('updates_{{ item.id }}'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty > 1 ) result.value--;return false;">
+                      <input type="number" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" min="0" size="4"> 
+                      <input type="button" value="+" class="plus increase" onclick="var result = document.getElementById('updates_{{ item.id }}'); var qty = result.value; if( !isNaN( qty )) result.value++;return false;">
+                    </div> 
+                  </td> 
+                  <td class="product-subtotal" data-title="Total">
+                    <span class="shopify-Price-amount amount">
+                      <span class="money">{{ item.line_price | money }}</span>
+                    </span>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody> 
+            </table> 
+            <div class="row cart-actions">
+              <div class="col-sm-6" style="text-align: left;">
+                <a href="/" class="button" style="margin-bottom: 5px;"><span {% if settings.language_enable %}data-translate="cart.general.continue"{% endif %}>{{ 'cart.general.continue' | t }}</span></a>
+              </div>
+              <div class="col-sm-6">
+                <button type="submit" class="button" style="margin-bottom: 5px;"><span {% if settings.language_enable %}data-translate="cart.general.update"{% endif %}>{{ 'cart.general.update' | t }}</span></button>                   
+              </div>
+            </div>
+            {% if section.settings.cart_notes_enable %}
+            <div class="row cart-actions">
+              <div class="col-md-12" style="text-align: left; margin-top: 30px;">
+                <label for="CartSpecialInstructions">{{ 'cart.general.note' | t }}</label>
+                <textarea name="note" style="min-height: 85px;" id="CartSpecialInstructions" class="cart__note">{{ cart.note }}</textarea>
+              </div>
+            </div>
+            {% endif %}
+          </div> 
+        </form>
+        <div class="cart-totals-section">
+          <div class="cart_totals">
+            <div class="cart-totals-inner">
+              <form action="/cart" method="post" novalidate class="shopify-cart-form cart-data-form">
+                <h2 {% if settings.language_enable %}data-translate="cart.general.carttotals"{% endif %}>{{ 'cart.general.carttotals' | t }}</h2>
+                <table cellspacing="0" class="shop_table shop_table_responsive">
+                  <tbody>
+                    <tr class="cart-subtotal">
+                      <th {% if settings.language_enable %}data-translate="cart.general.subtotal"{% endif %}>{{ 'cart.general.subtotal' | t }}</th>
+                      <td data-title="Subtotal">
+                        <span class="shopify-Price-amount amount">
+                          <span class="money">{{ cart.total_price | money }}</span>
+                        </span>
+                      </td>
+                    </tr>
+                    {%- if section.settings.cart_shipping_enable != blank -%}
+                    <tr class="shipping">
+                      <th {% if settings.language_enable %}data-translate="cart.header.shipping"{% endif %}>{{ 'cart.header.shipping' | t }}</th>
+                      <td data-title="Shipping">
+                        <div class="shopify-shipping-calculator">
+                          <p><a href="#collapse-shipping" class="shipping-calculator-button collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-shipping" class="shipping-calculator-button" {% if settings.language_enable %}data-translate="cart.shipping.title"{% endif %}>{{'cart.shipping.title' | t}}</a></p>
+                          <section id="collapse-shipping" class="shipping-calculator-form collapse">
+                            {% include 'shipping-calculator' %}
+                          </section> 
+                        </div>
+                      </td>
+                    </tr>
+                    {%- endif -%}
+                    <tr class="order-total">
+                      <th {% if settings.language_enable %}data-translate="cart.general.subtotal"{% endif %}>{{ 'cart.general.subtotal' | t }}</th>
+                      <td data-title="Total">
+                        <strong><span class="shopify-Price-amount amount"><span class="money">{{ cart.total_price | money }}</span></span></strong> 
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="wc-proceed-to-checkout"> 
+                  <input type="submit" name="checkout" class="checkout-button button alt wc-forward" {% if settings.language_enable %}data-translate="cart.general.checkout"{% endif %} value="{{ 'cart.general.checkout' | t }}">
+                </div>
+              </form>
+            </div>
+          </div> 
+        </div>
+      </div>
+    </div>
+    {%- else -%}
+    <div class="shopify-cart">
+      <p class="cart-empty" {% if settings.language_enable %}data-translate="cart.general.empty"{% endif %}>{{ 'cart.general.empty' | t }}</p>
+      <div class="woodmart-empty-cart-text" {% if settings.language_enable %}data-translate="cart.general.cart_text"{% endif %}>{{ 'cart.general.cart_text' | t }}</div>
+      <p class="return-to-shop">
+        <a class="button wc-backward" href="/" {% if settings.language_enable %}data-translate="cart.general.return"{% endif %}>{{ 'cart.general.return' | t }}</a>
+      </p>
+    </div>
+    {%- endif -%}
+  </div> 
+</div>
+{% schema %}
+{
+"name": "Cart page",
+"settings": [
+{
+"type": "checkbox",
+"id": "cart_notes_enable",
+"label": "Enable cart notes",
+"default": true
+},
+{
+"type": "checkbox",
+"id": "cart_shipping_enable",
+"label": "Enable cart shipping",
+"default": true
+}
+]
+}
+{% endschema %}

@@ -1,0 +1,1026 @@
+{%- if section.blocks.size > 0 -%}
+<ul id="menu-main-navigation" class="menu">
+  {%- for block in section.blocks -%}
+  {%- case block.type -%} 
+  {%- when 'mega_dropdown' -%}
+  <li id="menu-item-{{block.id}}" class="menu-item menu-item-type-post_type menu-item-{{block.settings.title | handleize}} menu-item-{{block.id}} menu-item-design-{% if block.settings.full_width != blank %}full-width{% else %}sized{% endif %} menu-mega-dropdown item-level-0 item-event-{{section.settings.action_sub_menu}} menu-item-has-children with-offsets">
+    <a href="{{block.settings.button_link}}" class="woodmart-nav-link">
+      {%- if block.settings.icon != blank -%}<i class="fa fa-{{block.settings.icon}}"></i>{%- endif -%}
+      <span>
+        {% if settings.language_enable %}
+        <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+        <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+        {% else %}
+        {{ block.settings.title | split: '|' | first }}
+        {% endif %}
+      </span>
+      {%- if block.settings.label != blank and block.settings.color != blank -%}
+      <span class="menu-label menu-label-{{block.settings.label | handleize}}">{{block.settings.label}}</span>
+      {%- endif -%}
+    </a>
+    {%- assign child_list_handle = block.settings.title | handleize -%}
+    {%- if linklists[child_list_handle].links.size == 0 -%}{%- assign child_list_handle = block.settings.menu -%}{%- endif -%}
+    {%- if linklists[child_list_handle].links.size > 0 or linklists[child_list_handle].links != blank -%}
+      {%- assign counts = linklists[child_list_handle].links.size -%} 
+      {%- case counts -%}
+      {%- when 1 -%}  
+        {%- assign class_menu = '12' -%}
+      {%- when 2 -%} 
+        {%- assign class_menu = '6' -%} 
+      {%- when 3 -%}  
+        {%- assign class_menu = '4' -%} 
+      {%- when 4 -%}  
+        {%- assign class_menu = '3' -%}  
+      {%- when 5 -%}  
+        {%- assign class_menu = '15' -%}  
+      {%- else -%}  
+        {%- assign class_menu = '2' -%} 
+      {%- endcase -%}
+    <div class="sub-menu-dropdown color-scheme-{{block.settings.sub_menu_color}}">
+      <div class="container">
+        <div class="vc_section vc_custom_1482224730326">
+          <div class="vc_row wpb_row vc_row-fluid vc_row-o-content-top vc_row-flex">
+            {%- for childlink in linklists[child_list_handle].links -%}
+            <div class="wpb_column vc_column_container vc_col-sm-{{class_menu}}">
+              <div class="vc_column-inner">
+                <div class="wpb_wrapper"> 
+                  <ul class="sub-menu mega-menu-list aa">
+                    {%- if childlink.title contains '[' -%}
+                    {%- assign label_child  = childlink.title |  split: '[' | last  | split: ']' | first -%}
+                    <li class="item-with-label item-label-{{label_child | handleize }}">
+                    {%- else -%}
+                    <li>
+                    {%- endif -%}
+                      <a href="{{ childlink.url }}"{%- if childlink.active %} class="current-menu-item"{%- endif -%}>
+                        <span class="sub_menu_heading">
+                          {% if settings.language_enable %} 
+                          <span class="lang1">{{ childlink.title | split: '|' | first | split: '[' | first | capitalize }}</span>
+                          <span class="lang2">{{ childlink.title | split: '|' | last | split: '[' | first | capitalize }}</span>
+                          {% else %}
+                          {{ childlink.title | split: '|' | first | split: '[' | first | capitalize }}
+                          {% endif %}
+                        </span>
+                        {%- if childlink.title contains '[' -%}
+                        <span class="menu-label menu-label-{{label_child | handleize }}">{{label_child | upcase }}</span>
+                        {%- endif -%}
+                      </a>
+                      {%- assign third_list_handle = childlink.title | split: '[' | first | handleize -%}
+                      {%- if linklists[childlink.handle].links.size > 0 or linklists[third_list_handle].links != blank -%}
+                      <ul class="sub-sub-menu">
+                        {%- if linklists[childlink.handle].links.size > 0 -%}
+                          {%- assign menu_sub_sub_link  = linklists[childlink.handle] -%}
+                        {%- elsif linklists[third_list_handle].links != blank -%}
+                          {%- assign menu_sub_sub_link  = linklists[third_list_handle] -%}
+                        {%- endif -%}
+                        {%- for thirdlink in menu_sub_sub_link.links -%}
+                        {%- if thirdlink.title contains '[' -%}
+                          {%- if thirdlink.title contains '[icon_' -%}
+                            {%- assign _icon_third  = thirdlink.title |  split: '[' | last  | split: ']' | first -%}
+                            {%- assign icon_third  = _icon_third |  split: 'icon_' | last -%}
+                            <li>
+                              <a href="{{ thirdlink.url }}"{%- if childlink.active %} class="current-menu-item"{%- endif -%}>
+                                <i class="fa fa-{{icon_third}}"></i> 
+                                <span>
+                                  {% if settings.language_enable %} 
+                                  <span class="lang1">{{ thirdlink.title | split: '|' | first | split: '[' | first | capitalize }}</span>
+                                  <span class="lang2">{{ thirdlink.title | split: '|' | last | split: '[' | first | capitalize }}</span>
+                                  {% else %}
+                                  {{ thirdlink.title | split: '|' | first | split: '[' | first | capitalize }}
+                                  {% endif %}
+                                </span>
+                              </a>
+                            </li>
+                          {%- else -%}
+                            {%- assign label_third  = thirdlink.title |  split: '[' | last  | split: ']' | first -%}
+                            <li class="item-with-label item-label-{{label_third | handleize }}">
+                              <a href="{{ thirdlink.url }}"> 
+                                <span>
+                                  {% if settings.language_enable %} 
+                                  <span class="lang1">{{ thirdlink.title | split: '|' | first | split: '[' | first | capitalize }}</span>
+                                  <span class="lang2">{{ thirdlink.title | split: '|' | last | split: '[' | first | capitalize }}</span>
+                                  {% else %}
+                                  {{ thirdlink.title | split: '|' | first | split: '[' | first | capitalize }}
+                                  {% endif %}
+                                </span>
+                                <span class="menu-label menu-label-{{label_third | handleize }}">{{label_third | upcase }}</span>
+                              </a>
+                        	</li>
+                          {%- endif -%}
+                        {%- else -%}
+                          <li>
+                            <a href="{{ thirdlink.url }}"{%- if childlink.active %} class="current-menu-item"{%- endif -%}>
+                              <span>
+                                {% if settings.language_enable %} 
+                                <span class="lang1">{{ thirdlink.title | split: '|' | first }}</span>
+                                <span class="lang2">{{ thirdlink.title | split: '|' | last }}</span>
+                                {% else %}
+                                {{ thirdlink.title | split: '|' | first }}
+                                {% endif %}
+                              </span>
+                            </a>
+                        </li>
+                        {%- endif -%}
+                        {%- endfor -%}
+                      </ul>
+                      {%- endif -%}
+                      
+                      
+                      
+                    </li>
+                    
+                  </ul> 
+                </div>
+              </div>
+            </div>
+            {%- endfor -%}
+            
+            {%- if block.settings.title == block.settings.img-title -%}
+                      {%- if block.settings.banners != blank  -%} 
+            <div class="banner_img_alt"><a href="{{ block.settings.image_link }}"><img src="{{ block.settings.banners| img_url: 'master' }}">
+            			<div class="banner_alt_outer"><span class="banner_alt_text">{{ block.settings.banners.alt | escape }}</span>
+            			</div></a></div>
+                      {%- endif -%}
+
+                      {%- if block.settings.banners1 != blank  -%} 
+                        
+                      	<div class="banner1_img_alt"><a href="{{ block.settings.image_link1 }}"><img src="{{ block.settings.banners1| img_url: 'master' }}">  
+            			<div class="banner_alt_outer"><span class="banner_alt_text">{{ block.settings.banners1.alt | escape }}</span>
+            			</div></a></div>
+                          
+                          {%- endif -%}
+
+                      {%- if block.settings.banners2 != blank -%}
+                         
+            			<div class="banner2_img_alt"><a href="{{ block.settings.image_link2 }}"><img src="{{ block.settings.banners2| img_url: 'master' }}">
+            			 <div class="banner_alt_outer"><span class="banner_alt_text">{{ block.settings.banners2.alt | escape }}</span>
+            			</div></a></div>
+                          
+                      {%- endif -%}
+                      {%- if block.settings.banners3 != blank -%} 
+                      
+            			<div class="banner3_img_alt"> <a href="{{ block.settings.image_link3 }}"><img src="{{ block.settings.banners3| img_url: 'master' }}">
+            			 <div class="banner_alt_outer"><span class="banner_alt_text">{{ block.settings.banners3.alt | escape }}</span>
+            			</div></a></div>
+                      
+                      {%- endif -%}
+                       {%- if block.settings.banners4 != blank -%} 
+                      
+            			<div class="banner4_img_alt"> <a href="{{ block.settings.image_link4 }}"><img src="{{ block.settings.banners4| img_url: 'master' }}">
+            			<div class="banner_alt_outer"><span class="banner_alt_text">{{ block.settings.banners4.alt | escape }}</span>
+            			</div></a></div>
+                         
+                      {%- endif -%}
+                      {%- endif -%}
+            
+          </div>
+        </div>
+        <style type="text/css" data-type="vc_shortcodes-custom-css">.vc_custom_1482224730326{padding-top:5px !important;padding-bottom:5px !important}</style>
+      </div>
+    </div>
+    {%- endif -%}
+    <style type="text/css">
+      {%- if block.settings.label != blank and block.settings.color != blank -%}
+      .menu-item-{{block.id}} .menu-label-{{block.settings.label | handleize}}{ background-color: {{block.settings.color}}}
+      .menu-item-{{block.id}} .menu-label-{{block.settings.label | handleize}}:before{ border-color: {{block.settings.color}}}
+      {%- endif -%} 
+      .menu-item-{{block.id}} > .sub-menu-dropdown {
+        min-height: 120px;
+        {%- if block.settings.banner != blank and block.settings.show_img -%} 
+        background-image: url({{ block.settings.banner| img_url: 'master' }});
+        {%- endif -%}   
+        
+        {%- if block.settings.menu_width != blank and block.settings.full_width == blank -%} 
+        width: {{ block.settings.menu_width | escape | default: '800' | remove: 'px' | append: 'px' }};
+        {%- else -%}
+        width: 100%;
+        {%- endif -%} 
+      }
+    </style>
+  </li>
+  {%- when 'mega_dropdown_blog' -%} 
+  <li id="menu-item-{{block.id}}" class="menu-item menu-item-type-post_type menu-item-{{block.settings.title | handleize}} menu-item-{{block.id}} menu-item-design-{% if block.settings.full_width != blank %}full-width{% else %}sized{% endif %} menu-mega-dropdown item-level-0 item-event-{{section.settings.action_sub_menu}} menu-item-has-children with-offsets">
+    <a href="{{block.settings.button_link}}" class="woodmart-nav-link">
+      {%- if block.settings.icon != blank -%}<i class="fa fa-{{block.settings.icon}}"></i>{%- endif -%}
+      <span>
+        {% if settings.language_enable %}
+        <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+        <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+        {% else %}
+        {{ block.settings.title | split: '|' | first }}
+        {% endif %}
+      </span>
+      {%- if block.settings.label != blank and block.settings.color != blank -%}
+      <span class="menu-label menu-label-{{block.settings.label | handleize}}">{{block.settings.label}}</span>
+      {%- endif -%}
+    </a>
+    {%- assign child_list_handle = block.settings.title | handleize -%}
+    {%- if linklists[child_list_handle].links.size == 0 -%}{%- assign child_list_handle = block.settings.menu -%}{%- endif -%}
+    {%- if linklists[child_list_handle].links.size > 0 or linklists[child_list_handle].links != blank -%}
+      {%- assign counts = linklists[child_list_handle].links.size -%} 
+      {%- case counts -%}
+      {%- when 1 -%} 
+        {%- assign class_blog = '6' -%}
+        {%- assign class_menu = '6' -%}
+      {%- when 2 -%} 
+        {%- assign class_blog = '6' -%} 
+        {%- assign class_menu = '3' -%} 
+      {%- when 3 -%} 
+        {%- assign class_blog = '6' -%}
+        {%- assign class_menu = '2' -%} 
+      {%- else -%} 
+        {%- assign class_blog = '4' -%}
+        {%- assign class_menu = '2' -%} 
+      {%- endcase -%}
+    <div class="sub-menu-dropdown color-scheme-{{block.settings.sub_menu_color}}">
+      <div class="container">
+        <div class="vc_section vc_custom_1482224730326">
+          <div class="vc_row wpb_row vc_row-fluid vc_row-o-equal-height vc_row-o-content-top vc_row-flex">
+            {%- for childlink in linklists[child_list_handle].links limit:4 -%}
+            <div class="rtl-blog-col{{forloop.index}} wpb_column vc_column_container vc_col-sm-{{class_menu}}">
+              <div class="vc_column-inner vc_custom_1501507744264">
+                <div class="Mask"></div>
+                <div class="wpb_wrapper"> 
+                  <ul class="sub-menu mega-menu-list">
+                    {%- if childlink.title contains '[' -%}
+                    {%- assign label_child  = childlink.title |  split: '[' | last  | split: ']' | first -%}
+                    <li class="item-with-label item-label-{{label_child | handleize }}">
+                    {%- else -%}
+                    <li>
+                    {%- endif -%}
+                      <a href="{{ childlink.url }}"{%- if childlink.active %} class="current-menu-item"{%- endif -%}>
+                        <span>
+                          {% if settings.language_enable %} 
+                          <span class="lang1">{{ childlink.title | split: '|' | first | split: '[' | first | capitalize }}</span>
+                          <span class="lang2">{{ childlink.title | split: '|' | last | split: '[' | first | capitalize }}</span>
+                          {% else %}
+                          {{ childlink.title | split: '|' | first | split: '[' | first | capitalize }}
+                          {% endif %}
+                        </span>
+                        {%- if childlink.title contains '[' -%}
+                        <span class="menu-label menu-label-{{label_child | handleize }}">{{label_child | upcase }}</span>
+                        {%- endif -%}
+                      </a>
+                      {%- assign third_list_handle = childlink.title | split: '[' | first | handleize -%}
+                      {%- if linklists[childlink.handle].links.size > 0 or linklists[third_list_handle].links != blank -%}
+                      <ul class="sub-sub-menu">
+                        {%- if linklists[childlink.handle].links.size > 0 -%}
+                          {%- assign menu_sub_sub_link  = linklists[childlink.handle] -%}
+                        {%- elsif linklists[third_list_handle].links != blank -%}
+                          {%- assign menu_sub_sub_link  = linklists[third_list_handle] -%}
+                        {%- endif -%}
+                        {%- for thirdlink in menu_sub_sub_link.links -%}
+                        {%- if thirdlink.title contains '[' -%}
+                          {%- if thirdlink.title contains '[icon_' -%}
+                            {%- assign _icon_third  = thirdlink.title |  split: '[' | last  | split: ']' | first -%}
+                            {%- assign icon_third  = _icon_third |  split: 'icon_' | last -%}
+                            <li>
+                              <a href="{{ thirdlink.url }}"{%- if childlink.active %} class="current-menu-item"{%- endif -%}>
+                                <i class="fa fa-{{icon_third}}"></i> 
+                                <span>
+                                  {% if settings.language_enable %} 
+                                  <span class="lang1">{{ thirdlink.title | split: '|' | first | split: '[' | first | capitalize }}</span>
+                                  <span class="lang2">{{ thirdlink.title | split: '|' | last | split: '[' | first | capitalize }}</span>
+                                  {% else %}
+                                  {{ thirdlink.title | split: '|' | first | split: '[' | first | capitalize }}
+                                  {% endif %}
+                                </span>
+                              </a>
+                            </li>
+                          {%- else -%}
+                            {%- assign label_third  = thirdlink.title |  split: '[' | last  | split: ']' | first -%}
+                            <li class="item-with-label item-label-{{label_third | handleize }}">
+                              <a href="{{ thirdlink.url }}"> 
+                                <span>
+                                  {% if settings.language_enable %} 
+                                  <span class="lang1">{{ thirdlink.title | split: '|' | first | split: '[' | first | capitalize }}</span>
+                                  <span class="lang2">{{ thirdlink.title | split: '|' | last | split: '[' | first | capitalize }}</span>
+                                  {% else %}
+                                  {{ thirdlink.title | split: '|' | first | split: '[' | first | capitalize }}
+                                  {% endif %}
+                                </span>
+                                <span class="menu-label menu-label-{{label_third | handleize }}">{{label_third | upcase }}</span>
+                              </a>
+                        	</li>
+                            {%- endif -%}
+                        {%- else -%}
+                          <li>
+                            <a href="{{ thirdlink.url }}"{%- if childlink.active %} class="current-menu-item"{%- endif -%}>
+                              <span>
+                                {% if settings.language_enable %} 
+                                <span class="lang1">{{ thirdlink.title | split: '|' | first }}</span>
+                                <span class="lang2">{{ thirdlink.title | split: '|' | last }}</span>
+                                {% else %}
+                                {{ thirdlink.title | split: '|' | first }}
+                                {% endif %}
+                              </span>
+                            </a>
+                        </li>
+                        {%- endif -%}
+                        {%- endfor -%}
+                      </ul>
+                      {%- endif -%}
+                      
+                      
+                      
+                    </li>
+                    
+                  </ul> 
+                </div>
+              </div>
+            </div>
+            {%- endfor -%}
+            
+            {%- if block.settings.title == block.settings.img-title -%}
+                      {%- if block.settings.banners != blank  -%} 
+                      	<img src="{{ block.settings.banners| img_url: 'master' }}">
+                      {%- endif -%}
+                      
+                      {%- if block.settings.banners1 != blank  -%} 
+                      	<img src="{{ block.settings.banners1| img_url: 'master' }}">
+                      {%- endif -%}
+
+                      {%- if block.settings.banners2 != blank -%} 
+                      	<img src="{{ block.settings.banners2| img_url: 'master' }}">
+                      {%- endif -%}
+                      {%- if block.settings.banners3 != blank -%} 
+                      	<img src="{{ block.settings.banners3| img_url: 'master' }}">
+                      {%- endif -%}
+                       {%- if block.settings.banners4 != blank -%} 
+                      	<img src="{{ block.settings.banners4| img_url: 'master' }}">
+                      {%- endif -%}
+                      {%- endif -%}
+            
+            <div class="Mask"></div>
+            <div class="wpb_column vc_column_container vc_col-sm-{{class_blog}} vc_col-has-fill">
+              <div class="vc_column-inner vc_custom_1498552559778">
+                <div class="spb_wrapper">
+                  <div class="spb_widgetised_column spb_content_element">
+                    <div class="woodmart-widget sidebar-widget woodmart-recent-posts">
+                      <h5 class="widget-title" {% if settings.language_enable %}data-translate="blogs.article.recent_posts"{% endif %}>{{ 'blogs.article.recent_posts' | t }}</h5>
+                      <ul class="woodmart-recent-posts-list">
+                        {%- assign blog = blogs[block.settings.blog] -%}
+                        {%- assign blog_limit = block.settings.blog_limit -%}
+                        {%- unless blog.empty? -%}
+                        {%- for article in blog.articles limit:blog_limit -%}
+                        <li>
+                          {%- if article.image -%}
+                          <a class="recent-posts-thumbnail" href="{{ article.url }}"> 
+                            {%- if settings.blog_aspect_ratio == '0' -%}
+                            <img class="attachment-large sp-post-image " src="{{ article | img_url: '105x84', crop: 'center' }}" width="75" /> 
+                            {%- else -%}
+                            <img class="attachment-large sp-post-image " src="{{ article | img_url: '105x' }}" width="75" /> 
+                            {%- endif -%}
+                          </a>
+                          {%- endif -%}
+                          <div class="recent-posts-info">
+                            <h5 class="entry-title">
+                              <a href="{{ article.url }}">
+                                {% if settings.language_enable %}
+                                <span class="lang1">{{ article.title | split: '|' | first }}</span>
+                                <span class="lang2">{{ article.title | split: '|' | last }}</span>
+                                {% else %}
+                                {{ article.title | split: '|' | first }}
+                                {% endif %}
+                              </a>
+                            </h5>
+                            <time class="recent-posts-time">{{ article.published_at | date: '%b %d, %Y' }}</time>
+                            {%- assign number_of_comments = article.comments_count -%} 
+                            <a class="recent-posts-comment" href="{{ article.comment_post_url }}" {% if settings.language_enable %}data-translate="blogs.comments.comments_with_count|count:{{number_of_comments}}"{%endif%}>{{ 'blogs.comments.comments_with_count' | t: count: number_of_comments }}</a>
+                          </div>
+                        </li>
+                        {%- endfor -%}
+                        {%- endunless -%}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <style type="text/css" data-type="vc_shortcodes-custom-css">.vc_custom_1482224730326{padding-top:5px !important;padding-bottom:5px !important}.vc_custom_1501507744264{margin-right:-60px !important}.vc_custom_1501507751857{margin-right:-90px !important;padding-left:60px !important}.vc_custom_1498552559778{margin-top:-35px !important;margin-right:-20px !important;margin-bottom:-5px !important;margin-left:90px !important;border-left-width:1px !important;padding-right:30px !important;padding-left:30px !important;background-color:rgba(0,0,0,0.02) !important;*background-color:rgb(0,0,0) !important;border-left-color:rgba(0,0,0,0.05) !important;border-left-style:solid !important}</style>
+      </div>
+    </div>
+    {%- endif -%}
+    <style type="text/css">
+      {%- if block.settings.label != blank and block.settings.color != blank -%}
+      .menu-item-{{block.id}} .menu-label-{{block.settings.label | handleize}}{ background-color: {{block.settings.color}}}
+      .menu-item-{{block.id}} .menu-label-{{block.settings.label | handleize}}:before{ border-color: {{block.settings.color}}}
+      {%- endif -%} 
+      .menu-item-{{block.id}} > .sub-menu-dropdown {
+        min-height: 120px;
+        {%- if block.settings.banner != blank and block.settings.show_img -%} 
+        background-image: url({{ block.settings.banner| img_url: 'master' }});
+        {%- endif -%}
+        
+       
+        {%- if block.settings.menu_width != blank -%} 
+        width: {{ block.settings.menu_width | escape | default: '800' | remove: 'px' | append: 'px' }}
+        {%- endif -%} 
+      }
+    </style>
+  </li>
+  {%- when 'classic_dropdown' -%}
+  <li id="menu-item-{{block.id}}" class="menu-item menu-item-type-post_type menu-item-{{block.settings.title | handleize}} menu-item-{{block.id}} menu-item-design-default item-level-0 item-event-{{section.settings.action_sub_menu}} menu-item-has-children with-offsets">
+    <a href="{{block.settings.button_link}}" class="woodmart-nav-link">
+      {%- if block.settings.icon != blank -%}<i class="fa fa-{{block.settings.icon}}"></i>{%- endif -%}
+      <span>
+        {% if settings.language_enable %}
+        <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+        <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+        {% else %}
+        {{ block.settings.title | split: '|' | first }}
+        {% endif %}
+      </span>
+      {%- if block.settings.label != blank and block.settings.color != blank -%}
+      <span class="menu-label menu-label-{{block.settings.label | handleize}}">{{block.settings.label}}</span>
+      {%- endif -%}
+    </a>
+    {%- assign child_list_handle = block.settings.title | handleize -%}
+    {%- if linklists[child_list_handle].links.size == 0 -%}{%- assign child_list_handle = block.settings.menu -%}{%- endif -%}
+    {%- if linklists[child_list_handle].links != blank -%}
+    <div class="sub-menu-dropdown color-scheme-dark">
+      <div class="container">
+        <div class="Mask"></div>
+        <ul class="sub-menu color-scheme-dark">
+          {%- for thirdlink in linklists[child_list_handle].links -%}
+          {%- if thirdlink.title contains '[' -%}
+            {%- if thirdlink.title contains '[icon_' -%}
+              {%- assign _icon_third  = thirdlink.title |  split: '[' | last  | split: ']' | first -%}
+              {%- assign icon_third  = _icon_third |  split: 'icon_' | last -%}
+                <li>
+                  <a href="{{ thirdlink.url }}"{%- if childlink.active %} class="current-menu-item"{%- endif -%}>
+                    <i class="fa fa-{{icon_third}}"></i> 
+                    <span>
+                      {% if settings.language_enable %} 
+                      <span class="lang1">{{ thirdlink.title | split: '|' | first | split: '[' | first | capitalize }}</span>
+                      <span class="lang2">{{ thirdlink.title | split: '|' | last | split: '[' | first | capitalize }}</span>
+                      {% else %}
+                      {{ thirdlink.title | split: '|' | first | split: '[' | first | capitalize }}
+                      {% endif %}
+                    </span>
+                  </a>
+          		</li>
+            {%- else -%}
+              {%- assign label_third  = thirdlink.title |  split: '[' | last  | split: ']' | first -%}
+              <li class="item-with-label item-label-{{label_third | handleize }}">
+                <a href="{{ thirdlink.url }}"> 
+                  <span>
+                    {% if settings.language_enable %} 
+                    <span class="lang1">{{ thirdlink.title | split: '|' | first | split: '[' | first | capitalize }}</span>
+                    <span class="lang2">{{ thirdlink.title | split: '|' | last | split: '[' | first | capitalize }}</span>
+                    {% else %}
+                    {{ thirdlink.title | split: '|' | first | split: '[' | first | capitalize }}
+                    {% endif %}
+                  </span>
+                  <span class="menu-label menu-label-{{label_third | handleize }}">{{label_third | upcase }}</span>
+                </a>
+              </li>
+            {%- endif -%}
+          {%- else -%}
+            <li>
+              <a href="{{ thirdlink.url }}"{%- if childlink.active %} class="current-menu-item"{%- endif -%}>
+                <span>
+                  {% if settings.language_enable %} 
+                  <span class="lang1">{{ thirdlink.title | split: '|' | first }}</span>
+                  <span class="lang2">{{ thirdlink.title | split: '|' | last }}</span>
+                  {% else %}
+                  {{ thirdlink.title | split: '|' | first }}
+                  {% endif %}
+                </span>
+              </a>
+            </li>
+          {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
+    {%- endif -%}
+  </li>
+  <style type="text/css">
+    .menu-item-{{block.id}} > .sub-menu-dropdown {width: {{ block.settings.menu_width | escape | default: '250' | remove: 'px' | append: 'px' }}; }
+  	{%- if block.settings.label != blank and block.settings.color != blank -%}.menu-item-{{block.id}} .menu-label-{{block.settings.label | handleize}}{ background-color: {{block.settings.color}}}.menu-item-{{block.id}} .menu-label-{{block.settings.label | handleize}}:before{ border-color: {{block.settings.color}}}{%- endif -%}
+  </style>
+  {%- when 'custom_html_block' -%}
+  <li id="menu-item-{{block.id}}" class="menu-item menu-item-type-post_type menu-item-{{block.settings.title | handleize}} menu-item-{{block.id}} menu-item-design-{% if block.settings.full_width != blank %}full-width{% else %}sized{% endif %} menu-mega-dropdown item-level-0 item-event-{{section.settings.action_sub_menu}} menu-item-has-children with-offsets">
+    <a href="{{block.settings.button_link}}" class="woodmart-nav-link">
+      {%- if block.settings.icon != blank -%}<i class="fa fa-{{block.settings.icon}}"></i>{%- endif -%}
+      <span>
+        {% if settings.language_enable %}
+        <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+        <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+        {% else %}
+        {{ block.settings.title | split: '|' | first }}
+        {% endif %}
+      </span>
+      {%- if block.settings.label != blank and block.settings.color != blank -%}
+      <span class="menu-label menu-label-{{block.settings.label | handleize}}">{{block.settings.label}}</span>
+      {%- endif -%}
+    </a>
+    {%- if block.settings.html != blank -%}
+    <div class="sub-menu-dropdown color-scheme-dark">
+      <div class="container"> 
+        {% if settings.language_enable %}
+        <div class="lang1">{{ block.settings.html | split: '|' | first }}</div>
+        <div class="lang2">{{ block.settings.html | split: '|' | last }}</div>
+        {% else %}
+        {{ block.settings.html | split: '|' | first }}
+        {% endif %}
+      </div>
+    </div>
+    <div class="Mask"></div>
+    {%- endif -%}
+    <style type="text/css">
+      {%- if block.settings.label != blank and block.settings.color != blank -%}
+      .menu-item-{{block.id}} .menu-label-{{block.settings.label | handleize}}{ background-color: {{block.settings.color}}}
+      .menu-item-{{block.id}} .menu-label-{{block.settings.label | handleize}}:before{ border-color: {{block.settings.color}}}
+      {%- endif -%} 
+      .menu-item-{{block.id}} > .sub-menu-dropdown {
+        min-height: 120px;
+        {%- if block.settings.banner != blank and block.settings.show_img -%} 
+        background-image: url({{ block.settings.banner| img_url }});
+        {%- endif -%}
+        
+        {%- if block.settings.menu_width != blank -%} 
+        width: {{ block.settings.menu_width | escape | default: '800' | remove: 'px' | append: 'px' }};
+        {%- endif -%} 
+      }
+    </style>
+  </li>
+  {%- else -%}
+  <li id="menu-item-{{block.id}}" class="menu-item menu-item-type-custom menu-item-{{block.settings.title | handleize}} item-level-0 menu-item-{{block.id}} menu-item-no-children with-offsets">
+    <a href="{{block.settings.button_link}}" class="woodmart-nav-link">
+      {%- if block.settings.icon != blank -%}<i class="fa fa-{{block.settings.icon}}"></i>{%- endif -%}
+      <span>
+        {% if settings.language_enable %}
+        <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+        <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+        {% else %}
+        {{ block.settings.title | split: '|' | first }}
+        {% endif %}
+      </span>
+      {%- if block.settings.label != blank and block.settings.color != blank -%}
+      <span class="menu-label menu-label-{{block.settings.label | handleize}}">{{block.settings.label}}</span>
+      {%- endif -%}
+    </a>
+    <style type="text/css">{%- if block.settings.label != blank and block.settings.color != blank -%}.menu-item-{{block.id}} .menu-label-{{block.settings.label | handleize}}{ background-color: {{block.settings.color}}}.menu-item-{{block.id}} .menu-label-{{block.settings.label | handleize}}:before{ border-color: {{block.settings.color}}}{%- endif -%}</style>
+  </li>
+  {%- endcase -%}
+  {%- endfor -%}
+</ul>
+{%- if section.settings.label_1 != blank or section.settings.label_2 != blank or section.settings.label_3 != blank -%}
+<style type="text/css">
+  {%- capture label_css -%}
+  {%- for i in (1..5) -%}
+  {%- assign label = 'label_' | append:i -%}
+  {%- assign color = 'color_' | append:i -%}
+  {%- assign label_id = section.settings[label] -%}
+  {%- assign color_id = section.settings[color] -%} 
+  {%- if label_id != blank and color_id != blank -%}
+  .menu-label.menu-label-{{label_id | handleize }} {background-color: {{color_id}}}.menu-label.menu-label-{{label_id | handleize }}:before { border-color: {{color_id}} }
+  {%- endif -%}
+  {%- endfor -%}
+  {%- endcapture -%}
+  {{label_css}}
+</style>
+{%- endif -%}
+{%- endif -%}
+{%- schema -%}
+{
+  "name": "Main navigation", 
+  "settings": [
+    {
+      "type": "radio",
+      "id": "action_sub_menu",
+      "label": "Action Show Sub Menu",
+      "options": [
+        { 
+          "value": "hover", 
+          "label": "Hover" 
+		},
+        { 
+          "value": "click",
+          "label": "Click" 
+		}
+      ],
+      "default":   "hover"
+    },
+    {
+      "type": "header",
+      "content": "Label menu Settings"
+    },
+    {
+      "type":"text",
+      "id":"label_1",
+      "label":"Menu label 1"
+    },
+    {
+      "type":"color",
+      "id":"color_1",
+      "label":"Label color 1"
+    },
+    {
+      "type":"text",
+      "id":"label_2",
+      "label":"Menu label 2"
+    },
+    {
+      "type":"color",
+      "id":"color_2",
+      "label":"Label color 2"
+    },
+    {
+      "type":"text",
+      "id":"label_3",
+      "label":"Menu label 3"
+    },
+    {
+      "type":"color",
+      "id":"color_3",
+      "label":"Label color 3"
+    },
+    {
+      "type":"text",
+      "id":"label_4",
+      "label":"Menu label 4"
+    },
+    {
+      "type":"color",
+      "id":"color_4",
+      "label":"Label color 4"
+    },
+    {
+      "type":"text",
+      "id":"label_5",
+      "label":"Menu label 5"
+    },
+    {
+      "type":"color",
+      "id":"color_5",
+      "label":"Label color 5"
+    }
+  ],
+  "blocks": [
+    {
+      "type":"mega_dropdown",
+      "name":"Mega Dropdown",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Navigation Title",
+          "default": "Home",
+          "info": "Ex: Home"
+        },
+        {
+          "id": "icon",
+          "type": "text",
+          "label": "Icon",
+          "info":"Ex:user [fontawesome icons](http://fontawesome.io/icons/)"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Navigation link"
+        },
+        {
+          "type":"text",
+          "id":"label",
+          "label":"Navigation label"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Add sub menu"
+        },
+        {
+          "type": "select",
+          "id": "sub_menu_color",
+          "label": "Sub Menu Text Color",
+          "options": [
+            { 
+              "value": "light", 
+              "label": "Light" 
+            },
+            { 
+              "value": "dark",
+              "label": "Dark" 
+            }
+          ],
+          "default":   "dark"
+        },
+        {
+          "type":"color",
+          "id":"color",
+          "label":"Navigation label color",
+          "default":"#ffffff"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_img",
+          "label": "Show image?"
+        },
+        {
+          "type": "image_picker",
+          "id": "banner",
+          "label": "Banner image"
+        },
+        {
+          "type": "text",
+          "id": "img-title",
+          "label": "Image Title"
+        },
+        {
+          "type": "url",
+          "id": "image_link",
+          "label": "Image Link"
+        },
+        {
+          "type": "image_picker",
+          "id": "banners",
+          "label": "Banners image"
+        },
+        {
+          "type": "url",
+          "id": "image_link1",
+          "label": "Image Link1"
+        },
+       {
+          "type": "image_picker",
+          "id": "banners1",
+          "label": "Banners1 image"
+        },
+        {
+          "type": "url",
+          "id": "image_link2",
+          "label": "Image Link2"
+        },
+       {
+          "type": "image_picker",
+          "id": "banners2",
+          "label": "Banners2 image"
+        },
+        {
+          "type": "url",
+          "id": "image_link3",
+          "label": "Image Link3"
+        },
+        {
+          "type": "image_picker",
+          "id": "banners3",
+          "label": "Banners3 image"
+        },
+        {
+          "type": "url",
+          "id": "image_link4",
+          "label": "Image Link4"
+        },
+        {
+          "type": "image_picker",
+          "id": "banners4",
+          "label": "Banners4 image"
+        },
+        {
+          "type": "checkbox",
+          "id": "full_width",
+          "label": "Show Sub full-width?"
+        },
+        {
+          "type": "text",
+          "label": "Navigation width",
+          "id": "menu_width",
+          "default": "800",
+          "info": "Set width sub megamenu."
+        }
+      ]
+    },
+    {
+      "type":"mega_dropdown_blog",
+      "name":"Mega Dropdown Blog",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Navigation Title",
+          "default": "Home",
+          "info": "Ex: Home"
+        },
+        {
+          "id": "icon",
+          "type": "text",
+          "label": "Icon",
+          "info":"Ex:user [fontawesome icons](http://fontawesome.io/icons/)"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Navigation link"
+        },
+        {
+          "type":"text",
+          "id":"label",
+          "label":"Navigation label"
+        },
+        {
+          "type":"color",
+          "id":"color",
+          "label":"Navigation label color",
+          "default":"#ffffff"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Add sub menu"
+        },
+        {
+          "type": "select",
+          "id": "sub_menu_color",
+          "label": "Sub Menu Text Color",
+          "options": [
+            { 
+              "value": "light", 
+              "label": "Light" 
+            },
+            { 
+              "value": "dark",
+              "label": "Dark" 
+            }
+          ],
+          "default":   "dark"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_img",
+          "label": "Show image?"
+        },
+        {
+          "type": "image_picker",
+          "id": "banner",
+          "label": "Banner image"
+        },
+        {
+          "type": "checkbox",
+          "id": "full_width",
+          "label": "Show sub full-width?"
+        },
+        {
+          "type": "text",
+          "label": "Navigation width",
+          "id": "menu_width",
+          "default": "800",
+          "info": "Set width sub megamenu."
+        },
+        {
+          "type": "header",
+          "content": "Blog Settings"
+        },
+        {
+          "id": "blog",
+          "type": "blog",
+          "label": "Blog"
+        },
+        {
+          "type": "text",
+          "id": "blog_limit",
+          "label": "Number of article to show",
+          "default": "3"
+        }
+      ]
+    },
+    {
+      "type":"classic_dropdown",
+      "name":"Classic Menu Dropdown",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Navigation Title",
+          "default": "Home",
+          "info": "Ex: Home"
+        },
+        {
+          "id": "icon",
+          "type": "text",
+          "label": "Icon",
+          "info":"Ex:user [fontawesome icons](http://fontawesome.io/icons/)"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Navigation link"
+        },
+        {
+          "type":"text",
+          "id":"label",
+          "label":"Navigation label"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Add sub menu"
+        },
+        {
+          "type":"color",
+          "id":"color",
+          "label":"Navigation label color",
+          "default":"#ffffff"
+        },
+        {
+          "type": "text",
+          "label": "Navigation width",
+          "id": "menu_width",
+          "info": "Pixcel unit, Example: 250 (if you not use full-width )"
+        }
+      ]
+    },
+    {
+      "type":"custom_html_block",
+      "name":"HTML block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Navigation Title",
+          "default": "Home",
+          "info": "Ex: Home"
+        },
+        {
+          "id": "icon",
+          "type": "text",
+          "label": "Icon",
+          "info":"Ex:user [fontawesome icons](http://fontawesome.io/icons/)"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Navigation link"
+        },
+        {
+          "type":"text",
+          "id":"label",
+          "label":"Navigation label"
+        },
+        {
+          "type":"color",
+          "id":"color",
+          "label":"Navigation label color",
+          "default":"#ffffff"
+        },
+        {
+          "type": "html",
+          "id": "html",
+          "label": "Custom HTMl",
+          "info": "Create a drop-down menu"
+        },
+        {
+          "type": "checkbox",
+          "id": "full_width",
+          "label": "Show Sub full-width?"
+        },
+        {
+          "type": "text",
+          "label": "Navigation width",
+          "id": "menu_width",
+          "default": "800",
+          "info": "Pixcel unit, Example: 750 (if you not use full-width )"
+        }
+      ]
+    },
+    {
+      "type":"menu_item_no_children",
+      "name":"Menu item no children",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Navigation Title",
+          "default": "Home",
+          "info": "Ex: Home"
+        },
+        {
+          "id": "icon",
+          "type": "text",
+          "label": "Icon",
+          "info":"Ex:user [fontawesome icons](http://fontawesome.io/icons/)"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Navigation link"
+        },
+        {
+          "type":"text",
+          "id":"label",
+          "label":"Navigation label"
+        },
+        {
+          "type":"color",
+          "id":"color",
+          "label":"Navigation label color",
+          "default":"#ffffff"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

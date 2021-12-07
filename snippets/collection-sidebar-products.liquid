@@ -1,0 +1,46 @@
+{%- assign limit = settings.collection_sidebar_products_limit -%}      
+{%- assign name_collection = settings.collection_sidebar_products -%}
+{%- if name_collection == blank -%}{%- assign name_collection = "all" -%}{%- endif -%}
+{%- assign collection = collections[name_collection] -%} 
+{%- if collection.products.size == 0 -%}
+<p style="text-align:center;color:#999;padding: 5px 10px;font-style:italic;" {% if settings.language_enable %}data-translate="products.general.no_more_product"{% endif %}>{{ 'products.general.no_more_product' | t }}</p>
+{%- else -%} 
+<ul class="product_list_widget">
+  {%- for product in collection.products limit: limit -%} 
+  {%- assign on_sale = false -%}
+  {%- if product.compare_at_price_min > product.price_min -%}
+  {%- assign on_sale = true -%}
+  {%- endif -%} 
+  <li>
+    <div class="top_rated_left">
+    <a href="{{ product.url | within: collection }}">
+      <img src="{{ product.featured_image.src | img_url: '100x130' }}" class="attachment-shop_thumbnail size-shop_thumbnail sp-post-image" alt="">		
+     </a>
+    </div>
+    <div class="top_rated_right">
+      <a href="{{ product.url | within: collection }}">  
+      <span class="product-title">
+        {% if settings.language_enable %}
+        <span class="lang1">{{ product.title | split: '|' | first }}</span>
+        <span class="lang2">{{ product.title | split: '|' | last }}</span>
+        {% else %}
+        {{ product.title | split: '|' | first }}
+        {% endif %}
+      </span>
+    </a>
+    <div class="star-rating">
+      <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+    </div>		
+    <span class="price">
+      {% if on_sale %} 
+      <del><span class="shopify-Price-amount amount"><span class="money">{{ product.compare_at_price | money }}</span></span></del> 
+      <ins><span class="shopify-Price-amount amount"><span class="money">{{ product.price | money }}</span></span></ins>
+      {% else %}
+      <span class="shopify-Price-amount amount"><span class="money">{{ product.price | money }}</span></span>
+      {% endif %}
+    </span>
+    </div>
+  </li>
+  {% endfor %} 
+</ul>
+{%- endif -%} 

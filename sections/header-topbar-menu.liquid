@@ -1,0 +1,127 @@
+<div class="menu-top-bar-container"> 
+  <ul id="menu-top-bar" class="menu">
+    {%- if section.blocks.size > 0 -%} 
+    {%- for block in section.blocks -%}
+    {%- case block.type -%}
+    {%- when 'menu_newsletter' -%}
+    <li id="menu-item-{{block.id}}" class="woodmart-open-newsletter menu-item menu-item-{{block.id}} menu-item-design-default item-level-0 item-event-hover">
+      <a href="http://#" class="woodmart-nav-link {{block.settings.extra_class}}">
+        <span>
+          {%- if settings.language_enable -%}
+          <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+          <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+          {%- else -%}
+          {{ block.settings.title | split: '|' | first }}
+          {%- endif -%}
+        </span>
+      </a>
+    </li>
+    {%- when 'menu_wishlist' -%}
+    <li id="menu-item-{{block.id}}" class="menu-item menu-item-wishlist menu-item-design-default item-level-0 item-event-hover">
+       <div class="woodmart-wishlist-info-widget">
+        <a href="#" class="{{block.settings.extra_class}}">
+          <span class="wishlist-info-wrap">
+            <div class="wishlist-icon">
+              <span class="count">0</span>
+            </div>
+            <span class="wishlist-label">
+              {%- if settings.language_enable -%}
+              <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+              <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+              {%- else -%}
+              {{ block.settings.title | split: '|' | first }}
+              {%- endif -%}
+            </span> 
+          </span>
+        </a>
+      </div> 
+    </li>
+    {%- else -%}
+    {%- if block.settings.button_link != blank and block.settings.title != blank -%}
+    <li id="menu-item-{{block.id}}" class="menu-item menu-item-{{block.id}} menu-item-design-default item-level-0 item-event-hover">
+      <a href="{{block.settings.button_link}}" class="{{block.settings.extra_class}}">
+        {%- if settings.language_enable -%}
+        <span class="lang1">{%- if block.settings.icon != blank -%}<i class="fa fa-{{block.settings.icon}}"></i>{%- endif -%}{{ block.settings.title | split: '|' | first }}</span>
+        <span class="lang2">{%- if block.settings.icon != blank -%}<i class="fa fa-{{block.settings.icon}}"></i>{%- endif -%}{{ block.settings.title | split: '|' | last }}</span>
+        {%- else -%}
+        {%- if block.settings.icon != blank -%}<i class="fa fa-{{block.settings.icon}}"></i>{%- endif -%}{{ block.settings.title | split: '|' | first }}
+        {%- endif -%} 
+      </a>
+    </li> 
+    {%- endif -%}
+    {%- endcase -%}
+    {%- endfor -%}
+    {%- endif -%} 
+  </ul>
+</div> 
+{%- schema -%}
+{
+  "name": "Top Bar Menu", 
+  "blocks": [ 
+    {
+      "type": "menu_newsletter",
+      "name": "Link Newsletter",
+      "limit": 1,
+        "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Newsletter"
+        },
+		{
+          "type": "text",
+          "id": "extra_class",
+          "label": "Extra Class Name" 
+        }
+      ]
+    }, 
+    {
+      "type": "menu_wishlist",
+      "name": "Link Wishlist",
+      "limit": 1,
+        "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Wishlist"
+        },
+		{
+          "type": "text",
+          "id": "extra_class",
+          "label": "Extra Class Name" 
+        }
+      ]
+    },
+    {
+      "type":"menu_item",
+      "name":"Add Items",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Navigation Title",
+          "default": "Contact Us"
+        },
+        {
+          "id": "icon",
+          "type": "text",
+          "label": "Icon",
+          "info":"Ex:user [fontawesome icons](http://fontawesome.io/3.2.1/icons/)"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Navigation link"
+        },
+		{
+          "type": "text",
+          "id": "extra_class",
+          "label": "Extra Class Name" 
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

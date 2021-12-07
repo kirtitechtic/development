@@ -1,0 +1,86 @@
+{%- if aspect_ratio -%}
+{%- assign _aspect_ratio = aspect_ratio -%}
+{%- else -%}
+{%- assign _aspect_ratio = settings.blog_aspect_ratio -%}
+{%- endif -%}
+<div class="article-inner">
+  <header class="entry-header">
+    {%- if article.image -%}
+    <figure id="carousel-{{article.id}}" class="entry-thumbnail">
+      <div class="post-img-wrapp">
+        <a href="{{ article.url }}">
+          {%- if _aspect_ratio == '0' -%}
+          <img src="{{ article | img_url: image_size, crop: 'center' }}" class="attachment-large wp-post-image attachment-large" alt="">
+          {%- else -%}
+          <img src="{{ article | img_url: image_size }}" class="attachment-large wp-post-image attachment-large" alt="">
+          {%- endif -%}
+        </a>
+      </div>
+      <div class="post-image-mask"><span></span></div>
+    </figure>
+    {%- endif -%}
+    <div class="post-date woodmart-post-date">
+      <span class="post-date-day">{{ article.published_at | date: '%d' }}</span>
+      <span class="post-date-month">{{ article.published_at | date: '%b' }}</span>
+    </div>
+  </header>
+  <div class="article-body-container">
+    <div class="meta-categories-wrapp">
+      <div class="meta-post-categories">
+        <a href="{{blog.url}}" rel="category tag"> 
+          {%- if settings.language_enable -%}
+          <span class="lang1">{{ blog.title | split: '|' | first  }}</span>
+          <span class="lang2">{{ blog.title | split: '|' | last }}</span>
+          {%- else -%}
+          {{ blog.title | split: '|' | first }}
+          {%- endif -%} 
+        </a>
+      </div>
+    </div>
+    <h3 class="entry-title">
+      <a href="{{article.url}}" rel="bookmark">
+        {%- if settings.language_enable -%}
+        <span class="lang1">{{ article.title | split: '|' | first  }}</span>
+        <span class="lang2">{{ article.title | split: '|' | last }}</span>
+        {%- else -%}
+        {{ article.title | split: '|' | first }}
+        {%- endif -%}
+      </a>
+    </h3>
+    <div class="entry-meta woodmart-entry-meta">
+      <ul class="entry-meta-list">
+        <li class="meta-author">
+          <span {% if settings.language_enable %}data-translate="blogs.article.posted_by"{% endif %}>{{ 'blogs.article.posted_by' | t }}</span>
+          <a href="javascrip:void()" rel="author">{{article.author}}</a>
+        </li>
+        <li>
+          <span class="meta-reply">
+            {%- assign number_of_comments = article.comments_count -%} 
+            <a href="{{ article.comment_post_url }}">
+              <span class="comments-count">{{number_of_comments}}</span> 
+              <span class="comments-count-label" {% if settings.language_enable %}data-translate="blogs.comments.comments_with_count"{%endif%}>{{ 'blogs.comments.comments_with_count'}}</span>
+            </a>
+          </span>
+        </li>
+      </ul>
+    </div>
+    <div class="hovered-social-icons">
+      <div class="woodmart-social-icons text-center icons-design-default icons-size-small color-scheme-light social-share social-form-circle">
+        {%- assign _url = shop.url | append: article.url -%}
+        {%- include 'social-sharing', share_url: _url -%}
+      </div>
+    </div>
+    <div class="entry-content woodmart-entry-content">
+      {%- assign length = settings.blog_content_length | plus: 0 -%}
+      {% if settings.language_enable %}
+      <span class="lang1">{{ article.content | strip_html | split: '[lang2]' | first | truncatewords: length }}</span>
+      <span class="lang2">{{ article.content | strip_html | split: '[lang2]' | last | truncatewords: length }}</span>
+      {% else %}
+      {{ article.content | strip_html | split: '[lang2]' | first | truncatewords: length}}
+      {% endif %}
+      <p class="read-more-section">
+        <a class="btn-read-more more-link" href="{{ article.url }}" {% if settings.language_enable %}data-translate="blogs.article.read_more"{% endif %}>{{ 'blogs.article.read_more' | t }}</a>
+      </p>
+    </div>
+  </div>
+</div> 

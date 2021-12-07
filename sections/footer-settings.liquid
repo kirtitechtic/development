@@ -1,0 +1,608 @@
+{%- if section.blocks.size > 0 -%}
+  {%- for block in section.blocks -%}
+    {%- case block.type -%} 
+    {%- when 'menu' -%}
+    <div class="footer-column footer-column-{{forloop.index}} col-md-{{block.settings.item_width}} col-sm-6">
+      <div id="text-{{block.id}}" class="woodmart-widget footer-widget widget_text">
+        {%- if block.settings.title != '' -%}
+        <h5 class="widget-title">
+          {% if settings.language_enable %}
+          <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+          <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+          {% else %}
+          {{ block.settings.title | split: '|' | first }}
+          {% endif %}
+        </h5>
+        {%- endif -%}
+        <div class="textwidget">
+          {%- assign linklist = linklists[block.settings.menu] -%}
+          {%- if linklist.links.size > 0 -%}
+          <ul class="menu">
+            {%- for link in linklist.links -%}
+            <li>
+              <a href="{{ link.url }}">
+                {% if settings.language_enable %}
+                <span class="lang1">{{ link.title | split: '|' | first }}</span>
+                <span class="lang2">{{ link.title | split: '|' | last }}</span>
+                {% else %}
+                {{ link.title | split: '|' | first }}
+                {% endif %}
+              </a>
+            </li>
+            {%- endfor -%}
+          </ul>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+	{%- when 'about' -%}
+    <div class="footer-column footer-column-{{forloop.index}} col-md-{{block.settings.item_width}} col-sm-6">
+      <div id="text-{{block.id}}" class="woodmart-widget footer-widget widget_text">
+        <div class="textwidget">
+          <div class="footer-logo" style="max-width: 80%;margin-bottom: 10px;">
+            <img class="logo" src="" style="max-width: px">
+            {%- case block.settings.logo_width -%}
+              {%- when '' -%}
+                {%- assign logo_width = '220' -%}
+                {%- assign logo_height = '' -%} 
+              {%- else -%}
+                {%- assign logo_width = block.settings.logo_width -%}
+                {%- assign logo_height = '' -%}
+            {%- endcase -%}  
+            {%- capture logo_size -%}{{ logo_width }}x{{ logo_height }}{%- endcapture -%} 
+            {%- if block.settings.logo_svg != '' -%}
+            <img class="logo" src="{{ block.settings.logo_svg | asset_url }}" alt="{{ image.alt | default: shop.name }}" style="max-width: {{block.settings.logo_width | remove: "px" | append: "px"}}"/>
+            {%- else -%}
+            {%- if block.settings.logo != blank -%} 
+            <img class="logo" src="{{ block.settings.logo | img_url: logo_size }}" alt="{{ image.alt | default: shop.name }}"  style="max-width: {{block.settings.logo_width | remove: "px" | append: "px"}}"/> 
+            {%- else -%}
+            {{shop.name}}
+            {%- endif -%}
+            {%- endif -%}
+          </div>
+          {% if settings.language_enable %}
+          <div class="lang1">{{ block.settings.about_content | split: '[lang2]' | first }}</div>
+          <div class="lang2">{{ block.settings.about_content | split: '[lang2]' | last }}</div>
+          {% else %}
+          {{ block.settings.about_content | split: '[lang2]' | first }}
+          {% endif %}
+        </div>
+      </div>
+	</div>
+	{%- when 'blog' -%}
+    <div class="footer-column footer-column-{{forloop.index}} col-md-{{block.settings.item_width}} col-sm-6">
+      <div id="text-{{block.id}}" class="woodmart-widget footer-widget woodmart-recent-posts">
+        {%- if block.settings.title != '' -%}
+        <h5 class="widget-title">
+          {% if settings.language_enable %}
+          <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+          <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+          {% else %}
+          {{ block.settings.title | split: '|' | first }}
+          {% endif %}
+        </h5>
+        {%- endif -%}
+        <ul class="woodmart-recent-posts-list">
+          {%- assign blog = blogs[block.settings.blog] -%}
+          {%- assign blog_limit = block.settings.blog_limit -%}
+          {%- unless blog.empty? -%}
+          {%- for article in blog.articles limit:blog_limit -%}
+          <li>
+            {%- if article.image -%}
+            <a class="recent-posts-thumbnail" href="{{ article.url }}">
+              {%- if settings.blog_aspect_ratio == '0' -%}
+              <img class="attachment-large sp-post-image " src="{{ article | img_url: '105x84', crop: 'center' }}" width="75" /> 
+              {%- else -%}
+              <img class="attachment-large sp-post-image " src="{{ article | img_url: '105x' }}" width="75" /> 
+              {%- endif -%}
+            </a>
+            {%- endif -%}
+            <div class="recent-posts-info">
+              <h5 class="entry-title">
+                <a href="{{ article.url }}">
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ article.title | split: '|' | first }}</span>
+                  <span class="lang2">{{ article.title | split: '|' | last }}</span>
+                  {% else %}
+                  {{ article.title | split: '|' | first }}
+                  {% endif %}
+                </a>
+              </h5>
+              <time class="recent-posts-time">{{ article.published_at | date: '%b %d, %Y' }}</time>
+              {%- assign number_of_comments = article.comments_count -%} 
+              <a class="recent-posts-comment" href="{{ article.comment_post_url }}" {% if settings.language_enable %}data-translate="blogs.comments.comments_with_count|count:{{number_of_comments}}"{%endif%}>{{ 'blogs.comments.comments_with_count' | t: count: number_of_comments }}</a>
+            </div>
+          </li>
+          {%- endfor -%}
+          {%- endunless -%}
+        </ul>
+       </div>
+	</div>
+	{%- when 'newsletter' -%}
+    <div class="footer-column footer-column-{{forloop.index}} col-md-{{block.settings.item_width}} col-sm-6">
+      <div id="text-{{block.id}}" class="woodmart-widget footer-widget widget_text">
+        {%- if block.settings.title != '' -%}
+        <h5 class="widget-title">
+          {% if settings.language_enable %}
+          <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+          <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+          {% else %}
+          {{ block.settings.title | split: '|' | first }}
+          {% endif %}
+        </h5>
+        {%- endif -%}
+        <div class="textwidget">
+          {% if settings.language_enable %}
+          <div class="lang1">{{ block.settings.news_content | split: '|' | first }}</div>
+          <div class="lang2">{{ block.settings.news_content | split: '|' | last }}</div>
+          {% else %}
+          {{ block.settings.news_content | split: '|' | first }}
+          {% endif %}
+          {%- if settings.newsletter_form_action != blank -%}
+          	{%- assign form_action = settings.newsletter_form_action -%}
+          {%- else -%}
+          	{%- assign form_action = '#' -%}
+          {%- endif -%} 
+          <form action="{{ form_action }}" method="post" target="_blank" name="mc-embedded-subscribe-form" class="mc4wp-form mc4wp-form-1446 mc4wp-form-submitted mc4wp-form-error">
+            <div class="mc4wp-form-fields">
+              <p>                        
+                <input id="fc-email" type="email" value="{% if customer %}{{ customer.email }}{% endif %}" name="EMAIL" class="input-group-field" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}">
+              </p> 
+              <p><button type="submit" name="subscribe" {% if settings.language_enable %}data-translate="general.newsletter_form.subscribe"{% endif %}>{{ 'general.newsletter_form.subscribe' | t }}</button></p>
+            </div>
+          </form>
+        </div>
+      </div>
+	</div>
+
+	{%- else -%}
+	<div class="footer-column footer-column-{{forloop.index}} col-md-2 {{block.settings.item_width}} col-sm-6">
+     <a href="{{ block.settings.image_link }}">
+      <img src="{{ block.settings.footer_image | img_url : ''}}">
+      </a>
+	</div>
+{%- when 'image' -%}
+   
+     
+	</div>
+  	{%- endcase -%}
+  {%- endfor -%}
+{%- endif -%}
+{%- if section.blocks.size == 0 -%}
+<style>
+  .footer-sidebar {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+</style>
+{%- endif -%}
+{%- schema -%}
+{
+  "name": "Footer layout", 
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Add Menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Footer Menu"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Add menu"
+        },
+        {
+          "type": "select",
+          "id": "item_width",
+          "label": "Item Width",
+          "options": [
+            {
+              "value": "1",
+              "label": "1/12"
+            },
+            {
+              "value": "2",
+              "label": "2/12"
+            },
+            {
+              "value": "3",
+              "label": "3/12"
+            },
+            {
+              "value": "4",
+              "label": "4/12"
+            },
+            {
+              "value": "5",
+              "label": "5/12"
+            },
+            {
+              "value": "6",
+              "label": "6/12"
+            },
+            {
+              "value": "7",
+              "label": "7/12"
+            },
+            {
+              "value": "8",
+              "label": "8/12"
+            },
+            {
+              "value": "9",
+              "label": "9/12"
+            },
+            {
+              "value": "10",
+              "label": "10/12"
+            },
+            {
+              "value": "11",
+              "label": "11/12"
+            },
+            {
+              "value": "12",
+              "label": "12/12"
+            }
+          ],
+          "default": "3"
+        }
+      ]
+    },
+    {
+      "type": "about",
+      "name": "About US",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Logo"
+        }, 
+        {
+          "type": "text",
+          "id": "logo_svg",
+          "label": "Logo SVG",
+          "default": "wood-logo-dark.svg"
+        },
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo image",
+          "info": "Upload image: png, jpg or gif file"
+        },
+        {
+          "type": "text",
+          "id": "logo_max_width",
+          "label": "Logo image maximum width",
+          "default": "220"
+        },
+        {
+          "type": "html",
+          "id": "about_content",
+          "label": "Content",
+          "default": "<p>Condimentum adipiscing vel neque dis nam parturient orci at scelerisque neque dis nam parturient.</p><div style=\"line-height: 2;\"><i class=\"fa fa-location-arrow\" style=\"width: 15px; text-align: center; margin-right: 4px; color: #676767;\"></i> 451 Wall Street, UK, London<br><i class=\"fa fa-mobile\" style=\"width: 15px; text-align: center; margin-right: 4px; color: #676767;\"></i> Phone: (064) 332-1233<br><i class=\"fa fa-envelope-o\" style=\"width: 15px; text-align: center; margin-right: 4px; color: #676767;\"></i> Fax: (099) 453-1357</div>"
+        },
+        {
+          "type": "select",
+          "id": "item_width",
+          "label": "Item Width",
+          "options": [
+            {
+              "value": "1",
+              "label": "1/12"
+            },
+            {
+              "value": "2",
+              "label": "2/12"
+            },
+            {
+              "value": "3",
+              "label": "3/12"
+            },
+            {
+              "value": "4",
+              "label": "4/12"
+            },
+            {
+              "value": "5",
+              "label": "5/12"
+            },
+            {
+              "value": "6",
+              "label": "6/12"
+            },
+            {
+              "value": "7",
+              "label": "7/12"
+            },
+            {
+              "value": "8",
+              "label": "8/12"
+            },
+            {
+              "value": "9",
+              "label": "9/12"
+            },
+            {
+              "value": "10",
+              "label": "10/12"
+            },
+            {
+              "value": "11",
+              "label": "11/12"
+            },
+            {
+              "value": "12",
+              "label": "12/12"
+            }
+          ],
+          "default": "3"
+        }
+      ]
+    },
+    {
+      "type": "blog",
+      "name": "Blog Posts",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Recent Posts"
+        },
+        {
+          "id": "blog",
+          "type": "blog",
+          "label": "Blog"
+        },
+        {
+          "type": "text",
+          "id": "blog_limit",
+          "label": "Number of article to show",
+          "default": "3"
+        },
+        {
+          "type": "select",
+          "id": "item_width",
+          "label": "Item Width",
+          "options": [
+            {
+              "value": "1",
+              "label": "1/12"
+            },
+            {
+              "value": "2",
+              "label": "2/12"
+            },
+            {
+              "value": "3",
+              "label": "3/12"
+            },
+            {
+              "value": "4",
+              "label": "4/12"
+            },
+            {
+              "value": "5",
+              "label": "5/12"
+            },
+            {
+              "value": "6",
+              "label": "6/12"
+            },
+            {
+              "value": "7",
+              "label": "7/12"
+            },
+            {
+              "value": "8",
+              "label": "8/12"
+            },
+            {
+              "value": "9",
+              "label": "9/12"
+            },
+            {
+              "value": "10",
+              "label": "10/12"
+            },
+            {
+              "value": "11",
+              "label": "11/12"
+            },
+            {
+              "value": "12",
+              "label": "12/12"
+            }
+          ],
+          "default": "3"
+        }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Newsletter Signup",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Newsletter"
+        },
+        {
+          "type": "html",
+          "id": "news_content",
+          "label": "Newsletter Content",
+          "default": "<div class=\"title-wrapper woodmart-title-color-default woodmart-title-style-default woodmart-title-size-extra-large woodmart-title-width-100 text-center vc_custom_1492503693559\"><div class=\"title-subtitle font-default style-default\">GET LATEST MINIMALISM NEWS</div><div class=\"liner-continer\"> <span class=\"left-line\"></span> <h4 class=\"woodmart-title-container title\">Newsletter Subscribe<span class=\"title-separator\"><span></span></span></h4> <span class=\"right-line\"></span> </div></div><div class=\"title-wrapper woodmart-title-color-default woodmart-title-style-default woodmart-title-size-extra-large woodmart-title-width-60 text-center \"><div class=\"title-subtitle font-default style-default\"> </div><div class=\"liner-continer\"> <span class=\"left-line\"></span> <h4 class=\"woodmart-title-container title\"> <span class=\"title-separator\"><span></span></span></h4> <span class=\"right-line\"></span> </div><div class=\"title-after_title\">It only takes a second to be the first to find out about our latest news and promotions...</div></div>"
+        },
+        {
+          "type": "select",
+          "id": "item_width",
+          "label": "Item Width",
+          "options": [
+            {
+              "value": "1",
+              "label": "1/12"
+            },
+            {
+              "value": "2",
+              "label": "2/12"
+            },
+            {
+              "value": "3",
+              "label": "3/12"
+            },
+            {
+              "value": "4",
+              "label": "4/12"
+            },
+            {
+              "value": "5",
+              "label": "5/12"
+            },
+            {
+              "value": "6",
+              "label": "6/12"
+            },
+            {
+              "value": "7",
+              "label": "7/12"
+            },
+            {
+              "value": "8",
+              "label": "8/12"
+            },
+            {
+              "value": "9",
+              "label": "9/12"
+            },
+            {
+              "value": "10",
+              "label": "10/12"
+            },
+            {
+              "value": "11",
+              "label": "11/12"
+            },
+            {
+              "value": "12",
+              "label": "12/12"
+            }
+          ],
+          "default": "3"
+        }
+      ]
+    },
+    {
+      "type": "html",
+      "name": "Custom HTML",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Heading title"
+        },
+        {
+          "type": "html",
+          "id": "html",
+          "label": "Text",
+		  "default": "<div class=\"title-wrapper woodmart-title-color-default woodmart-title-style-default woodmart-title-size-extra-large woodmart-title-width-50 text-center vc_custom_1504250042363\"><div class=\"title-subtitle font-default style-default\">READ OUR NEWS</div><div class=\"liner-continer\"> <span class=\"left-line\"></span> <h4 class=\"woodmart-title-container title\">Follow Us<span class=\"title-separator\"><span></span></span></h4> <span class=\"right-line\"></span> </div><div class=\"title-after_title\">It only takes a second to be the first to find out about our news and promotions...</div></div><div class=\"woodmart-social-icons text-center icons-design-bordered icons-size-default color-scheme-dark social-share social-form-circle\"><div class=\"woodmart-social-icon social-facebook\"><a href=\"https://www.facebook.com/sharer/sharer.php?u=https://woodmart-default.myshopify.com\" target=\"_blank\" class=\"\"><i class=\"fa fa-facebook\"></i>Facebook</a></div><div class=\"woodmart-social-icon social-twitter\"><a href=\"http://twitter.com/share?url=https://woodmart-default.myshopify.com\" target=\"_blank\" class=\"\"><i class=\"fa fa-twitter\"></i>Twitter</a></div><div class=\"woodmart-social-icon social-google\"><a href=\"http://plus.google.com/share?url=https://woodmart-default.myshopify.com\" target=\"_blank\" class=\"\"><i class=\"fa fa-google-plus\"></i>Google</a></div><div class=\"woodmart-social-icon social-email\"><a href=\"mailto:?subject=Check this https://woodmart-default.myshopify.com\" target=\"_blank\" class=\"\"><i class=\"fa fa-envelope\"></i>Email</a></div><div class=\"woodmart-social-icon social-pinterest\"><a href=\"http://pinterest.com/pin/create/button/?url=https://woodmart-default.myshopify.com&amp;media=https://woodmart.xtemos.com/wp-includes/images/media/default.png\" target=\"_blank\" class=\"\"><i class=\"fa fa-pinterest\"></i>Pinterest</a></div></div>"
+        },
+        {
+          "type": "select",
+          "id": "item_width",
+          "label": "Item Width",
+          "options": [
+            {
+              "value": "1",
+              "label": "1/12"
+            },
+            {
+              "value": "2",
+              "label": "2/12"
+            },
+            {
+              "value": "3",
+              "label": "3/12"
+            },
+            {
+              "value": "4",
+              "label": "4/12"
+            },
+            {
+              "value": "5",
+              "label": "5/12"
+            },
+            {
+              "value": "6",
+              "label": "6/12"
+            },
+            {
+              "value": "7",
+              "label": "7/12"
+            },
+            {
+              "value": "8",
+              "label": "8/12"
+            },
+            {
+              "value": "9",
+              "label": "9/12"
+            },
+            {
+              "value": "10",
+              "label": "10/12"
+            },
+            {
+              "value": "11",
+              "label": "11/12"
+            },
+            {
+              "value": "12",
+              "label": "12/12"
+            }
+          ],
+          "default": "3"
+        }
+      ]
+    },
+	{
+      "type": "image",
+      "name": "Footer Image",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Heading title"
+        },
+        {
+          "type": "image_picker",
+          "id": "footer_image",
+          "label": "Footer image"
+		 
+        },
+       {
+          "type": "url",
+          "id": "image_link",
+          "label": "Image Link"
+        }
+        
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,13 @@
+<nav class="shopify-breadcrumb">
+  <a class="breadcrumb-link" href="/" title="{{ 'general.breadcrumbs.home_link_title' | t }}" {% if settings.language_enable %}data-translate="general.breadcrumbs.home"{% endif %}>{{ 'general.breadcrumbs.home' | t }}</a>
+  {% if template contains 'collection' and collection.handle %}  
+  <span class="breadcrumb-last"> 
+    {% if settings.language_enable %}
+    <span class="lang1">{{ collection.title | split: '|' | first  }}</span>
+    <span class="lang2">{{ collection.title | split: '|' | last }}</span>
+    {% else %}
+    {{ collection.title | split: '|' | first }}
+    {% endif %} 
+  </span>  
+  {% endif %} 
+</nav>

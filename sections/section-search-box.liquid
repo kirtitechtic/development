@@ -1,0 +1,565 @@
+{%- case section.settings.section_layout -%}
+{%- when '0' -%}
+{%- capture data_fullwidth -%}{%- endcapture -%}
+{%- when '1' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true"{%- endcapture -%}
+{%- when '2' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- when '3' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- endcase -%} 
+<div data-section-id="{{ section.id }}" data-section-type="promo-banner-section">
+  <div {{data_fullwidth}} class="vc_row wpb_row vc_row-fluid {% if section.settings.hide_background_mobile != blank %}mobile-bg-img-hidden{% endif %} vc_custom_{{section.id}} {% if section.settings.section_layout == '3' %}vc_row-no-padding{% endif %}"  style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.padding}};">
+    {{section.settings.background_gradient_color}}
+    <div class="wpb_column vc_column_container vc_col-sm-12">
+      <div class="vc_column-inner">
+        <div class="wpb_wrapper">
+          <div class="title-wrapper woodmart-title-color-{{section.settings.heading_color}} woodmart-title-style-{{section.settings.heading_style}} woodmart-title-size-{{section.settings.heading_size}} woodmart-title-width-{{section.settings.heading_width}} text-{{section.settings.heading_postion}}">
+            {%- if section.settings.heading_top != '' -%}
+            <div class="title-subtitle font-default style-{{section.settings.heading_style}}">
+              {%- if settings.language_enable -%}
+              <span class="lang1">{{ section.settings.heading_top | split: '|' | first }}</span>
+              <span class="lang2">{{ section.settings.heading_top | split: '|' | last }}</span>
+              {%- else -%}
+              {{ section.settings.heading_top | split: '|' | first }}
+              {%- endif -%}
+            </div>
+            {%- endif -%} 
+            {%- if section.settings.title != '' -%}
+            <div class="liner-continer">
+              <span class="left-line"></span>
+              <h4 class="woodmart-title-container title  woodmart-font-weight-">
+                {%- if settings.language_enable -%}
+                <span class="lang1">{{ section.settings.title | split: '|' | first }}</span>
+                <span class="lang2">{{ section.settings.title | split: '|' | last }}</span>
+                {%- else -%}
+                {{ section.settings.title | split: '|' | first }}
+                {%- endif -%}
+              </h4>
+              <span class="right-line"></span>
+            </div>
+            {%- endif -%}
+            {%- if section.settings.heading_content != '' -%}
+            <div class="title-after_title">
+              {%- if settings.language_enable -%}
+              <span class="lang1">{{ section.settings.heading_content | split: '|' | first }}</span>
+              <span class="lang2">{{ section.settings.heading_content | split: '|' | last }}</span>
+              {%- else -%}
+              {{ section.settings.heading_content | split: '|' | first }}
+              {%- endif -%}
+            </div>
+            {%- endif -%}
+            <style> 
+              {%- if section.settings.heading_top == '' and section.settings.title == '' and section.settings.heading_content == '' -%}
+              .vc_custom_{{section.id}} .title-wrapper {
+                margin-bottom: 0;
+              }
+              {%- endif -%} 
+            </style>
+          </div>
+          <div class="vc_row wpb_row vc_row-fluid">
+            <div class="wpb_column vc_column_container vc_col-sm-12 vc_col-md-offset-3 vc_col-md-6">
+              <div class="vc_column-inner vc_custom_1509714340154">
+                <div class="woodmart-vc-ajax-search woodmart-ajax-search color-{{section.settings.search_color}}  vc_custom_1509629101812">
+                  <div class="woodmart-search-form">
+                    <form role="search" method="get" class="searchform {% if settings.header_search_colletion != blank %}has-categories-dropdown{% endif %} {% if settings.header_ajax_search != blank %}woodmart-ajax-search{% endif %}" action="/search" data-thumbnail="1" data-price="1" data-post-type="product" data-count="15">
+                      <div>
+                        <label class="screen-reader-text" for="q"></label>
+                        <input type="text" class="s" {% if settings.language_enable %}data-translate="general.search.placeholder"{% endif %} placeholder="{{ 'general.search.placeholder' | t }}" value="" name="q" autocomplete="off" style="padding-right: 65px;">
+                        <input type="hidden" name="post_type" value="product">
+                        {%- if section.settings.show_search_collection != blank -%}
+                        <div class="search-by-category input-dropdown" {% if section.settings.show_search_collection != blank %}style="display:inline-block;"{% endif %}>
+                          <div class="input-dropdown-inner woodmart-scroll-content">
+                            <input type="hidden" name="product_cat" value="all">
+                            <a href="#" data-val="all" {% if settings.language_enable %}data-translate="general.search.category"{% endif %}>{{ 'general.search.category' | t }}</a>
+                            <div class="list-wrapper woodmart-scroll has-scrollbar">
+                              <ul class="woodmart-scroll-content" tabindex="0">
+                                <li style="display:none;"><a href="#" data-val="all" {% if settings.language_enable %}data-translate="general.search.category"{% endif %}>{{ 'general.search.category' | t }}</a></li>
+                                {%- if section.settings.select_collection == '1' -%}
+                                {%- for collection in collections -%}
+                                {%- if collection.products.size > 0 -%}
+                                <li class="cat-item cat-item-{{collection.id}}">
+                                  <a href="{{collection.url}}" data-val="{{collection.title | handleize}}">
+                                    {% if settings.language_enable %}
+                                    <span class="lang1">{{ collection.title | split: '|' | first }}</span>
+                                    <span class="lang2">{{ collection.title | split: '|' | last }}</span>
+                                    {% else %}
+                                    {{ collection.title | split: '|' | first }}
+                                    {% endif %}
+                                  </a>
+                                </li>
+                                {%- endif -%}
+                                {%- endfor -%}
+                                {%- else -%}
+                                {%- for block in section.blocks -%}
+                                {%- assign collection = collections[block.settings.collection] -%} 
+                                {%- if collection.products.size > 0 -%}
+                                <li class="cat-item cat-item-{{collection.id}}">
+                                  <a href="{{collection.url}}" data-val="{{collection.title | handleize}}">
+                                    {% if settings.language_enable %}
+                                    <span class="lang1">{{ collection.title | split: '|' | first }}</span>
+                                    <span class="lang2">{{ collection.title | split: '|' | last }}</span>
+                                    {% else %}
+                                    {{ collection.title | split: '|' | first }}
+                                    {% endif %}
+                                  </a>
+                                </li>
+                                {%- endif -%} 	
+                                {%- endfor -%}
+                                {%- endif -%} 
+                              </ul>
+                              <div class="woodmart-scroll-pane" style="display: none;">
+                                <div class="woodmart-scroll-slider" style="transform: translate(0px, 0px);"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {%- endif -%}
+                        <button type="submit" class="searchsubmit" {% if settings.language_enable %}data-translate="general.search.submit"{% endif %}>{{ 'general.search.submit' | t }}</button>
+                      </div>
+                    </form>
+                    <div class="search-results-wrapper">
+                      <div class="woodmart-scroll has-scrollbar">
+                        <div class="woodmart-search-results woodmart-scroll-content" tabindex="0">
+                          <div class="autocomplete-suggestions" style="position: absolute; max-height: 300px; z-index: 9999; width: 308px; display: flex;"></div>
+                        </div>
+                      </div>
+                      <div class="woodmart-search-loader"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {%- if section.settings.section_layout != '0' -%}
+  <div class="vc_row-full-width vc_clearfix"></div>
+  {%- endif -%}
+  <style>
+    .vc_custom_{{section.id}} { 
+      border-top-width: 0px !important; 
+      {%- if section.settings.background_image != blank -%}
+      background-image: url({{section.settings.background_image | img_url: 'master'}}) !important;
+      background-position: {{section.settings.background_position | replace: '_', ' ' }} !important;
+      background-repeat: {{section.settings.background_image_repeat}} !important;
+      background-size: {{section.settings.background_size}} !important;
+      background-attachment: {{section.settings.background_attachment}} !important;
+      {%- endif -%}
+      background-color: {{section.settings.background_color}};
+    }   
+  </style>
+</div>
+{% schema %}
+{
+  "name": "Search Box", 
+  "settings": [    
+    {
+      "type": "header", 
+      "content": "Section Settings"
+    },  
+    {
+      "type": "select",
+      "id": "section_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "0",
+          "label": "Default"
+        },
+        {
+          "value": "1",
+          "label": "Fullwidth row"
+        },
+        {
+          "value": "2",
+          "label": "Fullwidth row and content"
+        },
+        {
+          "value": "3",
+          "label": "Fullwidth row and content (no padding)"
+        }
+      ],
+      "default": "0"
+    },
+    {
+      "type": "html",
+      "id": "background_gradient_color",
+      "label": "Background Html Gradient color"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color", 
+	  "default": "transparent"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section background image" 
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_background_mobile",
+      "label": "Hide background image on mobile?", 
+	  "default": false
+    },
+    {
+      "type": "select",
+      "id": "background_image_repeat",
+      "label": "Background Repeat",
+      "options": [
+        {
+          "value": "no-repeat",
+          "label": "No Repeat"
+        },
+        {
+          "value": "repeat-x",
+          "label": "Repeat x (Repeat Horizontal)"
+        },
+        {
+          "value": "repeat-y",
+          "label": "Repeat y (Repeat Verticle)"
+        },
+        {
+          "value": "repeat",
+          "label": "Repeat All"
+        }
+      ],
+      "default": "no-repeat"
+    },
+    {
+      "type": "select",
+      "id": "background_size",
+      "label": "Background Size",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "background_attachment",
+      "label": "Background Attachment",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "fixed",
+          "label": "Fixed"
+        },
+        {
+          "value": "scroll",
+          "label": "Scroll"
+        },
+        {
+          "value": "inherit",
+          "label": "Inherit"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "background_position",
+      "label": "Background Position",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "left_top",
+          "label": "Left Top"
+        },
+        {
+          "value": "left_center",
+          "label": "Left Center"
+        },
+        {
+          "value": "left_bottom",
+          "label": "Left Bottom"
+        },
+        {
+          "value": "center_top",
+          "label": "Center Top"
+        },
+        {
+          "value": "center_center",
+          "label": "Center Center"
+        },
+        {
+          "value": "center_bottom",
+          "label": "Center Bottom"
+        }
+      ],
+      "default": "center_center"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section Margin Top", 
+	  "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section Margin Bottom", 
+	  "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Section Padding",
+	  "info": "Ex:(40px 40px 40px) (top right bottom left)"
+    },
+    {
+      "type": "text",
+      "id": "heading_top",
+      "label": "Heading Top",
+	  "default": "VERSIONS HAVE EVOLVED OVER THE YEARS"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+	  "default": "Find the perfect design"
+    },
+    {
+      "type": "textarea",
+      "id": "heading_content",
+      "label": "Content",
+	  "default": "Looked up one of the more obscure latin words, consectetur, from a lorem ipsum passage, and going through the cites of the word in classical literature."
+    },  
+    {
+      "type": "select",
+      "id": "heading_style",
+      "label": "Heading Style",
+      "default": "default",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "simple",
+          "label": "Simple"
+        },
+        {
+          "value": "bordered",
+          "label": "Bordered"
+        },
+        {
+          "value": "underlined",
+          "label": "Underlined"
+        },
+        {
+          "value": "shadow",
+          "label": "Shadow"
+        } 
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "default",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "primary",
+          "label": "Primary"
+        },
+        {
+          "value": "alt",
+          "label": "Alt"
+        },
+        {
+          "value": "black",
+          "label": "Black"
+        },
+        {
+          "value": "white",
+          "label": "White"
+        },
+        {
+          "value": "gradient",
+          "label": "Gradient"
+        } 
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_postion",
+      "label": "Heading Text Algin",
+      "default": "center",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        } 
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading Text Size",
+      "default": "medium",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "extra-large",
+          "label": "Extra Large"
+        }
+      ]
+    },  
+    {
+      "type": "select",
+      "id": "heading_width",
+      "label": "Heading Width",
+      "default": "50",
+      "options": [
+        {
+          "value": "100",
+          "label": "100"
+        },
+        {
+          "value": "90",
+          "label": "90"
+        },
+        {
+          "value": "80",
+          "label": "80"
+        },
+        {
+          "value": "70",
+          "label": "70"
+        },
+        {
+          "value": "60",
+          "label": "60"
+        } ,
+        {
+          "value": "50",
+          "label": "50"
+        },
+        {
+          "value": "40",
+          "label": "40"
+        },
+        {
+          "value": "30",
+          "label": "30"
+        },
+        {
+          "value": "20",
+          "label": "20"
+        },
+        {
+          "value": "10",
+          "label": "10"
+        }
+      ]
+    },  
+    {
+      "type": "header", 
+      "content": "Search Settings"
+    },  
+    {
+      "type": "select",
+      "id": "search_color",
+      "label": "Search Color",
+      "default": "dark",
+      "options": [
+        {
+          "value": "light",
+          "label": "Light"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        }  
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search_collection",
+      "label": "Show search by collection", 
+	  "default": true
+    },
+    {
+      "type": "radio",
+      "id": "select_collection",
+      "options": [
+        {
+          "value": "1",
+          "label": "Show all collection"
+        },
+          {
+          "value": "2",
+          "label": "Manually select collection"
+        }
+      ],
+      "label": "Select Show Collection"
+	}
+  ],
+  "blocks": [
+    {
+      "type":"collection",
+      "name":"Choose collection",
+      "settings": [
+        {
+          "type":"collection",
+          "id":"collection",
+          "label":"Choose collection"
+        }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Search Box",
+    "category": "Search"
+  }]
+}
+{% endschema %}

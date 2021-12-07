@@ -1,0 +1,62 @@
+<!-- /templates/blog.liquid --> 
+{%- layout none -%}
+{%- case settings.blog_design -%}
+{%- when 'default-alt' -%}
+{%- assign pl_include = 'blog-design-default-alt' -%} 
+{%- when 'small-images' -%}
+{%- assign pl_include = 'blog-design-small-images' -%}
+{%- when 'chess' -%}
+{%- assign pl_include = 'blog-design-chess' -%}
+{%- when 'masonry' -%}
+{%- assign pl_include = 'blog-design-masonry' -%}
+{%- when 'default' -%}
+{%- assign pl_include = 'blog-design-default' -%}
+{%- endcase -%} 
+{%- case settings.blog_aspect_ratio -%}
+{%- when '1' -%}
+  {%- assign image_width = settings.blog_ratio_width | remove: 'px' -%}
+  {%- assign image_height = '' -%} 
+{%- else -%}
+  {%- assign image_width = settings.blog_ratio_width | remove: 'px' -%}
+  {%- assign image_height = settings.blog_ratio_height | remove: 'px' -%}
+{%- endcase -%}
+{%- capture image_size -%}{{ image_width }}x{{ image_height }}{%- endcapture -%}
+{% paginate blog.articles by settings.blog_posts_count %}  
+  <div class="woodmart-blog-element"> 
+    <div class="woodmart-blog-holder {% if settings.blog_design == 'masonry' %}masonry-container{% endif %} blog-pagination-infinit" data-paged="1" data-source="main_loop">
+      {%- assign columns = settings.blog_view_column | plus: 0 -%}
+      {%- capture class -%}col-xs-12 col-sm-6 col-md-{{ 12 | divided_by: columns }}{%- endcapture -%} 
+      {%- for article in blog.articles -%}  
+      <article id="post-{{article.id}}" class="blog-design-{{settings.blog_design}} blog-post-loop {% if settings.blog_design == 'chess' %}blog-design-small-images{% endif %} blog-style-{{settings.blog_style}} post-{{article.id}} {% if setings.blog_view_column != '1' %}{{class}}{% endif %} post type-post status-publish format-standard has-post-thumbnail hentry category-{{blog.title}} tag-inspiration">
+        {%- include pl_include -%} 
+      </article>
+      {%- unless settings.blog_design == 'masonry' %} 
+      {%- if settings.blog_view_column != '1' -%}
+      {%- cycle '', '<div class="clearfix visible-xs-block"></div>' -%}
+      {%- cycle '','','<div class="clearfix clearfix visible-sm-block"></div>' -%} 
+      {%- endif -%}
+      {%- case settings.blog_view_column -%} 
+      {%- when '2' -%} 
+      {%- cycle '','<div class="clearfix visible-md-block visible-lg-block"></div>' -%} 
+      {%- when '3' -%} 
+      {%- cycle '','','<div class="clearfix visible-md-block visible-lg-block"></div>' -%} 
+      {%- when '4' -%} 
+      {%- cycle '','','','<div class="clearfix visible-md-block visible-lg-block"></div>' -%} 
+      {%- when '6' -%} 
+      {%- cycle '','','','','','<div class="clearfix visible-md-block visible-lg-block"></div>' -%} 
+      {%- endcase -%} 
+      {%- endunless -%}
+      {%- endfor -%} 
+    </div> 
+    {%- if paginate.pages > 1 -%} 
+    <div class="blog-footer" data-status="{%- if paginate.next.is_link -%}have-posts{%- else -%}no-more-posts{%- endif -%}">
+      {%- if paginate.next.is_link -%}
+      <a href="{{paginate.next.url}}" class="btn woodmart-load-more woodmart-blog-load-more load-on-scroll">
+        <span class="load-more-label" {% if settings.enable_multilang %}data-translate="blogs.article.load_more_label"{% endif %}>{{ 'blogs.article.load_more_label' | t}}</span>
+        <span class="load-more-loading" {% if settings.enable_multilang %}data-translate="blogs.article.load_more_loading"{% endif %}>{{ 'blogs.article.load_more_loading' | t}}...</span>
+      </a>
+      {%- endif -%}
+    </div>
+    {%- endif -%}
+  </div> 
+{% endpaginate %} 

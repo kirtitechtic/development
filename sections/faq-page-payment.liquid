@@ -1,0 +1,136 @@
+{%- if section.settings.faq_payment_enable == blank -%}
+<div class="vc_row wpb_row vc_row-fluid vc_custom_1496940740070">
+  <div class="wpb_column vc_column_container vc_col-sm-12">
+    <div class="vc_column-inner vc_custom_1484657273903">
+      <div class="wpb_wrapper">
+        <div id="woodmart-title-id-5a5bb24793fa2" class="title-wrapper  woodmart-title-color-default woodmart-title-style-underlined woodmart-title-size-default woodmart-title-width-100 text-left vc_custom_1493369598617">
+          <div class="liner-continer">
+            <span class="left-line"></span>
+            <h4 class="woodmart-title-container title  woodmart-font-weight-">
+              {% if settings.language_enable %}
+              <span class="lang1">{{ section.settings.title | split: '|' | first }}</span>
+              <span class="lang2">{{ section.settings.title | split: '|' | last }}</span>
+              {% else %}
+              {{ section.settings.title | split: '|' | first }}
+              {% endif %}
+            </h4>
+            <span class="right-line"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="vc_row wpb_row vc_row-fluid vc_custom_1496940764002 vc_row-o-equal-height vc_row-flex">
+  {%- for block in section.blocks -%}
+  <div class="wpb_column vc_column_container vc_col-sm-6">
+    <div class="vc_column-inner vc_custom_1484657119633">
+      <div class="wpb_wrapper">
+        {%- for i in (1..3) -%}
+        {%- capture title -%}title_{{forloop.index}}{%- endcapture -%}
+        {%- capture content -%}answering_{{forloop.index}}{%- endcapture -%}
+          {%- if block.settings[title] != '' -%}
+          <h3 style="font-size: 14px;text-align: left" class="vc_custom_heading">
+            {% if settings.language_enable %}
+            <span class="lang1">{{ block.settings[title] | split: '|' | first }}</span>
+            <span class="lang2">{{ block.settings[title] | split: '|' | last }}</span>
+            {% else %}
+            {{ block.settings[title] | split: '|' | first }}
+            {% endif %}
+          </h3>
+          {%- endif -%}
+          {%- if block.settings[content] != '' -%}
+          <div class="wpb_text_column wpb_content_element ">
+            <div class="wpb_wrapper">
+              {% if settings.language_enable %}
+              <div class="lang1">{{ block.settings[content] | split: '[lang2]' | first }}</div>
+              <div class="lang2">{{ block.settings[content] | split: '[lang2]' | last }}</div>
+              {% else %}
+              {{ block.settings[content] | split: '[lang2]' | first }}
+              {% endif %}
+            </div>
+          </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+  {%- endfor -%}
+</div>
+{%- endif -%}
+{% schema %}
+  {
+    "name": "Faqs Page Payment",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "PAYMENT INFORMATION"
+      },
+      {
+        "type": "checkbox",
+        "id": "faq_payment_enable",
+        "label": "Disable Section?",
+		"default": false,
+        "info": "If disable, this section will not display"
+      }
+	],
+    "blocks": [
+      {
+        "type": "block",
+        "name": "Text block",
+        "settings": [
+          {
+            "type": "header",
+            "content": "Question/Answering 1"
+          },
+          {
+            "type": "text",
+            "id": "title_1",
+            "label": "Question",
+            "default": "Delivery charges for orders from the Online Shop?"
+          },
+          {
+            "type": "textarea",
+            "id": "answering_1",
+            "label": "Answering",
+            "default": "<p>Torquent posuere vel id sagittis urna placerat ridiculus odio vestibulum donec tristique a nisl eros conubia condimentum nunc quisque nibh adipiscing habitasse parturient suspendisse proin a pharetra commodo leo tincidunt lobortis lacinia sem parturient dapibus.</p><p>Ad vivamus nullam scelerisque a neque suspendisse consectetur fringilla a suspendisse proin senectus lobortis lacinia sem parturient dapibus ad aliquet maecenas dis neque.</p>"
+          },
+          {
+            "type": "header",
+            "content": "Question/Answering 2"
+          },
+          {
+            "type": "text",
+            "id": "title_2",
+            "label": "Question",
+            "default": "Delivery charges for orders from the Online Shop?"
+          },
+          {
+            "type": "textarea",
+            "id": "answering_2",
+            "label": "Answering",
+            "default": "<p>Torquent posuere vel id sagittis urna placerat ridiculus odio vestibulum donec tristique a nisl eros conubia condimentum nunc quisque nibh adipiscing habitasse parturient suspendisse proin a pharetra commodo leo tincidunt lobortis lacinia sem parturient dapibus.</p><p>Ad vivamus nullam scelerisque a neque suspendisse consectetur fringilla a suspendisse proin senectus lobortis lacinia sem parturient dapibus ad aliquet maecenas dis neque.</p>"
+          },
+          {
+            "type": "header",
+            "content": "Question/Answering 3"
+          },
+          {
+            "type": "text",
+            "id": "title_3",
+            "label": "Question",
+            "default": "Delivery charges for orders from the Online Shop?"
+          },
+          {
+            "type": "textarea",
+            "id": "answering_3",
+            "label": "Answering",
+            "default": "<p>Torquent posuere vel id sagittis urna placerat ridiculus odio vestibulum donec tristique a nisl eros conubia condimentum nunc quisque nibh adipiscing habitasse parturient suspendisse proin a pharetra commodo leo tincidunt lobortis lacinia sem parturient dapibus.</p><p>Ad vivamus nullam scelerisque a neque suspendisse consectetur fringilla a suspendisse proin senectus lobortis lacinia sem parturient dapibus ad aliquet maecenas dis neque.</p>"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

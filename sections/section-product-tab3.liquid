@@ -1,0 +1,845 @@
+{%- case section.settings.section_layout -%}
+{%- when '0' -%}
+{%- capture data_fullwidth -%}{%- endcapture -%}
+{%- when '1' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true"{%- endcapture -%}
+{%- when '2' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- when '3' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- endcase -%} 
+<div class="product-tab" data-section-id="{{ section.id }}" data-section-type="product-tab-section">
+  <div {{data_fullwidth}} id="product-tab-{{section.id}}" class="vc_row wpb_row vc_row-fluid {% if section.settings.hide_background_mobile != blank %}mobile-bg-img-hidden{% endif %} vc_custom_{{section.id}} {% if section.settings.section_layout == '3' %}vc_row-no-padding{% endif %} vc_row-has-fill woodmart-disable-overflow woodmart-bg-left-bottom">
+    <div class="wpb_column vc_column_container vc_col-sm-12">
+      <div class="vc_column-inner">
+        <div class="wpb_wrapper">
+          <div class="vc_row wpb_row vc_row-fluid vc_row-has-fill">
+            {%- capture layout_countdown -%}
+            <div class="wpb_column vc_column_container {% if section.settings.countdown_hidden_sm %}vc_hidden-sm{% endif %} vc_col-sm-12 vc_col-lg-{{section.settings.countdown_column}} {% if section.settings.countdown_hidden_xs %}vc_hidden-xs{% endif %}">
+              <div class="vc_column-inner vc_custom_1533813532486">
+                <div class="wpb_wrapper">
+                  <div class="woodmart-carousel-container woodmart-highlighted-products{% if section.settings.countdown_title != '' %} with-title{% endif %} slider-type-product woodmart-carousel-spacing-20">
+                    {%- if section.settings.countdown_title != '' -%}
+                    <h4 class="title element-title">
+                      {%- if settings.language_enable -%}
+                      <span class="lang1">{{ section.settings.countdown_title | split: '|' | first }}</span>
+                      <span class="lang2">{{ section.settings.countdown_title | split: '|' | last }}</span>
+                      {%- else -%}
+                      {{ section.settings.countdown_title | split: '|' | first }}
+                      {%- endif -%}
+                    </h4>
+                    {%- endif -%}
+                    {%- include 'element-product-countdown' -%}
+                  </div>
+                </div>
+              </div>
+            </div> 
+            {%- endcapture -%}
+            {%- if section.settings.countdown_position == 'left' -%}
+            {{layout_countdown}}
+            {%- endif -%}
+            <div class="wpb_column vc_column_container vc_col-sm-12 vc_col-lg-{{section.settings.column_width}} vc_col-md-12 ">
+              <div class="vc_column-inner vc_custom_1533826982227">
+                <div class="wpb_wrapper"> 
+                  <div class="woodmart-products-tabs tabs-{{section.id}} tabs-design-{{section.settings.tab_layout}}">
+                    <div class="woodmart-tabs-header">
+                      <div class="woodmart-tabs-loader"></div>
+                      {%- if section.settings.title != '' -%}
+                      <div class="tabs-name">
+                        <span class="tabs-text">
+                          {%- if settings.language_enable -%}
+                          <span class="lang1">{{ section.settings.title | split: '|' | first }}</span>
+                          <span class="lang2">{{ section.settings.title | split: '|' | last }}</span>
+                          {%- else -%}
+                          {{ section.settings.title | split: '|' | first }}
+                          {%- endif -%}
+                        </span>
+                      </div>
+                      {%- endif -%}
+                      <div class="tabs-navigation-wrapper">
+                        <span class="open-title-menu"></span>
+                        <ul class="products-tabs-title">
+                          {%- if section.blocks.size > 0 -%} 
+                          {%- for block in section.blocks -%} 
+                          {%- if block.settings.collection == blank -%}
+                          {%- if collections["frontpage"].products.size > 0 -%}
+                          {%- assign collection = collections["frontpage"] -%}
+                          {%- else -%}
+                          {%- assign collection = collections["all"] -%}
+                          {%- endif -%}
+                          {%- else -%}
+                          {%- assign collection = collections[block.settings.collection] -%}
+                          {%- endif -%}
+                          {%- assign limit = block.settings.limit | plus: 0 -%}
+                          {%- if section.settings.layout_list == 'carousel' -%}
+                          <li class="{% if forloop.first %}active-tab-title{% endif %}" data-atts="{{collection.url}}?page=1&q=layout_{{section.settings.layout_list}}+hover_{{block.settings.hover_product}}+columns_{{block.settings.carousel_columns}}+limit_{{limit}}+autoplay_{{block.settings.carousel_autoplay}}+pagination_{{block.settings.carousel_pagination}}+navigation_{{block.settings.carousel_navigation}}+loop_{{block.settings.carousel_loop}}+space_{{section.settings.space_product}}&view=ajax_tab">
+                            {%- else -%}
+                          <li class="{% if forloop.first %}active-tab-title{% endif %}" data-atts="{{collection.url}}?page=1&q=layout_{{section.settings.layout_list}}+hover_{{block.settings.hover_product}}+columns_{{block.settings.columns}}+limit_{{limit}}+pagination_{{block.settings.pagination}}+space_{{section.settings.space_product}}&view=ajax_tab">
+                            {%- endif -%} 
+                            <span class="tab-label">
+                              {%- if settings.language_enable -%}
+                              <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+                              <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+                              {%- else -%}
+                              {{ block.settings.title | split: '|' | first }}
+                              {%- endif -%}
+                            </span>
+                          </li> 
+                          {%- endfor -%} 
+                          {%- endif -%}
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="woodmart-tab-content">
+                      {%- if section.blocks.size > 0 -%} 
+                      {%- for block in section.blocks -%}
+                      {%- if forloop.first -%}
+                      {%- if section.settings.layout_list == 'grid' -%}
+                      {%- include 'element-tab-content-grid' -%}
+                      {%- else -%}
+                      {%- include 'element-tab-content-carousel' -%}
+                      {%- endif -%}
+                      {%- endif -%}
+                      {%- endfor -%} 
+                      {%- endif -%} 
+                    </div>
+                    <style type="text/css">
+                      .tabs-{{section.id}}.tabs-design-simple .tabs-name{border-color:{{settings.theme_color}}}
+                      .tabs-{{section.id}}.tabs-design-default .products-tabs-title .tab-label:after{background-color:{{settings.theme_color}}}}
+                      .tabs-{{section.id}}.tabs-design-simple .products-tabs-title li.active-tab-title,
+                      .tabs-{{section.id}}.tabs-design-simple .owl-nav > div:hover,
+                      .tabs-{{section.id}}.tabs-design-simple .wrap-loading-arrow>div:not(.disabled):hover{color:{{settings.theme_color}}}}
+                    </style>
+                  </div>
+                </div>
+              </div>
+            </div> 
+            {%- if section.settings.countdown_position == 'right' -%}
+            {{layout_countdown}}
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {%- if section.settings.section_layout != '0' -%}
+  <div class="vc_row-full-width vc_clearfix"></div>
+  {%- endif -%} 
+  <style>
+    .vc_custom_{{section.id}} { 
+      border-top-width: 0px !important; 
+      {%- if section.settings.background_image != blank -%}
+      background-image: url({{section.settings.background_image | img_url: 'master'}}) !important;
+      background-position: {{section.settings.background_position | replace: '_', ' ' }} !important;
+      background-repeat: {{section.settings.background_image_repeat}} !important;
+      background-size: {{section.settings.background_size}} !important;
+      background-attachment: {{section.settings.background_attachment}} !important;
+      {%- endif -%}
+      background-color: {{section.settings.background_color}};
+    }    
+    .vc_custom_{{section.id}} .vc_custom_1533813532486{
+      {{section.settings.countdown_box_style}}
+    }
+    .vc_custom_{{section.id}} .vc_custom_1533826982227 {
+      {{section.settings.tab_box_style}}
+    }
+    .vc_custom_{{section.id}}{margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding:{{section.settings.section_padding}};}
+  </style>
+</div>
+{%- schema -%}
+{
+  "name": "Products Tab & Countdown",
+  "settings": [
+    {
+      "type": "header", 
+      "content": "Section Settings"
+    },
+    {
+      "type": "select",
+      "id": "section_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "0",
+          "label": "Default"
+        },
+        {
+          "value": "1",
+          "label": "Fullwidth row"
+        },
+        {
+          "value": "2",
+          "label": "Fullwidth row and content"
+        },
+        {
+          "value": "3",
+          "label": "Fullwidth row and content (no padding)"
+        }
+      ],
+      "default": "0"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color", 
+	  "default": "transparent"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section background image" 
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_background_mobile",
+      "label": "Hide background image on mobile?", 
+	  "default": false
+    },
+    {
+      "type": "select",
+      "id": "background_image_repeat",
+      "label": "Background Repeat",
+      "options": [
+        {
+          "value": "no-repeat",
+          "label": "No Repeat"
+        },
+        {
+          "value": "repeat-x",
+          "label": "Repeat x (Repeat Horizontal)"
+        },
+        {
+          "value": "repeat-y",
+          "label": "Repeat y (Repeat Verticle)"
+        },
+        {
+          "value": "repeat",
+          "label": "Repeat All"
+        }
+      ],
+      "default": "no-repeat"
+    },
+    {
+      "type": "select",
+      "id": "background_size",
+      "label": "Background Size",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "background_attachment",
+      "label": "Background Attachment",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "fixed",
+          "label": "Fixed"
+        },
+        {
+          "value": "scroll",
+          "label": "Scroll"
+        },
+        {
+          "value": "inherit",
+          "label": "Inherit"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "background_position",
+      "label": "Background Position",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "left_top",
+          "label": "Left Top"
+        },
+        {
+          "value": "left_center",
+          "label": "Left Center"
+        },
+        {
+          "value": "left_bottom",
+          "label": "Left Bottom"
+        },
+        {
+          "value": "center_top",
+          "label": "Center Top"
+        },
+        {
+          "value": "center_center",
+          "label": "Center Center"
+        },
+        {
+          "value": "center_bottom",
+          "label": "Center Bottom"
+        }
+      ],
+      "default": "center_center"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    }, 
+    {
+      "type": "select",
+      "id": "layout_list",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "grid",
+          "label": "Grid"
+        },
+        {
+          "value": "carousel",
+          "label": "Carousel"
+        } 
+	  ],
+      "default": "grid"
+    },
+    {
+      "type": "select",
+      "id": "space_product",
+      "label": "Space between products",
+      "options": [
+        {
+          "value": "30",
+          "label": "30"
+        },
+        {
+          "value": "20",
+          "label": "20"
+        },
+        {
+          "value": "10",
+          "label": "10"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "0",
+          "label": "0"
+        }
+	  ],
+      "default": "20"
+    },
+    {
+      "type": "select",
+      "id": "column_width",
+      "label": "Column Width",
+      "options": [
+        {
+          "value": "1",
+          "label": "1/12"
+        },
+        {
+          "value": "2",
+          "label": "2/12"
+        },
+        {
+          "value": "3",
+          "label": "3/12"
+        },
+        {
+          "value": "4",
+          "label": "4/12"
+        },
+        {
+          "value": "5",
+          "label": "5/12"
+        },
+        {
+          "value": "6",
+          "label": "6/12"
+        },
+        {
+          "value": "7",
+          "label": "7/12"
+        },
+        {
+          "value": "8",
+          "label": "8/12"
+        },
+        {
+          "value": "9",
+          "label": "9/12"
+        },
+        {
+          "value": "10",
+          "label": "10/12"
+        },
+        {
+          "value": "11",
+          "label": "11/12"
+        },
+        {
+          "value": "12",
+          "label": "12/12"
+        }
+      ],
+      "default": "7"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "SPECIAL OFFER"
+    }, 
+    {
+      "type": "textarea",
+      "id": "tab_box_style",
+      "label": "Custom Box Tab Style",
+      "default": "padding-top: 20px!important;"
+    },
+    {
+      "type": "select",
+      "id": "tab_layout",
+      "label": "Tab Layout",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "simple",
+          "label": "Simple"
+        },
+        {
+          "value": "alt",
+          "label": "Alt"
+        } 
+      ],
+      "default": "simple"
+    },
+    {
+      "type": "header", 
+      "content": "Product Countdown Settings"
+    }, 
+    {
+      "type": "text",
+      "id": "countdown_title",
+      "label": "Title",
+      "default": "SALE PRODUCTS"
+    },
+    {
+      "type": "radio",
+      "id": "countdown_position",
+      "label": "Countdown Position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        } 
+      ],
+      "default": "left"
+    },
+    {
+      "type": "checkbox",
+      "id": "countdown_hidden_xs",
+      "label": "Hidden Mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "countdown_hidden_sm",
+      "label": "Hidden Tablet",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "countdown_column",
+      "label": "Countdown column width",
+      "options": [
+        {
+          "value": "1",
+          "label": "1/12"
+        },
+        {
+          "value": "2",
+          "label": "2/12"
+        },
+        {
+          "value": "3",
+          "label": "3/12"
+        },
+        {
+          "value": "4",
+          "label": "4/12"
+        },
+        {
+          "value": "5",
+          "label": "5/12"
+        },
+        {
+          "value": "6",
+          "label": "6/12"
+        },
+        {
+          "value": "7",
+          "label": "7/12"
+        },
+        {
+          "value": "8",
+          "label": "8/12"
+        },
+        {
+          "value": "9",
+          "label": "9/12"
+        },
+        {
+          "value": "10",
+          "label": "10/12"
+        },
+        {
+          "value": "11",
+          "label": "11/12"
+        },
+        {
+          "value": "12",
+          "label": "12/12"
+        }
+      ],
+      "default": "5"
+    },  
+    {
+      "type": "textarea",
+      "id": "countdown_box_style",
+      "label": "Custom Box Countdown Style",
+      "default": "padding-top: 0 !important;"
+    },
+    {
+      "type": "collection",
+      "id": "countdown_collection",
+      "label": "Countdown Collection"
+    }, 
+    {
+      "type": "checkbox",
+      "id": "countdown_enable",
+      "label": "Show countdown",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "countdown_limit",
+      "label": "Limit",
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "countdown_hover_product",
+      "label": "Hover On Product",
+      "info": "Choose one of those hover effects for products",
+      "options": [
+        {
+          "value": "base",
+          "label": "Base"
+        },
+        {
+          "value": "alt",
+          "label": "Alternative"
+        },
+        {
+          "value": "info",
+          "label": "Full info on image"
+        },
+        {
+          "value": "info-alt",
+          "label": "All info on hover"
+        },
+        {
+          "value": "button",
+          "label": "Button on image"
+        },
+        {
+          "value": "icon",
+          "label": "Icon on image"
+        },
+        {
+          "value": "standard",
+          "label": "Standard button"
+        },
+        {
+          "value": "quick",
+          "label": "Quick shop"
+        },
+        {
+          "value": "tiled",
+          "label": "Tiled"
+        }
+      ],
+      "default": "base"
+    },
+    {
+      "type": "header",
+      "content": "Carousel Settings"
+    }, 
+    {
+      "type": "text",
+      "id": "countdown_carousel_autoplay",
+      "label": "Autoplay",
+      "default": "5000"
+    }, 
+    {
+      "type": "checkbox",
+      "id": "countdown_carousel_pagination",
+      "default": false,
+      "label": "Show pagination control?"
+    },
+    {
+      "type": "checkbox",
+      "id": "countdown_carousel_navigation",
+      "default": false,
+      "label": "Show prev/next buttons?"
+    },
+    {
+      "type": "checkbox",
+      "id": "countdown_carousel_loop",
+      "default": false,
+      "label": "Slider loop?",
+      "info": "Enables loop mode."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "header",
+          "content": "General"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Title"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "limit",
+          "label": "Limit",
+          "info": "Number of items to show per page.",
+          "default": "8"
+        },
+        {
+          "type": "select",
+          "id": "pagination",
+          "label": "Pagination",
+          "default": "arrows",
+          "options": [
+            {
+              "value": "none",
+              "label": "None"
+            },
+            {
+              "value": "more-btn",
+              "label": "Load more button"
+            },
+            {
+              "value": "arrows",
+              "label": "Arrows"
+            },
+            {
+              "value": "view-all",
+              "label": "View all products"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "columns",
+          "label": "Columns",
+          "options": [
+            {
+              "value": "2",
+              "label": "2"
+            },
+            {
+              "value": "3",
+              "label": "3"
+            },
+            {
+              "value": "4",
+              "label": "4"
+            },
+            {
+              "value": "6",
+              "label": "6"
+            }
+          ],
+          "default": "4"
+        },
+        {
+          "type": "select",
+          "id": "hover_product",
+          "label": "Hover On Product",
+          "info": "Choose one of those hover effects for products",
+          "options": [
+            {
+              "value": "base",
+              "label": "Base"
+            },
+            {
+              "value": "alt",
+              "label": "Alternative"
+            },
+            {
+              "value": "info",
+              "label": "Full info on image"
+            },
+            {
+              "value": "info-alt",
+              "label": "All info on hover"
+            },
+            {
+              "value": "button",
+              "label": "Button on image"
+            },
+            {
+              "value": "icon",
+              "label": "Icon on image"
+            },
+            {
+              "value": "standard",
+              "label": "Standard button"
+            },
+            {
+              "value": "quick",
+              "label": "Quick shop"
+            },
+            {
+              "value": "tiled",
+              "label": "Tiled"
+            }
+          ],
+          "default": "base"
+        }, 
+        {
+          "type": "header",
+          "content": "Carousel Settings"
+        },
+        {
+          "type": "select",
+          "id": "carousel_columns",
+          "label": "Columns",
+          "options": [
+            {
+              "value": "2",
+              "label": "2"
+            },
+            {
+              "value": "3",
+              "label": "3"
+            },
+            {
+              "value": "4",
+              "label": "4"
+            },
+            {
+              "value": "6",
+              "label": "6"
+            }
+          ],
+          "default": "4"
+        },
+        {
+          "type": "text",
+          "id": "carousel_autoplay",
+          "label": "Autoplay",
+          "default": "5000"
+        },
+        {
+          "type": "checkbox",
+          "id": "carousel_pagination",
+          "default": false,
+          "label": "Show pagination control?"
+        },
+        {
+          "type": "checkbox",
+          "id": "carousel_navigation",
+          "default": false,
+          "label": "Show prev/next buttons?"
+        },
+        {
+          "type": "checkbox",
+          "id": "carousel_loop",
+          "default": false,
+          "label": "Slider loop?",
+          "info": "Enables loop mode."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Products Tab With Countdown",
+      "category": "collection",
+      "blocks": [
+        {
+          "type": "collection",
+          "settings": {
+            "title": "BEST SELLERS"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

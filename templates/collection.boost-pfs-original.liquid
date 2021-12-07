@@ -1,0 +1,6 @@
+{%- assign limit = settings.collection_products_count | plus:0 -%}
+{%- if settings.collection_view_mode == 'grid' -%}
+	{%- include 'collection_grid' -%}
+{%- else -%}
+	{%- include 'collection_list' -%}
+{%- endif -%}

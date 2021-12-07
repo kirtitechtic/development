@@ -1,0 +1,306 @@
+{%- if settings.collection_sidebar_filters == 'groups' -%}
+{%- if template.suffix != blank -%}
+   {%- assign template_suffix = template.suffix -%}
+   {%- assign check_template_list = true -%} 
+{%- else -%}
+   {%- assign check_template_list = false -%} 
+{%- endif -%}
+{%- assign secure_url = '/collections' -%}
+{%- if canonical_url contains '?page' -%}
+   {%- assign _url_remove = canonical_url | split:secure_url | last | prepend: '/collections' -%}
+   {%- assign url_remove = _url_remove | split:'?page' | first -%}
+{%- else -%}
+   {%- assign url_remove = canonical_url | split:secure_url | last | prepend: '/collections' -%}
+{%- endif -%}
+<div class="filters-inner-area">
+<dl class="narrow-by-list-bar row"> 
+  <div class="narrow-item show">
+    <dt class="widget-title">
+      <span {% if settings.language_enable %}data-translate="collections.sorting.title"{% endif %}>{{ 'collections.sorting.title' | t }}</span> 
+    </dt>
+    <dd class="layer-filter woodmart-scroll has-scrollbar">
+      <div class="sort-by woodmart-scroll-content">
+        <div class="select-new">
+          <div class="select-inner">
+            {%- assign sort_def = collection.sort_by | default: collection.default_sort_by -%}
+            <ul>
+              <li><a href="{{url_remove}}?sort_by=manual{%- if check_template_list -%}&view={{template_suffix}}{%- endif-%}" data-order="manual"{% if sort_def == 'manual' %} class="selected-order"{% endif %} {% if settings.language_enable %}data-translate="collections.sorting.featured"{% endif %}>{{ 'collections.sorting.featured' | t }}</a></li>
+              <li><a href="{{url_remove}}?sort_by=best-selling{%- if check_template_list -%}&view={{template_suffix}}{%- endif-%}" data-order="best-selling"{% if sort_def == 'best-selling' %} class="selected-order"{% endif %} {% if settings.language_enable %}data-translate="collections.sorting.best_selling"{% endif %}>{{ 'collections.sorting.best_selling' | t }}</a></li>
+              <li><a href="{{url_remove}}?sort_by=title-ascending{%- if check_template_list -%}&view={{template_suffix}}{%- endif-%}" data-order="title-ascending"{% if sort_def == 'title-ascending' %} class="selected-order"{% endif %} {% if settings.language_enable %}data-translate="collections.sorting.az"{% endif %}>{{ 'collections.sorting.az' | t }}</a></li>
+              <li><a href="{{url_remove}}?sort_by=title-descending{%- if check_template_list -%}&view={{template_suffix}}{%- endif-%}" data-order="title-descending"{% if sort_def == 'title-descending' %} class="selected-order"{% endif %} {% if settings.language_enable %}data-translate="collections.sorting.za"{% endif %}>{{ 'collections.sorting.za' | t }}</a></li>
+              <li><a href="{{url_remove}}?sort_by=price-ascending{%- if check_template_list -%}&view={{template_suffix}}{%- endif-%}" data-order="price-ascending"{% if sort_def == 'price-ascending' %} class="selected-order"{% endif %} {% if settings.language_enable %}data-translate="collections.sorting.price_ascending"{% endif %}>{{ 'collections.sorting.price_ascending' | t }}</a></li>
+              <li><a href="{{url_remove}}?sort_by=price-descending{%- if check_template_list -%}&view={{template_suffix}}{%- endif-%}" data-order="price-descending"{% if sort_def == 'price-descending' %} class="selected-order"{% endif %} {% if settings.language_enable %}data-translate="collections.sorting.price_descending"{% endif %}>{{ 'collections.sorting.price_descending' | t }}</a></li>
+              <li><a href="{{url_remove}}?sort_by=created-descending{%- if check_template_list -%}&view={{template_suffix}}{%- endif-%}" data-order="created-descending"{% if sort_def == 'created-descending' %} class="selected-order"{% endif %} {% if settings.language_enable %}data-translate="collections.sorting.date_descending"{% endif %}>{{ 'collections.sorting.date_descending' | t }}</a></li>
+              <li><a href="{{url_remove}}?sort_by=created-ascending{%- if check_template_list -%}&view={{template_suffix}}{%- endif-%}" data-order="created-ascending"{% if sort_def == 'created-ascending' %} class="selected-order"{% endif %} {% if settings.language_enable %}data-translate="collections.sorting.date_ascending"{% endif %}>{{ 'collections.sorting.date_ascending' | t }}</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </dd>
+  </div>
+  {%- assign tag_size = 0 | plus:0 -%}
+  {%- for i in (1..10) -%}
+  {%- assign tmp = 'filtering_' | append:i -%}
+  {%- if settings[tmp] -%} 
+    {%- assign tmp = 'filtering_heading_' | append:i -%}
+    {%- assign cat_item = settings[tmp] -%}
+    {%- assign cat_item_down = cat_item | downcase -%}
+    {%- assign tmp = 'filtering_filters_' | append:i -%}
+    {%- assign filters = settings[tmp] | strip_newlines | split: ',' -%}
+    {%- assign class = 'hide' -%}
+    {%- for custom_tag in filters -%}
+      {%- if collection.tags contains custom_tag -%}
+        {%- assign class = 'show' -%}
+        {%- assign tag_size = tag_size | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+  <div class="narrow-item {{class}}">
+    <dt class="widget-title">
+      <span>
+        {% if settings.language_enable %}
+        <span class="lang1">{{ cat_item | split: '|' | first }}</span>
+        <span class="lang2">{{ cat_item | split: '|' | last }}</span>
+        {% else %}
+        {{ cat_item | split: '|' | first }}
+        {% endif %}
+      </span>
+      {%- for custom_tag in filters -%}
+        {%- if current_tags contains custom_tag -%}
+        <a href="javascript:void(0);" class="clear">({{ 'collections.general.clear' | t }})</a>
+        {%- break -%}
+      	{%- endif -%}
+      {%- endfor -%} 
+    </dt>
+    <dd class="layer-filter {{ cat_item_down | replace: ' ', '_' }} {% if settings.collection_color_swatch != blank %}color-swatch{%endif%} woodmart-scroll has-scrollbar"> 
+      <ol class="swatch-list fields woodmart-scroll-content"> 
+        {%- if settings.collection_color_swatch != blank -%}	
+        {%- if cat_item_down contains 'color' or cat_item_down contains 'colour' -%}
+          {%- assign file_extension = '.png' -%} 
+          {%- for custom_tag in filters -%} 
+          {%- if collection.tags contains custom_tag -%}
+          {%- if current_tags contains custom_tag -%} 
+          {%- capture cat_link_remove -%}{{ custom_tag | append: '&nbsp;x' | link_to_remove_tag: custom_tag }}{%- endcapture -%}
+          {%- assign get_link_remove = cat_link_remove | split:'href="' | last | split:'"' | first -%}
+          <li>
+            <div class="item active has-image">
+              <input type="checkbox" checked="checked" value="{{ custom_tag | handleize }}" class="hide" />
+              <span class="has-image btooltip" title="{{ custom_tag | remove_first: cat_item | remove: '_' }}">
+                <i class="color_out_box">
+                  <i class="color_box" style="background-color: {{ custom_tag | remove_first: cat_item | remove: '_' | handle }}; background-image: url({{ custom_tag | remove_first: cat_item | remove: '_' | handle | append: file_extension | asset_url }})"></i>
+                </i>
+              </span>
+              <a href="{{get_link_remove}}"><span class="name">{{ custom_tag | remove_first: cat_item | remove: '_' }}</span></a>
+            </div>
+            {%- assign tagCount = 0 -%}
+            {%- assign current_page = '1' -%}
+            {%- paginate collection.products by collection.all_products_count -%}
+            {%- for product in collection.products -%}
+            {%- assign product_tag_arr =  product.tags | downcase | json -%}
+            {%- assign tag_downcase = custom_tag | downcase | prepend:'\"' | append:'\"' -%}
+            {%- if product_tag_arr contains tag_downcase -%}
+            {%- assign tagCount = tagCount | plus: 1 -%}
+            {%- endif -%}
+            {%- endfor -%}
+            {%- endpaginate -%}
+            {%- if collection.products_count < 1001 -%}<span class="count">{{ tagCount }}</span>{%- endif -%}
+          </li>
+          {%- else -%}  
+          {%- capture cat_link -%}{{ custom_tag | link_to_add_tag: custom_tag }}{%- endcapture -%}
+          {%- assign get_link = cat_link | split:'href="' | last | split:'"' | first -%}
+          <li>
+            <div class="item has-image">
+              <input type="checkbox" value="{{ custom_tag | handleize }}" class="hide" />
+              <span class="has-image btooltip" title="{{ custom_tag | remove_first: cat_item | remove: '_' }}">
+                <i class="color_out_box">
+                  <i class="color_box" style="background-color: {{ custom_tag | remove_first: cat_item | remove: '_' | handle }}; background-image: url({{ custom_tag | remove_first: cat_item | remove: '_' | handle | append: file_extension | asset_url }})"></i>
+                </i>
+              </span>
+              <a href="{{get_link}}"><span class="name">{{ custom_tag | remove_first: cat_item | remove: '_' }}</span></a>
+            </div>
+            {%- assign tagCount = 0 -%}
+            {%- assign current_page = '1' -%}
+            {%- paginate collection.products by collection.all_products_count -%}
+            {%- for product in collection.products -%}
+            {%- assign product_tag_arr =  product.tags | downcase | json -%}
+            {%- assign tag_downcase = custom_tag | downcase | prepend:'\"' | append:'\"' -%}
+            {%- if product_tag_arr contains tag_downcase -%}
+            {%- assign tagCount = tagCount | plus: 1 -%}
+            {%- endif -%}
+            {%- endfor -%}
+            {%- endpaginate -%}
+            {%- if collection.products_count < 1001 -%}<span class="count">{{ tagCount }}</span>{%- endif -%}
+          </li>
+          {%- endif -%}
+          {%- else -%}
+          <li class="disable has-image">
+            <div class="item disable">
+              <span class="has-image"><i class="color_out_box">
+                <i class="color_box" style="background-color: {{ custom_tag | remove_first: cat_item | remove: '_' | handle }}; background-image: url({{ custom_tag | remove_first: cat_item | remove: '_' | handle | append: file_extension | asset_url }})"></i></i>
+              </span>
+            </div>
+          </li>
+          {%- endif -%}
+          {%- endfor -%} 
+        {%- else -%} 
+          {%- for custom_tag in filters -%}
+          {%- if collection.tags contains custom_tag -%}
+          {%- if current_tags contains custom_tag -%}
+          {%- capture cat_link_remove -%}{{ custom_tag | append: '&nbsp;x' | link_to_remove_tag: custom_tag }}{%- endcapture -%}
+          {%- assign get_link_remove = cat_link_remove | split:'href="' | last | split:'"' | first -%}
+          <li>
+            <div class="item swatch-checkbox active">
+              <div class="input-container"> 
+                <input type="checkbox" value="{{ custom_tag | handleize }}" class="checkbox smart_input" checked="checked" />
+                <div class="input-skin">
+                  <i class="visible-unchecked icon-check-empty"></i>
+                  <i class="visible-checked icon-check"></i>    
+                </div>
+              </div> 
+              <a href="{{get_link_remove}}"><span class="name">{{ custom_tag | remove_first: cat_item | remove: '_' }}</span></a>
+            </div>
+            {%- assign tagCount = 0 -%}
+            {%- assign current_page = '1' -%}
+            {%- paginate collection.products by collection.all_products_count -%}
+            {%- for product in collection.products -%}
+            {%- assign product_tag_arr =  product.tags | downcase | json -%}
+            {%- assign tag_downcase = custom_tag | downcase | prepend:'\"' | append:'\"' -%}
+            {%- if product_tag_arr contains tag_downcase -%}
+            {%- assign tagCount = tagCount | plus: 1 -%}
+            {%- endif -%}
+            {%- endfor -%}
+            {%- endpaginate -%}
+            {%- if collection.products_count < 1001 -%}<span class="count">{{ tagCount }}</span>{%- endif -%}
+          </li>
+          {%- else -%} 
+          {%- capture cat_link -%}{{ custom_tag | link_to_add_tag: custom_tag }}{%- endcapture -%}
+          {%- assign get_link = cat_link | split:'href="' | last | split:'"' | first -%}
+          <li>
+            <div class="item swatch-checkbox">
+              <div class="input-container">  
+                <input type="checkbox" value="{{ custom_tag | handleize }}" class="checkbox smart_input" />
+                <div class="input-skin">
+                  <i class="visible-unchecked icon-check-empty"></i>
+                  <i class="visible-checked icon-check"></i>    
+                </div>
+              </div>  
+              <a href="{{get_link}}"><span class="name">{{ custom_tag | remove_first: cat_item | remove: '_' }}</span></a>
+            </div>
+            {%- assign tagCount = 0 -%}
+            {%- assign current_page = '1' -%}
+            {%- paginate collection.products by collection.all_products_count -%}
+            {%- for product in collection.products -%}
+            {%- assign product_tag_arr =  product.tags | downcase | json -%}
+            {%- assign tag_downcase = custom_tag | downcase | prepend:'\"' | append:'\"' -%}
+            {%- if product_tag_arr contains tag_downcase -%}
+            {%- assign tagCount = tagCount | plus: 1 -%}
+            {%- endif -%}
+            {%- endfor -%}
+            {%- endpaginate -%}
+            {%- if collection.products_count < 1001 -%}<span class="count">{{ tagCount }}</span>{%- endif -%}
+          </li>
+          {%- endif -%}
+          {%- else -%}
+          <li class="disable">
+            <div class="item disable swatch-checkbox">
+              <div class="input-container">   
+                <input type="checkbox" value="{{ custom_tag | handleize }}" disabled="disabled" class="checkbox smart_input" />
+                <div class="input-skin">
+                  <i class="visible-unchecked icon-check-empty"></i>
+                  <i class="visible-checked icon-check"></i>    
+                </div>
+              </div> 
+              <span class="name">{{ custom_tag | remove_first: cat_item | remove: '_' }}</span>
+            </div>
+          </li>
+          {%- endif -%}
+          {%- endfor -%} 
+        {%- endif -%}
+        {%- else -%}
+          {%- for custom_tag in filters -%}
+          {%- if collection.tags contains custom_tag -%}
+          {%- if current_tags contains custom_tag -%} 
+          {%- capture cat_link_remove -%}{{ custom_tag | append: '&nbsp;x' | link_to_remove_tag: custom_tag }}{%- endcapture -%}
+          {%- assign get_link_remove = cat_link_remove | split:'href="' | last | split:'"' | first -%}
+          <li>
+            <div class="item swatch-checkbox active">
+              <div class="input-container"> 
+                <input type="checkbox" value="{{ custom_tag | handleize }}" class="checkbox smart_input" checked="checked" />
+                <div class="input-skin">
+                  <i class="visible-unchecked icon-check-empty"></i>
+                  <i class="visible-checked icon-check"></i>    
+                </div>
+              </div> 
+              <a href="{{get_link_remove}}"><span class="name">{{ custom_tag | remove_first: cat_item | remove: '_' }}</span></a>
+            </div>
+            {%- assign tagCount = 0 -%}
+            {%- assign current_page = '1' -%}
+            {%- paginate collection.products by collection.all_products_count -%}
+            {%- for product in collection.products -%}
+            {%- assign product_tag_arr =  product.tags | downcase | json -%}
+            {%- assign tag_downcase = custom_tag | downcase | prepend:'\"' | append:'\"' -%}
+            {%- if product_tag_arr contains tag_downcase -%}
+            {%- assign tagCount = tagCount | plus: 1 -%}
+            {%- endif -%}
+            {%- endfor -%}
+            {%- endpaginate -%}
+            {%- if collection.products_count < 1001 -%}<span class="count">{{ tagCount }}</span>{%- endif -%}
+          </li>
+          {%- else -%}
+          {%- capture cat_link -%}{{ custom_tag | link_to_add_tag: custom_tag }}{%- endcapture -%}
+          {%- assign get_link = cat_link | split:'href="' | last | split:'"' | first -%}
+          <li>
+            <div class="item swatch-checkbox">
+              <div class="input-container">  
+                <input type="checkbox" value="{{ custom_tag | handleize }}" class="checkbox smart_input" />
+                <div class="input-skin">
+                  <i class="visible-unchecked icon-check-empty"></i>
+                  <i class="visible-checked icon-check"></i>    
+                </div>
+              </div>  
+              <a href="{{get_link}}"><span class="name">{{ custom_tag | remove_first: cat_item | remove: '_' }}</span></a>
+            </div>
+            {%- assign tagCount = 0 -%}
+            {%- assign current_page = '1' -%}
+            {%- paginate collection.products by collection.all_products_count -%}
+            {%- for product in collection.products -%}
+            {%- assign product_tag_arr =  product.tags | downcase | json -%}
+            {%- assign tag_downcase = custom_tag | downcase | prepend:'\"' | append:'\"' -%}
+            {%- if product_tag_arr contains tag_downcase -%}
+            {%- assign tagCount = tagCount | plus: 1 -%}
+            {%- endif -%}
+            {%- endfor -%}
+            {%- endpaginate -%}
+            {%- if collection.products_count < 1001 -%}<span class="count">{{ tagCount }}</span>{%- endif -%}
+          </li>
+          {%- endif -%}
+          {%- else -%}
+          <li class="disable">
+            <div class="item disable swatch-checkbox">
+              <div class="input-container">   
+                <input type="checkbox" value="{{ custom_tag | handleize }}" disabled="disabled" class="checkbox smart_input" />
+                <div class="input-skin">
+                  <i class="visible-unchecked icon-check-empty"></i>
+                  <i class="visible-checked icon-check"></i>    
+                </div>
+              </div> 
+              <span class="name">{{ custom_tag | remove_first: cat_item | remove: '_' }}</span>
+            </div>
+          </li>
+          {%- endif -%}
+          {%- endfor -%} 
+        {%- endif -%}
+      </ol>
+    </dd>
+  </div>
+  {%- endif -%}
+  {%- endfor -%}    
+  <script>
+    jQuery(function ($) {
+      var $fitem = $('.narrow-by-list-bar .narrow-item.show'),
+          fn = $fitem.length;
+      $fitem.css('width',100/fn+'%');
+    });
+  </script> 
+</dl>
+</div>
+{%- endif -%}

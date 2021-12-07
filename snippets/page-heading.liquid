@@ -1,0 +1,107 @@
+{%- if settings.page_heading_background_image != blank -%}
+  {%- assign page_img = settings.page_heading_background_image | img_url: 'master' -%} 
+{%- endif -%} 
+{%- if settings.page_heading_title_design == 'disable' -%}
+  {%- assign title_size = 'small' -%}
+  {%- assign title_design = 'left' -%}
+  {%- capture style -%}padding-top: 5px;padding-bottom: 10px;{%- endcapture -%}
+  {%- if settings.page_heading_breadcrumb_enable == blank -%}
+	{%- assign title_design = 'disable' -%}
+  {%- endif -%}
+{%- else -%}
+  {%- assign title_size = settings.page_heading_title_size -%}
+  {%- assign title_design = settings.page_heading_title_design -%}
+{%- endif -%}
+<div class="page-title page-title-default title-size-{{title_size}} color-scheme-{{settings.page_heading_title_color}} title-design-{{title_design}}" style="background-color: {{settings.page_heading_background_color}};{% if page_img %}background-image: url({{ page_img }});{% endif %} {{style}}">
+  <div class="container">
+    <header class="entry-header">
+      {%- assign page_title = page_title -%}
+      {%- if template == 'blog' -%}
+      {%- assign page_title = blog.title -%}
+      {%- endif -%}
+      {%- if template == 'article' -%}
+      {%- assign page_title = blog.title -%}
+      {%- endif -%}
+      {%- if template == 'search' -%}
+      {%- capture page_title -%}<span {% if settings.language_enable %}data-translate="general.search.results_for_html|terms:{{search.terms}}"{% endif %}>{{ 'general.search.results_for_html' | t: terms: search.terms }}</span>{%- endcapture -%}
+      {%- endif -%}
+      {%- if settings.page_heading_title_design != 'disable' and template != 'search' -%}
+      <h1 class="entry-title" {% if template contains 'cart' %} style="display:none;"{% endif %}>
+        <span>
+          {% if settings.language_enable %}
+          <span class="lang1">{{ page_title | split: '|' | first  }}</span>
+          <span class="lang2">{{ page_title | split: '|' | last }}</span>
+          {% else %}
+          {{ page_title | split: '|' | first }}
+          {% endif %}
+        </span>
+      </h1>
+      {%- else -%}
+      <h1 class="entry-title">
+        {{page_title}}
+      </h1>
+      {%- endif -%}
+      {%- if settings.page_heading_breadcrumb_enable != blank and template != 'cart' and template != 'search' -%}
+      <div class="breadcrumbs" xmlns:v="http://rdf.data-vocabulary.org/#">
+        <a href="/" rel="v:url" property="v:title" {% if settings.language_enable %}data-translate="general.breadcrumbs.home"{% endif %}>{{ 'general.breadcrumbs.home' | t }}</a> » 
+        {%- if template == 'blog' -%} 
+          <span class="current"><span {% if settings.language_enable %}data-translate="general.breadcrumbs.archive"{% endif %}>{{ 'general.breadcrumbs.archive' | t }}</span> "{{page_title}}"</span>
+        {%- elsif template == 'article' -%}
+          <span typeof="v:Breadcrumb">
+            <a href="{{blog.url}}" rel="v:url" property="v:title">
+              {%- if settings.language_enable -%}
+              <span class="lang1">{{ blog.title | split: '|' | first }}</span>
+              <span class="lang2">{{ blog.title | split: '|' | last }}</span>
+              {%- else -%}
+              {{ blog.title | split: '|' | first }}
+              {%- endif -%}
+            </a>
+          </span>
+        {%- elsif template contains 'page' -%}
+          <span class="current"> 
+            {% if settings.language_enable %}
+            <span class="lang1">{{ page.title | split: '|' | first  }}</span>
+            <span class="lang2">{{ page.title | split: '|' | last }}</span>
+            {% else %}
+            {{ page.title | split: '|' | first }}
+            {% endif %}
+          </span> 
+        {%- else -%}
+          <span class="current">
+            {% if settings.language_enable %}
+            <span class="lang1">{{ page_title | split: '|' | first  }}</span>
+            <span class="lang2">{{ page_title | split: '|' | last }}</span>
+            {% else %}
+            {{ page_title | split: '|' | first }}
+            {% endif %}
+          </span> 
+        {%- endif -%}
+      </div>
+      {%- endif -%}
+      {%- if template contains 'cart' -%}
+      <div class="woodmart-checkout-steps">
+        <ul>
+          <li class="step-cart step-active">
+            <a href="/cart">
+              <span {% if settings.language_enable %}data-translate="cart.header.widget_title"{% endif %}>{{ 'cart.header.widget_title' | t }}</span>
+            </a>
+          </li>
+          <li class="step-checkout step-inactive">
+            <a href="/checkout">
+              <span {% if settings.language_enable %}data-translate="cart.header.checkout"{% endif %}>{{ 'cart.header.checkout' | t }}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      {%- endif -%}
+    </header>
+  </div>
+</div>
+<style>
+  .page-title-default { 
+    background-repeat: {{settings.page_heading_background_image_repeat}};
+    background-size: {{settings.page_heading_background_size}};
+    background-attachment: {{settings.page_heading_background_attachment}};
+    background-position: {{settings.page_heading_background_position | replace: '_', ' ' }};
+  }
+</style>

@@ -1,0 +1,1221 @@
+{%- case section.settings.section_layout -%}
+{%- when '0' -%}
+{%- capture data_fullwidth -%}{%- endcapture -%}
+{%- when '1' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true"{%- endcapture -%}
+{%- when '2' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- when '3' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- endcase -%} 
+<div data-section-id="{{ section.id }}" data-section-type="promo-banner-section">
+  <div id="promobanner_{{section.id}}">
+  <div {{data_fullwidth}} class="vc_row wpb_row vc_row-fluid {% if section.settings.hide_background_mobile != blank %}mobile-bg-img-hidden{% endif %} vc_custom_{{section.id}} {% if section.settings.section_layout == '3' %}vc_row-no-padding{% endif %}"  style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.padding}};">
+    <div class="wpb_column vc_column_container vc_col-sm-12">
+      <div class="vc_column-inner">
+        <div class="wpb_wrapper">  
+          {%- if section.blocks.size > 0 -%} 
+          <div class="vc_row wpb_row vc_row-fluid vc_custom_1493905779187 vc_row-o-equal-height vc_row-o-content-middle vc_row-flex">
+            {%- for block in section.blocks -%}
+            {%- if forloop.index == 1 -%}
+              {%- if block.type == 'banner' -%}
+                <div class="wpb_column vc_column_container vc_col-sm-3 {% if block.settings.hidden_phone != blank %}vc_hidden-xs{% endif %}{% if block.settings.hidden_tablet != blank %}vc_hidden-sm{% endif %}">
+                  <div class="vc_column-inner vc_custom_1496235321146">
+                    <div class="wpb_wrapper"> 
+                      <div class="promo-banner-wrapper">
+                        <div class="promo-banner cursor-pointer banner-vr-align-{{block.settings.content_align}} banner-hr-align-left banner- banner-hover-{{section.settings.banner_hover}} color-scheme-{{block.settings.content_color}} banner-btn-size-{{block.settings.button_size}} banner-btn-style-{{block.settings.button_style}}  with-btn banner-btn-position-static">
+                          <div class="main-wrapp-img">
+                            <div class="banner-image">
+                              {%- if block.settings.banner_image != blank -%}
+                              {%- assign img_url = block.settings.banner_image | img_url: '612x1224' -%}
+                              {%- else -%}
+                              {%- assign img_url = '612x1224.png' | asset_url -%}
+                              {%- endif -%}
+                              <img src="{{ img_url }}" alt="{{ block.settings.image.alt }}" class="promo-banner-image image-1 attachment-full"/> 
+                            </div>
+                          </div>
+                          <div class="wrapper-content-banner">
+                            <div class="content-banner text-{{block.settings.content_text_align}} content-width-100 content-spacing-default">
+                              <div class="banner-title-wrap banner-title-{{block.settings.title_size}}">
+                                {%- if block.settings.sub_title != '' -%}
+                                <span class="banner-subtitle subtitle-color-{{block.settings.subtitle_color}} subtitle-style-{{block.settings.subtitle_style}}">
+                                  <strong>
+                                    {%- if settings.language_enable -%}
+                                    <span class="lang1">{{ block.settings.sub_title | split: '|' | first }}</span>
+                                    <span class="lang2">{{ block.settings.sub_title | split: '|' | last }}</span>
+                                    {%- else -%}
+                                    {{ block.settings.sub_title | split: '|' | first }}
+                                    {%- endif -%}
+                                  </strong>
+                                </span>
+                                {%- endif -%}
+                                {%- if block.settings.title != '' -%}
+                                <h4 class="banner-title woodmart-font-weight-600">
+                                  {%- if settings.language_enable -%}
+                                  <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+                                  <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+                                  {%- else -%}
+                                  {{ block.settings.title | split: '|' | first }}
+                                  {%- endif -%}
+                                </h4>
+                                {%- endif -%}
+                              </div>
+                              {%- if block.settings.content != '' -%}
+                              <div class="banner-inner content-size-{{block.settings.content_inner_size}}">
+                                {%- if settings.language_enable -%}
+                                <div class="lang1">{{ block.settings.content | split: '[lang2]' | first }}</div>
+                                <div class="lang2">{{ block.settings.content | split: '[lang2]' | last }}</div>
+                                {%- else -%}
+                                {{ block.settings.content | split: '[lang2]' | first }}
+                                {%- endif -%}
+                              </div>
+                              {%- endif -%}
+                              {%- if block.settings.button_title != '' -%}
+                              <div class="banner-btn-wrapper">
+                                <div class="woodmart-button-wrapper text-{{block.settings.content_text_align}}">
+                                  <a href="{{block.settings.button_link}}" title="" class="btn btn-color-{{block.settings.button_color}} btn-style-{{block.settings.button_style}} btn-size-{{block.settings.button_size}}">
+                                    {%- if settings.language_enable -%}
+                                    <span class="lang1">{{ block.settings.button_title | split: '|' | first }}</span>
+                                    <span class="lang2">{{ block.settings.button_title | split: '|' | last }}</span>
+                                    {%- else -%}
+                                    {{ block.settings.button_title | split: '|' | first }}
+                                    {%- endif -%}
+                                  </a>
+                                </div>
+                              </div>
+                              {%- endif -%}
+                            </div>
+                          </div>
+                        </div> 
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {%- else -%}
+                <div class="wpb_column vc_column_container vc_col-sm-3 vc_col-has-fill {% if block.settings.hidden_phone != blank %}vc_hidden-xs{% endif %}{% if block.settings.hidden_tablet != blank %}vc_hidden-sm{% endif %}">
+                  <div class="vc_column-inner vc_custom_{{block.id}}">
+                    <div class="wpb_wrapper">
+                      {% if block.setting.title != '' %}
+                      <h4 style="font-size: 36px;color: {{block.settings.title_color }};line-height: 1.2;text-align: center" class="vc_custom_heading vc_custom_1493826762548">
+                        {%- if settings.language_enable -%}
+                        <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+                        <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+                        {%- else -%}
+                        {{ block.settings.title | split: '|' | first }}
+                        {%- endif -%}
+                      </h4>
+                      {%- endif -%}
+                      {%- if block.settings.content_countdown != '' -%}
+                      <div class="woodmart-countdown-timer color-scheme-{{block.settings.content_countdown_color}} text-center timer-size-{{block.settings.content_countdown_size}} timer-style-{{block.settings.content_countdown_style}}">
+                        <div class="woodmart-timer" data-end-date="{{block.settings.content_countdown}}"></div>
+                      </div>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                  <style> 
+                    .vc_custom_{{block.id}} {
+                      padding-top: 5vh !important;
+                      padding-right: 0px !important;
+                      padding-bottom: 5vh !important;
+                      padding-left: 0px !important;
+                      background-color: {{block.settings.box_color}} !important;
+                      background-position: center !important;
+                      background-repeat: no-repeat !important;
+                      background-size: cover !important;
+                    }
+                  </style>
+                </div>
+              {%- endif -%}
+            {%- endif -%}
+            {%- endfor -%} 
+            <div class="wpb_column vc_column_container vc_col-sm-12 vc_col-md-9 vc_col-xs-12">
+              <div class="vc_column-inner">
+                <div class="wpb_wrapper">
+                  <div class="vc_row wpb_row vc_inner vc_row-fluid vc_custom_1496235162334 vc_row-has-fill vc_row-o-equal-height vc_row-o-content-middle vc_row-flex">
+                    {%- for block in section.blocks -%}
+                    {%- if forloop.index == 2 -%}
+                      {%- if block.type == 'banner' -%}
+                        <div class="wpb_column vc_column_container vc_col-sm-4 vc_col-has-fill {% if block.settings.hidden_phone != blank %}vc_hidden-xs{% endif %}{% if block.settings.hidden_tablet != blank %}vc_hidden-sm{% endif %}">
+                          <div class="vc_column-inner vc_custom_1496235331794">
+                            <div class="wpb_wrapper">
+                              <div class="promo-banner-wrapper">
+                                <div class="promo-banner cursor-pointer banner-vr-align-{{block.settings.content_align}} banner-hr-align-left banner- banner-hover-{{section.settings.banner_hover}} color-scheme-{{block.settings.content_color}} banner-btn-size-{{block.settings.button_size}} banner-btn-style-{{block.settings.button_style}}  with-btn banner-btn-position-static">
+                                  <div class="main-wrapp-img">
+                                    <div class="banner-image">
+                                      {%- if block.settings.banner_image != blank -%}
+                                      {%- assign img_url = block.settings.banner_image | img_url: '500x200' -%}
+                                      {%- else -%}
+                                      {%- assign img_url = '500x200.png' | asset_url -%}
+                                      {%- endif -%}
+                                      <img src="{{ img_url }}" alt="{{ block.settings.image.alt }}" class="promo-banner-image image-1 attachment-full"/> 
+                                    </div>
+                                  </div>
+                                  <div class="wrapper-content-banner">
+                                    <div class="content-banner text-{{block.settings.content_text_align}} content-width-100 content-spacing-default">
+                                      <div class="banner-title-wrap banner-title-{{block.settings.title_size}}">
+                                        {%- if block.settings.sub_title != '' -%}
+                                        <span class="banner-subtitle subtitle-color-{{block.settings.subtitle_color}} subtitle-style-{{block.settings.subtitle_style}}">
+                                          <strong>
+                                            {%- if settings.language_enable -%}
+                                            <span class="lang1">{{ block.settings.sub_title | split: '|' | first }}</span>
+                                            <span class="lang2">{{ block.settings.sub_title | split: '|' | last }}</span>
+                                            {%- else -%}
+                                            {{ block.settings.sub_title | split: '|' | first }}
+                                            {%- endif -%}
+                                          </strong>
+                                        </span>
+                                        {%- endif -%}
+                                        {%- if block.settings.title != '' -%}
+                                        <h4 class="banner-title woodmart-font-weight-600">
+                                          {%- if settings.language_enable -%}
+                                          <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+                                          <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+                                          {%- else -%}
+                                          {{ block.settings.title | split: '|' | first }}
+                                          {%- endif -%}
+                                        </h4>
+                                        {%- endif -%}
+                                      </div>
+                                      {%- if block.settings.content != '' -%}
+                                      <div class="banner-inner content-size-{{block.settings.content_inner_size}}">
+                                        {%- if settings.language_enable -%}
+                                        <div class="lang1">{{ block.settings.content | split: '[lang2]' | first }}</div>
+                                        <div class="lang2">{{ block.settings.content | split: '[lang2]' | last }}</div>
+                                        {%- else -%}
+                                        {{ block.settings.content | split: '[lang2]' | first }}
+                                        {%- endif -%}
+                                      </div>
+                                      {%- endif -%}
+                                      {%- if block.settings.button_title != '' -%}
+                                      <div class="banner-btn-wrapper">
+                                        <div class="woodmart-button-wrapper text-{{block.settings.content_text_align}}">
+                                          <a href="{{block.settings.button_link}}" title="" class="btn btn-color-{{block.settings.button_color}} btn-style-{{block.settings.button_style}} btn-size-{{block.settings.button_size}}">
+                                            {%- if settings.language_enable -%}
+                                            <span class="lang1">{{ block.settings.button_title | split: '|' | first }}</span>
+                                            <span class="lang2">{{ block.settings.button_title | split: '|' | last }}</span>
+                                            {%- else -%}
+                                            {{ block.settings.button_title | split: '|' | first }}
+                                            {%- endif -%}
+                                          </a>
+                                        </div>
+                                      </div>
+                                      {%- endif -%}
+                                    </div>
+                                  </div>
+                                </div> 
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      {%- else -%}
+                        <div class="wpb_column vc_column_container vc_col-sm-4 vc_col-has-fill {% if block.settings.hidden_phone != blank %}vc_hidden-xs{% endif %}{% if block.settings.hidden_tablet != blank %}vc_hidden-sm{% endif %}">
+                          <div class="vc_column-inner vc_custom_{{block.id}}">
+                            <div class="wpb_wrapper">
+                              {% if block.setting.title != '' %}
+                              <h4 style="font-size: 36px;color: {{block.settings.title_color }};line-height: 1.2;text-align: center" class="vc_custom_heading vc_custom_1493826762548">
+                                {%- if settings.language_enable -%}
+                                <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+                                <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+                                {%- else -%}
+                                {{ block.settings.title | split: '|' | first }}
+                                {%- endif -%}
+                              </h4>
+                              {%- endif -%}
+                              {%- if block.settings.content_countdown != '' -%}
+                              <div class="woodmart-countdown-timer color-scheme-{{block.settings.content_countdown_color}} text-center timer-size-{{block.settings.content_countdown_size}} timer-style-{{block.settings.content_countdown_style}}">
+                                <div class="woodmart-timer" data-end-date="{{block.settings.content_countdown}}"></div>
+                              </div>
+                              {%- endif -%}
+                            </div>
+                          </div>
+                          <style> 
+                            .vc_custom_{{block.id}} {
+                              padding-top: 5vh !important;
+                              padding-right: 0px !important;
+                              padding-bottom: 5vh !important;
+                              padding-left: 0px !important;
+                              background-color: {{block.settings.box_color}} !important;
+                              background-position: center !important;
+                              background-repeat: no-repeat !important;
+                              background-size: cover !important;
+                            }
+                          </style>
+                        </div>
+                      {%- endif -%}
+                    {%- endif -%}
+                    {%- endfor -%} 
+                    {%- for block in section.blocks -%}
+                    {%- if forloop.index == 3 -%}
+                      {%- if block.type == 'banner' -%}
+                        <div class="wpb_column vc_column_container vc_col-sm-8 {% if block.settings.hidden_phone != blank %}vc_hidden-xs{% endif %}{% if block.settings.hidden_tablet != blank %}vc_hidden-sm{% endif %}">
+                          <div class="vc_column-inner vc_custom_1493107215495">
+                            <div class="wpb_wrapper"> 
+                              <div class="promo-banner-wrapper">
+                                <div class="promo-banner cursor-pointer banner-vr-align-{{block.settings.content_align}} banner-hr-align-left banner- banner-hover-{{section.settings.banner_hover}} color-scheme-{{block.settings.content_color}} banner-btn-size-{{block.settings.button_size}} banner-btn-style-{{block.settings.button_style}}  with-btn banner-btn-position-static">
+                                  <div class="main-wrapp-img">
+                                    <div class="banner-image">
+                                      {%- if block.settings.banner_image != blank -%}
+                                      {%- assign img_url = block.settings.banner_image | img_url: '1222x612' -%}
+                                      {%- else -%}
+                                      {%- assign img_url = '1222x612.png' | asset_url -%}
+                                      {%- endif -%}
+                                      <img src="{{ img_url }}" alt="{{ block.settings.image.alt }}" class="promo-banner-image image-1 attachment-full"/> 
+                                    </div>
+                                  </div>
+                                  <div class="wrapper-content-banner">
+                                    <div class="content-banner text-{{block.settings.content_text_align}} content-width-100 content-spacing-default">
+                                      <div class="banner-title-wrap banner-title-{{block.settings.title_size}}">
+                                        {%- if block.settings.sub_title != '' -%}
+                                        <span class="banner-subtitle subtitle-color-{{block.settings.subtitle_color}} subtitle-style-{{block.settings.subtitle_style}}">
+                                          <strong>
+                                            {%- if settings.language_enable -%}
+                                            <span class="lang1">{{ block.settings.sub_title | split: '|' | first }}</span>
+                                            <span class="lang2">{{ block.settings.sub_title | split: '|' | last }}</span>
+                                            {%- else -%}
+                                            {{ block.settings.sub_title | split: '|' | first }}
+                                            {%- endif -%}
+                                          </strong>
+                                        </span>
+                                        {%- endif -%}
+                                        {%- if block.settings.title != '' -%}
+                                        <h4 class="banner-title woodmart-font-weight-600">
+                                          {%- if settings.language_enable -%}
+                                          <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+                                          <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+                                          {%- else -%}
+                                          {{ block.settings.title | split: '|' | first }}
+                                          {%- endif -%}
+                                        </h4>
+                                        {%- endif -%}
+                                      </div>
+                                      {%- if block.settings.content != '' -%}
+                                      <div class="banner-inner content-size-{{block.settings.content_inner_size}}">
+                                        {%- if settings.language_enable -%}
+                                        <div class="lang1">{{ block.settings.content | split: '[lang2]' | first }}</div>
+                                        <div class="lang2">{{ block.settings.content | split: '[lang2]' | last }}</div>
+                                        {%- else -%}
+                                        {{ block.settings.content | split: '[lang2]' | first }}
+                                        {%- endif -%}
+                                      </div>
+                                      {%- endif -%}
+                                      {%- if block.settings.button_title != '' -%}
+                                      <div class="banner-btn-wrapper">
+                                        <div class="woodmart-button-wrapper text-{{block.settings.content_text_align}}">
+                                          <a href="{{block.settings.button_link}}" title="" class="btn btn-color-{{block.settings.button_color}} btn-style-{{block.settings.button_style}} btn-size-{{block.settings.button_size}}">
+                                            {%- if settings.language_enable -%}
+                                            <span class="lang1">{{ block.settings.button_title | split: '|' | first }}</span>
+                                            <span class="lang2">{{ block.settings.button_title | split: '|' | last }}</span>
+                                            {%- else -%}
+                                            {{ block.settings.button_title | split: '|' | first }}
+                                            {%- endif -%}
+                                          </a>
+                                        </div>
+                                      </div>
+                                      {%- endif -%}
+                                    </div>
+                                  </div>
+                                </div> 
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      {%- else -%}
+                        <div class="wpb_column vc_column_container vc_col-sm-8 vc_col-has-fill {% if block.settings.hidden_phone != blank %}vc_hidden-xs{% endif %}{% if block.settings.hidden_tablet != blank %}vc_hidden-sm{% endif %}">
+                          <div class="vc_column-inner vc_custom_{{block.id}}">
+                            <div class="wpb_wrapper">
+                              {% if block.setting.title != '' %}
+                              <h4 style="font-size: 36px;color: {{block.settings.title_color }};line-height: 1.2;text-align: center" class="vc_custom_heading vc_custom_1493826762548">
+                                {%- if settings.language_enable -%}
+                                <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+                                <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+                                {%- else -%}
+                                {{ block.settings.title | split: '|' | first }}
+                                {%- endif -%}
+                              </h4>
+                              {%- endif -%}
+                              {%- if block.settings.content_countdown != '' -%}
+                              <div class="woodmart-countdown-timer color-scheme-{{block.settings.content_countdown_color}} text-center timer-size-{{block.settings.content_countdown_size}} timer-style-{{block.settings.content_countdown_style}}">
+                                <div class="woodmart-timer" data-end-date="{{block.settings.content_countdown}}"></div>
+                              </div>
+                              {%- endif -%}
+                            </div>
+                          </div>
+                          <style> 
+                            .vc_custom_{{block.id}} {
+                              padding-top: 5vh !important;
+                              padding-right: 0px !important;
+                              padding-bottom: 5vh !important;
+                              padding-left: 0px !important;
+                              background-color: {{block.settings.box_color}} !important;
+                              background-position: center !important;
+                              background-repeat: no-repeat !important;
+                              background-size: cover !important;
+                            }
+                          </style>
+                        </div>
+                      {%- endif -%}
+                    {%- endif -%}
+                    {%- endfor -%} 
+                  </div>
+                  <div class="vc_row wpb_row vc_inner vc_row-fluid vc_custom_1493627241162 vc_row-has-fill vc_row-o-equal-height vc_row-o-content-middle vc_row-flex">
+                    {%- for block in section.blocks -%}
+                    {%- if forloop.index >= 4 -%}
+                      {%- if block.type == 'banner' -%}
+                        <div class="wpb_column vc_column_container vc_col-sm-4 {% if block.settings.hidden_phone != blank %}vc_hidden-xs{% endif %}{% if block.settings.hidden_tablet != blank %}vc_hidden-sm{% endif %}">
+                          <div class="vc_column-inner vc_custom_1496235331794">
+                            <div class="wpb_wrapper"> 
+                              <div class="promo-banner-wrapper">
+                                <div class="promo-banner cursor-pointer banner-vr-align-{{block.settings.content_align}} banner-hr-align-left banner- banner-hover-{{section.settings.banner_hover}} color-scheme-{{block.settings.content_color}} banner-btn-size-{{block.settings.button_size}} banner-btn-style-{{block.settings.button_style}}  with-btn banner-btn-position-static">
+                                  <div class="main-wrapp-img">
+                                    <div class="banner-image">
+                                      {%- if block.settings.banner_image != blank -%}
+                                      {%- assign img_url = block.settings.banner_image | img_url: '612x612' -%}
+                                      {%- else -%}
+                                      {%- assign img_url = '612x612.png' | asset_url -%}
+                                      {%- endif -%}
+                                      <img src="{{ img_url }}" alt="{{ block.settings.image.alt }}" class="promo-banner-image image-1 attachment-full"/> 
+                                    </div>
+                                  </div>
+                                  <div class="wrapper-content-banner">
+                                    <div class="content-banner text-{{block.settings.content_text_align}} content-width-100 content-spacing-default">
+                                      <div class="banner-title-wrap banner-title-{{block.settings.title_size}}">
+                                        {%- if block.settings.sub_title != '' -%}
+                                        <span class="banner-subtitle subtitle-color-{{block.settings.subtitle_color}} subtitle-style-{{block.settings.subtitle_style}}">
+                                          <strong>
+                                            {%- if settings.language_enable -%}
+                                            <span class="lang1">{{ block.settings.sub_title | split: '|' | first }}</span>
+                                            <span class="lang2">{{ block.settings.sub_title | split: '|' | last }}</span>
+                                            {%- else -%}
+                                            {{ block.settings.sub_title | split: '|' | first }}
+                                            {%- endif -%}
+                                          </strong>
+                                        </span>
+                                        {%- endif -%}
+                                        {%- if block.settings.title != '' -%}
+                                        <h4 class="banner-title woodmart-font-weight-600">
+                                          {%- if settings.language_enable -%}
+                                          <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+                                          <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+                                          {%- else -%}
+                                          {{ block.settings.title | split: '|' | first }}
+                                          {%- endif -%}
+                                        </h4>
+                                        {%- endif -%}
+                                      </div>
+                                      {%- if block.settings.content != '' -%}
+                                      <div class="banner-inner content-size-{{block.settings.content_inner_size}}">
+                                        {%- if settings.language_enable -%}
+                                        <div class="lang1">{{ block.settings.content | split: '[lang2]' | first }}</div>
+                                        <div class="lang2">{{ block.settings.content | split: '[lang2]' | last }}</div>
+                                        {%- else -%}
+                                        {{ block.settings.content | split: '[lang2]' | first }}
+                                        {%- endif -%}
+                                      </div>
+                                      {%- endif -%}
+                                      {%- if block.settings.button_title != '' -%}
+                                      <div class="banner-btn-wrapper">
+                                        <div class="woodmart-button-wrapper text-{{block.settings.content_text_align}}">
+                                          <a href="{{block.settings.button_link}}" title="" class="btn btn-color-{{block.settings.button_color}} btn-style-{{block.settings.button_style}} btn-size-{{block.settings.button_size}}">
+                                            {%- if settings.language_enable -%}
+                                            <span class="lang1">{{ block.settings.button_title | split: '|' | first }}</span>
+                                            <span class="lang2">{{ block.settings.button_title | split: '|' | last }}</span>
+                                            {%- else -%}
+                                            {{ block.settings.button_title | split: '|' | first }}
+                                            {%- endif -%}
+                                          </a>
+                                        </div>
+                                      </div>
+                                      {%- endif -%}
+                                    </div>
+                                  </div>
+                                </div> 
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      {%- else -%}
+                        <div class="wpb_column vc_column_container vc_col-sm-4 vc_col-has-fill {% if block.settings.hidden_phone != blank %}vc_hidden-xs{% endif %}{% if block.settings.hidden_tablet != blank %}vc_hidden-sm{% endif %}">
+                          <div class="vc_column-inner vc_custom_{{block.id}}">
+                            <div class="wpb_wrapper">
+                              {% if block.setting.title != '' %}
+                              <h4 style="font-size: 36px;color: {{block.settings.title_color }};line-height: 1.2;text-align: center" class="vc_custom_heading vc_custom_1493826762548">
+                                {%- if settings.language_enable -%}
+                                <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+                                <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+                                {%- else -%}
+                                {{ block.settings.title | split: '|' | first }}
+                                {%- endif -%}
+                              </h4>
+                              {%- endif -%}
+                              {%- if block.settings.content_countdown != '' -%}
+                              <div class="woodmart-countdown-timer color-scheme-{{block.settings.content_countdown_color}} text-center timer-size-{{block.settings.content_countdown_size}} timer-style-{{block.settings.content_countdown_style}}">
+                                <div class="woodmart-timer" data-end-date="{{block.settings.content_countdown}}"></div>
+                              </div>
+                              {%- endif -%}
+                            </div>
+                          </div>
+                          <style> 
+                            .vc_custom_{{block.id}} {
+                              padding-top: 5vh !important;
+                              padding-right: 0px !important;
+                              padding-bottom: 5vh !important;
+                              padding-left: 0px !important;
+                              background-color: {{block.settings.box_color}} !important;
+                              background-position: center !important;
+                              background-repeat: no-repeat !important;
+                              background-size: cover !important;
+                            }
+                          </style>
+                        </div>
+                      {%- endif -%}
+                    {%- endif -%}
+                    {%- endfor -%}  
+                  </div>
+                </div>
+              </div>
+            </div> 
+            <style>
+              .vc_custom_1496235321146 {
+                padding-right: 0px !important;
+                padding-left: 0px !important;
+              }
+              .vc_custom_1493107215495, .vc_custom_1496235331794, .vc_custom_1493109213434, .vc_custom_1496235336714 {
+                padding-top: 0px !important;
+                padding-right: 0px !important;
+                padding-bottom: 0px !important;
+                padding-left: 0px !important;
+              } 
+            </style>
+          </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+  {%- if section.settings.section_layout != '0' -%}
+  <div class="vc_row-full-width vc_clearfix"></div>
+  {%- endif -%}
+  <style>
+    .vc_custom_{{section.id}} { 
+      border-top-width: 0px !important; 
+      {%- if section.settings.background_image != blank -%}
+      background-image: url({{section.settings.background_image | img_url: 'master'}}) !important;
+      background-position: {{section.settings.background_position | replace: '_', ' ' }} !important;
+      background-repeat: {{section.settings.background_image_repeat}} !important;
+      background-size: {{section.settings.background_size}} !important;
+      background-attachment: {{section.settings.background_attachment}} !important;
+      {%- endif -%}
+      background-color: {{section.settings.background_color}};
+    }  
+  </style>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Promo Banner Fixed 2", 
+  "settings": [    
+    {
+      "type": "header", 
+      "content": "Section Settings"
+    },  
+    {
+      "type": "select",
+      "id": "section_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "0",
+          "label": "Default"
+        },
+        {
+          "value": "1",
+          "label": "Fullwidth row"
+        },
+        {
+          "value": "2",
+          "label": "Fullwidth row and content"
+        }
+      ],
+      "default": "0"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color", 
+	  "default": "transparent"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section background image" 
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_background_mobile",
+      "label": "Hide background image on mobile?", 
+	  "default": false
+    },
+    {
+      "type": "select",
+      "id": "background_image_repeat",
+      "label": "Background Repeat",
+      "options": [
+        {
+          "value": "no-repeat",
+          "label": "No Repeat"
+        },
+        {
+          "value": "repeat-x",
+          "label": "Repeat x (Repeat Horizontal)"
+        },
+        {
+          "value": "repeat-y",
+          "label": "Repeat y (Repeat Verticle)"
+        },
+        {
+          "value": "repeat",
+          "label": "Repeat All"
+        }
+      ],
+      "default": "no-repeat"
+    },
+    {
+      "type": "select",
+      "id": "background_size",
+      "label": "Background Size",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "background_attachment",
+      "label": "Background Attachment",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "fixed",
+          "label": "Fixed"
+        },
+        {
+          "value": "scroll",
+          "label": "Scroll"
+        },
+        {
+          "value": "inherit",
+          "label": "Inherit"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "background_position",
+      "label": "Background Position",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "left_top",
+          "label": "Left Top"
+        },
+        {
+          "value": "left_center",
+          "label": "Left Center"
+        },
+        {
+          "value": "left_bottom",
+          "label": "Left Bottom"
+        },
+        {
+          "value": "center_top",
+          "label": "Center Top"
+        },
+        {
+          "value": "center_center",
+          "label": "Center Center"
+        },
+        {
+          "value": "center_bottom",
+          "label": "Center Bottom"
+        }
+      ],
+      "default": "center_center"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section Margin Top", 
+	  "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section Margin Bottom", 
+	  "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Section Padding",
+	  "info": "Ex:(40px 40px 40px) (top right bottom left)"
+    },  
+    {
+      "type": "header", 
+      "content": "Banner Settings"
+    },   
+    {
+      "type": "select",
+      "id": "banner_hover",
+      "label": "Banner hover effect",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "zoom",
+          "label": "Zoom"
+        },
+        {
+          "value": "zoom-reverse",
+          "label": "Zoom-Reverse"
+        },
+        {
+          "value": "background",
+          "label": "Background"
+        },
+        {
+          "value": "border",
+          "label": "Border"
+        }
+      ],
+      "default": "zoom"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "banner",
+      "name": "Banner Image",
+	  "limit": 5,
+      "settings": [  
+        {
+          "type": "header", 
+          "content": "Device Settings"
+        },
+        {
+          "type": "checkbox",
+          "id": "hidden_tablet",
+          "label": "Hidden item on tablet?",
+		  "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "hidden_phone",
+          "label": "Hidden item on phone?",
+		  "default": false
+        },  
+        {
+          "type": "header", 
+          "content": "Banner Settings"
+        },
+        {
+          "type": "image_picker",
+          "id": "banner_image",
+          "label": "Banner Image"
+        },
+        {
+          "type": "text",
+          "id": "sub_title",
+          "label": "Sub Title", 
+          "default": "SUMMER NEW"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title", 
+          "default": "AMAZING<br>FASHION"
+        },
+        {
+          "type": "textarea",
+          "id": "content",
+          "label": "Content"
+        },
+        {
+          "type": "text",
+          "id": "button_title",
+          "label": "Button Title", 
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Link"
+        }, 
+        {
+          "type": "header", 
+          "content": "Content Settings"
+        }, 
+        {
+          "type": "select",
+          "id": "content_align",
+          "label": "Content align",
+          "options": [
+            {
+              "value": "top",
+              "label": "Top"
+            },
+            {
+              "value": "middle",
+              "label": "Middle"
+            },
+            {
+              "value": "bottom",
+              "label": "Bottom"
+            }
+          ],
+          "default": "top"
+        },
+        {
+          "type": "select",
+          "id": "content_text_align",
+          "label": "Content text align",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        }, 
+        {
+          "type": "select",
+          "id": "content_color",
+          "label": "Content color",
+          "options": [
+            {
+              "value": "light",
+              "label": "Light"
+            },
+            {
+              "value": "dark",
+              "label": "Dark"
+            }
+          ],
+          "default": "dark"
+        },  
+        {
+          "type": "select",
+          "id": "subtitle_color",
+          "label": "Subtitle Color",
+          "options": [
+            {
+              "value": "default",
+              "label": "Default"
+            },
+            {
+              "value": "black",
+              "label": "Black"
+            },
+            {
+              "value": "white",
+              "label": "White"
+            },
+            {
+              "value": "alt",
+              "label": "Alt"
+            },
+            {
+              "value": "primary",
+              "label": "Primary"
+            }
+          ],
+          "default": "default"
+        },
+        {
+          "type": "select",
+          "id": "subtitle_style",
+          "label": "Subtitle Style",
+          "options": [
+            {
+              "value": "default",
+              "label": "Default"
+            },
+            {
+              "value": "background",
+              "label": "Background"
+            }
+          ],
+          "default": "default"
+        },
+        {
+          "type": "select",
+          "id": "title_size",
+          "label": "Title Size",
+          "options": [
+            {
+              "value": "default",
+              "label": "Default"
+            },
+            {
+              "value": "small",
+              "label": "Small"
+            }, 
+            {
+              "value": "large",
+              "label": "Large"
+            },
+            {
+              "value": "extra-large",
+              "label": "Extra-Large"
+            } 
+          ],
+          "default": "default"
+        },
+        {
+          "type": "select",
+          "id": "content_inner_size",
+          "label": "Inner Content Size",
+          "options": [
+            {
+              "value": "default",
+              "label": "Default"
+            }, 
+            {
+              "value": "medium",
+              "label": "Medium"
+            },
+            {
+              "value": "large",
+              "label": "Large"
+            } 
+          ],
+          "default": "default"
+        },
+        {
+          "type": "header", 
+          "content": "Button Settings"
+        },  
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button Style",
+          "options": [
+            {
+              "value": "default",
+              "label": "Default"
+            },
+            {
+              "value": "round",
+              "label": "Round"
+            },
+            {
+              "value": "link",
+              "label": "Link"
+            },
+            {
+              "value": "3d",
+              "label": "3D"
+            },
+            {
+              "value": "bordered",
+              "label": "Bordered"
+            } 
+          ],
+          "default": "link"
+        },
+        {
+          "type": "select",
+          "id": "button_size",
+          "label": "Button Size",
+          "options": [
+            {
+              "value": "default",
+              "label": "Default"
+            },
+            {
+              "value": "small",
+              "label": "Small"
+            },
+            {
+              "value": "medium",
+              "label": "Medium"
+            },
+            {
+              "value": "large",
+              "label": "Large"
+            },
+            {
+              "value": "extra-large",
+              "label": "Extra-Large"
+            } 
+          ],
+          "default": "default"
+        },
+        {
+          "type": "select",
+          "id": "button_color",
+          "label": "Button Color",
+          "options": [
+            {
+              "value": "default",
+              "label": "Default"
+            },
+            {
+              "value": "black",
+              "label": "Black"
+            },
+            {
+              "value": "white",
+              "label": "White"
+            },
+            {
+              "value": "alt",
+              "label": "Alt"
+            },
+            {
+              "value": "primary",
+              "label": "Primary"
+            } 
+          ],
+          "default": "default"
+        }
+      ]
+    },
+	{
+      "type": "countdown",
+      "name": "Box Countdown",
+	  "limit": 1,
+      "settings": [    
+        {
+          "type": "header", 
+          "content": "Device Settings"
+        },
+        {
+          "type": "checkbox",
+          "id": "hidden_tablet",
+          "label": "Hidden item on tablet?",
+		  "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "hidden_phone",
+          "label": "Hidden item on phone?",
+		  "default": false
+        },
+        {
+          "type": "header", 
+          "content": "Content Settings"
+        },  
+        {
+          "type": "color",
+          "id": "box_color",
+          "label": "Box color",
+          "default": "#339059"
+        },    
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "HOT SALE<br>UP TO 70%"
+        }, 
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title Color",
+          "default": "#fff"
+        },   
+        {
+          "type": "header", 
+          "content": "Countdown Setting"
+        }, 
+        {
+          "type": "text",
+          "id": "content_countdown",
+          "label": "Time", 
+          "default": "2018-10-14 12:30:00",
+		  "info": "Set time: Y-m-d h:i:s"
+        },
+        {
+          "type": "select",
+          "id": "content_countdown_style",
+          "label": "Countdown Style",
+          "default": "transparent",
+          "options": [ 
+            {
+              "value": "transparent",
+              "label": "Transparent"
+            },
+            {
+              "value": "base",
+              "label": "Base"
+            } 
+          ]
+        },
+        {
+          "type": "select",
+          "id": "content_countdown_color",
+          "label": "Countdown Color",
+          "default": "light",
+          "options": [ 
+            {
+              "value": "light",
+              "label": "Light"
+            },
+            {
+              "value": "dark",
+              "label": "Dark"
+            } 
+          ]
+        },
+        {
+          "type": "select",
+          "id": "content_countdown_size",
+          "label": "Countdown Size",
+          "default": "small",
+          "options": [ 
+            {
+              "value": "small",
+              "label": "Small"
+            },
+            {
+              "value": "medium",
+              "label": "Medium"
+            },
+            {
+              "value": "large",
+              "label": "Large"
+            } 
+          ]
+        } 
+      ]
+    } 
+  ],
+  "presets": [{
+    "name": "Promo Banner Fixed 2",
+    "category": "Banner", 
+    "blocks": [
+      {
+        "type": "banner",
+		"settings": {
+		  "hidden_tablet": true,
+		  "hidden_phone": true,
+		  "content_align": "top",
+		  "content_text_align": "center",
+		  "content_color": "light",
+		  "title": "",
+		  "sub_title": "", 
+		  "content": "<p></p><h3 style=\"padding-top: 5vh; font-size: 38px; font-weight: 800; color: #246763; line-height: 1; margin-bottom: 25px;\">MINIMAL<br> ARMCHAIRS</h3><div class=\"visible-lg\">Facilisis volutpat augue non himenaeos eros hendrerit habitant mi cras nascetur semper bibendum consectetur in est imperdiet sociis.</div><p></p>",
+          "button_title": "Read More",
+		  "button_style": "bordered",
+		  "button_size": "small",
+		  "button_color": "light"
+        }
+      },
+      {
+        "type": "countdown",
+		"settings": {
+		  "box_color": "#339059",
+		  "title": "HOT SALE<br>UP TO 70%",
+          "title_color": "#ffffff",
+		  "content_countdown": "2018-10-14 12:30:00",
+		  "content_countdown_style": "transparent",
+		  "content_countdown_color": "light",
+		  "content_countdown_size": "small"
+        }
+      },
+      {
+        "type": "banner",
+		"settings": {
+		  "hidden_tablet": false,
+		  "hidden_phone": false,
+		  "content_align": "middle",
+		  "content_text_align": "left",
+		  "content_color": "dark",
+		  "title": "",
+		  "sub_title": "",
+		  "content": "<p></p><h3 style=\"font-size: 38px; font-weight: 800; color: #ecd637; line-height: 1;\">FURNITURE<br>FACTORY</h3><div class=\"visible-lg\">Lobortis semper nullam hac gravida<br>scelerisque sed ad cum erat.</div><p></p>",
+          "button_title": "Shop Now",
+		  "button_style": "default",
+		  "button_size": "small",
+		  "button_color": "alt"
+        }
+      },
+      {
+        "type": "banner",
+		"settings": {
+		  "hidden_tablet": false,
+		  "hidden_phone": false,
+		  "content_align": "middle",
+		  "content_text_align": "left",
+		  "content_color": "dark", 
+		  "title": "",
+		  "sub_title": "",
+		  "button_title": "",
+		  "button_style": "default",
+		  "button_size": "small",
+		  "button_color": "alt"
+        }
+      },
+      {
+        "type": "banner",
+		"settings": {
+		  "hidden_tablet": false,
+		  "hidden_phone": false,
+		  "content_align": "middle",
+		  "content_text_align": "center",
+		  "content_color": "light",
+		  "title": "YELLOW<br>TREND SOFA", 
+		  "sub_title": "",
+		  "button_title": "",
+		  "title_size": "extra-large", 
+		  "button_style": "default",
+		  "button_size": "small",
+		  "button_color": "alt"
+        }
+      },
+      {
+        "type": "banner",
+		"settings": {
+		  "hidden_tablet": false,
+		  "hidden_phone": false,
+		  "content_align": "middle",
+		  "content_text_align": "left",
+		  "content_color": "dark", 
+		  "title": "",
+		  "sub_title": "",
+		  "button_title": "",
+		  "button_style": "default",
+		  "button_size": "small",
+		  "button_color": "alt"
+        }
+      }
+    ]
+  }]
+}
+{% endschema %}

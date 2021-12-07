@@ -1,0 +1,63 @@
+{%- case block.settings.hover_product -%}
+{%- when 'base' -%}
+{%- assign pl_include = 'section_hover_product_base' -%} 
+{%- when 'alt' -%}
+{%- assign pl_include = 'section_hover_product_alt' -%}
+{%- when 'info' -%}
+{%- assign pl_include = 'section_hover_product_info' -%}
+{%- when 'info-alt' -%}
+{%- assign pl_include = 'section_hover_product_info_alt' -%}
+{%- when 'button' -%}
+{%- assign pl_include = 'section_hover_product_button' -%}
+{%- when 'icon' -%}
+{%- assign pl_include = 'section_hover_product_icon' -%}
+{%- when 'standard' -%}
+{%- assign pl_include = 'section_hover_product_standard' -%} 
+{%- when 'quick' -%}
+{%- assign pl_include = 'section_hover_product_quick' -%}
+{%- when 'tiled' -%}
+{%- assign pl_include = 'section_hover_product_tiled' -%}
+{%- endcase -%}
+{%- if block.settings.collection == blank -%}
+  {%- if collections["frontpage"].products.size > 0 -%}
+    {%- assign collection = collections["frontpage"] -%}
+  {%- else -%}
+    {%- assign collection = collections["all"] -%}
+  {%- endif -%}
+{%- else -%}
+  {%- assign collection = collections[block.settings.collection] -%}
+{%- endif -%}
+{%- assign limit = block.settings.limit -%}
+<div class="woodmart-products-element">
+  <div class="products elements-grid row woodmart-products-holder woodmart-spacing-{{section.settings.space_product}} products-spacing-{{section.settings.space_product}}">
+    <div class="data-carousel" data-items="{{ block.settings.carousel_columns }}" data-auto="{{ block.settings.carousel_autoplay }}" data-paging="{{ block.settings.carousel_pagination }}" data-loop="{{block.settings.carousel_loop}}" data-320="2" data-414="2" data-768="2" data-992="3" data-1200="{{ block.settings.carousel_columns }}" data-margin="0" data-nav="{{ block.settings.carousel_navigation }}" data-prev='' data-next='' style="display: none;"></div>
+    <div class="owl-carousel">
+    {%- for product in collection.products limit:limit  -%}
+      {%- assign sold_out = true -%}
+      {%- if product.available -%}
+        {%- assign sold_out = false -%}
+      {%- endif -%}
+      {%- assign on_sale = false -%}
+      {%- if product.compare_at_price_min > product.price_min -%}
+        {%- assign on_sale = true -%}
+      {%- endif -%}
+      {%- assign variant_tmp = product.selected_or_first_available_variant -%}
+      {%- for variant in product.variants -%}
+        {%- if variant.available == true and variant.price < variant_tmp.price -%}
+          {%- assign variant_tmp = variant -%}	
+        {%- endif -%}
+      {%- endfor -%}
+      {%- case settings.collection_aspect_ratio -%}
+      {%- when '1' -%}
+        {%- assign image_width = settings.collection_ratio_width -%}
+        {%- assign image_height = '' -%} 
+      {%- else -%}
+        {%- assign image_width = settings.collection_ratio_width -%}
+        {%- assign image_height = settings.collection_ratio_height -%}
+      {%- endcase -%} 
+      {%- capture image_size -%}{{ image_width }}x{{ image_height }}{%- endcapture -%}
+      {%- include pl_include, carousel: true, countdown: settings.collection_product_countdown -%} 
+    {%- endfor-%}
+    </div>
+  </div>
+</div>

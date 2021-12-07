@@ -1,0 +1,105 @@
+{%- case settings.related_hover_product -%}
+{%- when 'base' -%}
+{%- assign pl_include = 'section_hover_product_base' -%} 
+{%- when 'alt' -%}
+{%- assign pl_include = 'section_hover_product_alt' -%}
+{%- when 'info' -%}
+{%- assign pl_include = 'section_hover_product_info' -%}
+{%- when 'info-alt' -%}
+{%- assign pl_include = 'section_hover_product_info_alt' -%}
+{%- when 'button' -%}
+{%- assign pl_include = 'section_hover_product_button' -%}
+{%- when 'icon' -%}
+{%- assign pl_include = 'section_hover_product_icon' -%}
+{%- when 'standard' -%}
+{%- assign pl_include = 'section_hover_product_standard' -%} 
+{%- when 'quick' -%}
+{%- assign pl_include = 'section_hover_product_quick' -%} 
+{%- when 'tiled' -%}
+{%- assign pl_include = 'section_hover_product_tiled' -%} 
+{%- endcase -%}
+{%- assign number_of_related_products_to_show = settings.related_product_limit | plus:1 -%}
+{%- assign current_product = product -%}
+{%- assign current_product_tags = product.tags -%}
+{%- assign found_first_match = false -%}
+{%- assign found_second_match = false -%}
+{%- assign first_related_product = true -%}
+{%- assign product_count = 1 -%}
+{%- paginate collections.all.products by 1000 -%}
+{%- for product in collections.all.products -%}
+{%- unless product.handle == current_product.handle -%}
+{%- for tag in product.tags -%}
+{%- if current_product_tags contains tag and tag != 'Made in USA' -%}
+{%- if found_first_match == false -%}
+{%- assign found_first_match = true -%}
+{%- assign first_match = tag -%}
+{%- elsif found_second_match == false -%}
+{%- assign found_second_match = true -%}
+{%- assign second_match = tag -%}
+{%- endif -%}
+{%- endif -%}
+{%- endfor -%}
+{%- if found_first_match == true -%}
+{%- if first_related_product == true -%}
+{%- assign first_related_product = false -%} 
+<h3 class="title-widget">
+  <span class="inner" {% if settings.language_enable %}data-translate="products.general.related_products"{% endif %}>{{ 'products.general.related_products' | t }}</span>
+</h3> 
+<div class="category-products">
+  <div class="data-carousel" 
+       data-items="{{ settings.related_product_column }}"
+       data-auto="{{ settings.related_product_autoplay }}"
+       data-paging="{{ settings.related_product_show_paging }}"
+       data-margin="20"
+       data-320 = "2"
+       data-414 = "2"
+       data-768 = "2"
+       data-992 = "3"
+       data-1200 = "{{ settings.related_product_column }}"
+       data-nav="{{ settings.related_product_show_nav }}"       
+       data-prev=''
+       data-next='' style="display: none;"></div> 
+  {%- assign limit = settings.related_product_limit | plus: 1 -%}  
+  {%- assign sold_out = true -%}
+  {%- if product.available -%}
+  {%- assign sold_out = false -%}
+  {%- endif -%}
+  {%- assign on_sale = false -%}
+  {%- if product.compare_at_price_min > product.price_min -%}
+  {%- assign on_sale = true -%}
+  {%- endif -%}
+  {%- assign variant_tmp = product.selected_or_first_available_variant -%}
+  {%- for variant in product.variants -%}
+  {%- if variant.available == true and variant.price < variant_tmp.price -%}
+  {%- assign variant_tmp = variant -%}	
+  {%- endif -%}
+  {%- endfor -%}
+  {%- case settings.collection_aspect_ratio -%}
+  {%- when '1' -%}
+  {%- assign image_width = settings.collection_ratio_width -%}
+  {%- assign image_height = '' -%} 
+  {%- else -%}
+  {%- assign image_width = settings.collection_ratio_width -%}
+  {%- assign image_height = settings.collection_ratio_height -%}
+  {%- endcase -%}  
+  {%- capture image_size -%}{{ image_width }}x{{ image_height }}{%- endcapture -%}
+  <div class="owl-items-xl-4 owl-items-lg-3 owl-items-md-3 owl-items-sm-1 owl-carousel slider-type-post carousel-init"> 
+    {%- endif -%}
+    {%- if product_count < number_of_related_products_to_show -%}    
+    {%- if product.tags contains first_match or product.tags contains second_match -%}   
+    <div class="slide-product owl-carousel-item"> 
+      <div class="owl-carousel-item-inner">
+        {%- include pl_include with collection.handle, carousel: true, countdown: settings.collection_product_countdown -%}  
+      </div>
+    </div>   
+    {%- assign product_count = product_count | plus:1 -%}
+    {%- endif -%}
+    {%- endif -%}
+    {%- endif -%}
+    {%- endunless -%}
+    {%- endfor -%}
+    {%- if first_related_product == false -%} 
+  </div> 
+</div> 
+{%- endif -%}
+{%- endpaginate -%} 

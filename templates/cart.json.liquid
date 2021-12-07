@@ -1,0 +1,47 @@
+{%- layout none -%}
+<div class="shopping-cart-widget-body woodmart-scroll has-scrollbar">
+  <div class=" woodmart-scroll-content" tabindex="0">
+    <ul class="cart_list product_list_widget shopify-mini-cart"> 
+      {%- if cart.item_count > 0 -%}
+      {%- for item in cart.items -%}
+      <li class="shopify-mini-cart-item mini_cart_item"> 
+        <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="remove remove_from_cart_button" title="{{ 'cart.general.remove' | t }}" data-product_id="{{item.variant_id}}" data-product_sku="{{item.sku}}">×</a> 									
+        <a href="{{item.url | within: item.product.collections.last }}" class="cart-item-image">
+          <img width="100" height="130" src="{{ item | img_url: '100x130' }}" class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image" alt="" srcset="{{ item | img_url: '100x130' }} 100w, {{ item | img_url: '131x150' }} 131w, {{ item | img_url: 'master' }} 700w, {{ item | img_url: '88x100' }} 88w" sizes="(max-width: 100px) 100vw, 100px">
+        </a>
+        <div class="cart-info">
+          <span class="product-title">
+            {% if settings.language_enable %}
+            <div class="lang1">{{ item.product.title | split: '|' | first }}</div>
+            <div class="lang2">{{ item.product.title | split: '|' | last }}</div>
+            {% else %}
+            {{ item.product.title | split: '|' | first }}
+            {% endif %} 
+          </span>
+          <span class="quantity">{{ item.quantity }} × <span class="shopify-Price-amount amount"><span class="money">{{ item.price | money }}</span></span></span>
+        </div>
+      </li>
+      {%- endfor -%}
+      {%- else -%}
+      <li class="shopify-mini-cart__empty-message empty" {% if settings.language_enable %}data-translate="cart.header.no_item"{% endif %}>{{ 'cart.header.no_item' | t }}</li>
+      <p class="return-to-shop">
+        <a class="button wc-backward" href="/" {% if settings.language_enable %}data-translate="cart.header.return"{% endif %}>{{ 'cart.header.return' | t }}</a>
+      </p>
+      {%- endif -%}
+    </ul><!-- end product list -->
+  </div>
+</div>
+{%- if cart.item_count > 0 -%}
+<div class="shopping-cart-widget-footer">
+  <p class="shopify-mini-cart__total total">
+    <strong {% if settings.language_enable %}data-translate="cart.header.total"{% endif %}>{{ 'cart.header.total' | t }}:</strong> 
+    <span class="shopify-Price-amount amount">
+      <span class="money">{{ cart.total_price | money }}</span>
+    </span>
+  </p>
+  <p class="shopify-mini-cart__buttons buttons">
+    <a href="/cart" class="button btn-cart wc-forward" {% if settings.language_enable %}data-translate="cart.header.view_cart"{% endif %}>{{ 'cart.header.view_cart' | t }}</a>
+    <a href="/checkout" class="button checkout wc-forward" {% if settings.language_enable %}data-translate="cart.header.checkout"{% endif %}>{{ 'cart.header.checkout' | t }}</a>
+  </p>
+</div>
+{%- endif -%}

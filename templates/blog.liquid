@@ -1,0 +1,207 @@
+<!-- /templates/blog.liquid --> 
+{%- assign portfolio = settings.blog_portfolio -%} 
+{%- if blog.handle != portfolio -%}
+  {%- if settings.blog_sidebar == 'left' -%}
+    {%- case settings.blog_sidebar_size -%}
+    {% when 'small' %}
+    {%- assign class_main = 'col-sm-10 col-sm-push-2' -%}
+    {%- assign class_sidebar = 'col-sm-2 col-sm-pull-10' -%}
+    {% when 'medium' %}
+    {%- assign class_main = 'col-sm-9 col-sm-push-3' -%}
+    {%- assign class_sidebar = 'col-sm-3 col-sm-pull-9' -%}
+    {% when 'large' %}
+    {%- assign class_main = 'col-sm-8 col-sm-push-4' -%}
+    {%- assign class_sidebar = 'col-sm-4 col-sm-pull-8' -%}
+    {%- endcase -%}
+  {%- elsif settings.blog_sidebar == 'right' -%}
+    {%- case settings.blog_sidebar_size -%}
+    {% when 'small' %}
+    {%- assign class_main = 'col-sm-10' -%}
+    {%- assign class_sidebar = 'col-sm-2' -%}
+    {% when 'medium' %}
+    {%- assign class_main = 'col-sm-9' -%}
+    {%- assign class_sidebar = 'col-sm-3' -%}
+    {% when 'large' %}
+    {%- assign class_main = 'col-sm-8' -%}
+    {%- assign class_sidebar = 'col-sm-4' -%}
+    {%- endcase -%}
+  {%- else -%}
+      {%- assign class_main = 'col-sm-12' -%}
+  {%- endif -%} 
+  {%- case settings.blog_design -%}
+  {%- when 'default-alt' -%}
+  {%- assign pl_include = 'blog-design-default-alt' -%} 
+  {%- when 'small-images' -%}
+  {%- assign pl_include = 'blog-design-small-images' -%}
+  {%- when 'chess' -%}
+  {%- assign pl_include = 'blog-design-chess' -%}
+  {%- when 'masonry' -%}
+  {%- assign pl_include = 'blog-design-masonry' -%}
+  {%- when 'default' -%}
+  {%- assign pl_include = 'blog-design-default' -%}
+  {%- endcase -%} 
+  {%- case settings.blog_aspect_ratio -%}
+  {%- when '1' -%}
+    {%- assign image_width = settings.blog_ratio_width | remove: 'px' -%}
+    {%- assign image_height = '' -%} 
+  {%- else -%}
+    {%- assign image_width = settings.blog_ratio_width | remove: 'px' -%}
+    {%- assign image_height = settings.blog_ratio_height | remove: 'px' -%}
+  {%- endcase -%}  
+  {%- capture image_size -%}{{ image_width }}x{{ image_height }}{%- endcapture -%}
+  {% paginate blog.articles by settings.blog_posts_count %}  
+  <div class="main-page-wrapper">
+  {% include 'page-heading' %}
+  <div class="container">
+    <div class="row content-layout-wrapper">
+      <div class="site-content {{class_main}}">
+        <div class="woodmart-blog-holder {% if settings.blog_design == 'masonry' %}masonry-container{% endif %} blog-pagination-{{settings.blog_pagination}}" data-paged="1" data-source="main_loop">
+          {%- assign columns = settings.blog_view_column | plus: 0 -%}
+          {%- capture class -%}col-xs-12 col-sm-6 col-md-{{ 12 | divided_by: columns }}{%- endcapture -%} 
+          {%- for article in blog.articles -%}  
+            <article id="post-{{article.id}}" class="blog-design-{{settings.blog_design}} blog-post-loop {% if settings.blog_design == 'chess' %}blog-design-small-images{% endif %} blog-style-{{settings.blog_style}} post-{{article.id}} {% if setings.blog_view_column != '1' %}{{class}}{% endif %} post type-post status-publish format-standard has-post-thumbnail hentry category-{{blog.title}} tag-inspiration">
+              {%- include pl_include -%} 
+            </article>
+              {%- unless settings.blog_design == 'masonry' %} 
+          	  {%- if settings.blog_view_column != '1' -%}
+              {%- cycle '', '<div class="clearfix visible-xs-block"></div>' -%}
+              {%- cycle '','','<div class="clearfix clearfix visible-sm-block"></div>' -%} 
+          	  {%- endif -%}
+              {%- case settings.blog_view_column -%} 
+              {%- when '2' -%} 
+              {%- cycle '','<div class="clearfix visible-md-block visible-lg-block"></div>' -%} 
+              {%- when '3' -%} 
+              {%- cycle '','','<div class="clearfix visible-md-block visible-lg-block"></div>' -%} 
+              {%- when '4' -%} 
+              {%- cycle '','','','<div class="clearfix visible-md-block visible-lg-block"></div>' -%} 
+              {%- when '6' -%} 
+              {%- cycle '','','','','','<div class="clearfix visible-md-block visible-lg-block"></div>' -%} 
+              {%- endcase -%} 
+            {%- endunless -%}
+          {%- endfor -%} 
+        </div> 
+        {%- if paginate.pages > 1 -%}  
+        {%- include 'pagination' -%} 
+        {%- endif -%}
+      </div>
+      {% if settings.blog_sidebar != '0' %}
+      <div class="sidebar-container sidebar-{{settings.blog_sidebar}} area-sidebar-1 {{class_sidebar}}"> 
+        <div class="woodmart-close-sidebar-btn"><span>Close</span></div>
+        <div class="sidebar-inner woodmart-sidebar-scroll">
+          <div class="widget-area woodmart-sidebar-content">
+            {% section 'blog-sidebar'%}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+  {% endpaginate %} 
+{%- else -%}
+  {%- case settings.portfolio_style -%}
+  {%- when 'standard' -%}
+  {%- assign style_hover = 'portfolio-hover' -%} 
+  {%- when 'alternative' -%}
+  {%- assign style_hover = 'portfolio-hover-inverse' -%}
+  {%- when 'text' -%}
+  {%- assign style_hover = 'portfolio-text-shown' -%}
+  {%- when 'parallax' -%}
+  {%- assign style_hover = 'portfolio-parallax' -%} 
+  {%- endcase -%} 
+  {% paginate blog.articles by settings.blog_posts_count %} 
+  <div class="main-page-wrapper">
+    {% include 'page-heading' %}
+    <div class="container"> 
+      <div class="row content-layout-wrapper">
+        <div class="site-content page-portfolio {% if settings.portfolio_fullwidth != blank %}portfolio-layout-full-width{% else %}portfolio-layout-boxed{% endif %} col-sm-12">
+          <div class="row portfolio-spacing-{{settings.portfolio_space}} {% if settings.portfolio_fullwidth != blank %}vc_row vc_row-fluid vc_row-no-padding{% endif %}" {% if settings.portfolio_fullwidth != blank %}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{% endif %}>
+            {%- if settings.portfolio_filter != blank -%}
+            <div class="col-sm-12 portfolio-filter">
+              <ul class="masonry-filter list-inline text-center">
+                <li><a href="#" data-filter="*" class="filter-active">All</a></li> 
+                {%- for article in blog.articles -%}
+                {%- for tag in article.tags -%}
+                {%- assign tag = tag | strip -%}
+                {%- assign tag_value = tag | handleize -%} 
+                {%- assign _array_tag = _array_tag | append:tag_value | append:',' -%}
+                {%- endfor -%}
+                {%- assign __array_tag = _array_tag -%}
+                {%- endfor -%}
+                {%- if settings.portfolio_filter_category != blank -%}
+                {%- assign array_tag = __array_tag | split: ',' | remove:" " -%}
+                {%- assign tags = settings.portfolio_filter_category | replace: ' ,', ',' | replace: ', ', ',' | split: ',' | uniq -%}
+                {%- for tag in tags -%}
+                {%- assign tag = tag | strip -%}
+                {%- assign tag_value = tag | handleize -%} 
+                {%- if array_tag contains tag_value -%}
+                <li><a data-filter=".proj-cat-{{ tag_value }}" class="" href="javascript:void(0);">{{ tag_value | capitalize }}</a></li>
+                {%- endif -%}
+                {%- endfor -%}
+                {%- else -%}
+                {%- assign array_tag = __array_tag | replace: ' ,', ',' | replace: ', ', ',' | split: ',' | uniq -%}
+                {%- for tag in array_tag -%}
+                {%- assign tag = tag | strip -%}
+                {%- assign tag_value = tag | handleize -%}  
+                <li><a data-filter=".proj-cat-{{ tag_value }}" class="" href="javascript:void(0);">{{ tag_value | capitalize }}</a></li>
+                {%- endfor -%}
+                {%- endif -%} 
+              </ul>
+            </div>
+            <div class="clear"></div>
+            {%- endif -%}
+            <div class="masonry-container woodmart-portfolio-holder" data-atts='{"posts_per_page":"6","filters":false,"categories":"","style":"hover","columns":"3","spacing":"0","full_width":"0","pagination":"load_more","ajax_page":"","orderby":"menu_order","order":"ASC","portfolio_location":"page","el_class":""}'>
+              {%- for article in blog.articles -%}  
+              <article id="post-{{article.id}}" class="portfolio-entry  col-xs-12 col-sm-6 col-md-4 portfolio-single masonry-item {{style_hover}} post-{{article.id}} portfolio type-portfolio status-publish has-post-thumbnail hentry {% if article.tags.size > 0 -%}{%- for tag in article.tags -%}proj-cat-{{ tag | handle }} project-cat-{{ tag | handle }} {% endfor -%}{%- endif -%}">
+                <header class="entry-header">
+                  <a href="{{article.url}}" class="project-link"></a>
+                  <figure class="entry-thumbnail">
+                    <a href="{{article.url}}" class="portfolio-thumbnail">
+                      <img src="{{ article | img_url: '500x', crop: 'center' }}" class="attachment-large size-large wp-post-image" alt="">
+                    </a>
+                  </figure>
+                  <div class="portfolio-info">
+                    {%- if article.tags.size > 0 -%}
+                    <div class="wrap-meta">
+                      <ul class="proj-cats-list">
+                        {%- for tag in article.tags limit:4 -%}
+                        <li>{{ tag | capitalize }}</li>
+                        {%- endfor -%}
+                      </ul>
+                    </div>
+                    {%- endif -%}
+                    <div class="wrap-title">
+                      <h1 class="entry-title">
+                        <a href="{{article.url}}" rel="bookmark">
+                          {%- if settings.language_enable -%}
+                          <span class="lang1">{{ article.title | split: '|' | first  }}</span>
+                          <span class="lang2">{{ article.title | split: '|' | last }}</span>
+                          {%- else -%}
+                          {{ article.title | split: '|' | first }}
+                          {%- endif -%}
+                        </a>
+                      </h1>
+                    </div>
+                  </div>
+                  <a href="{{ article | img_url: 'master' }}" class="portfolio-enlarge" data-rel="mfp[projects-gallery]">View Large</a>
+                  <div class="social-icons-wrapper">
+                    <div class="woodmart-social-icons text-center icons-design-default icons-size-small color-scheme-dark social-share social-form-circle">
+                      {%- assign _url = shop.url | append: article.url -%}
+                      {%- include 'social-sharing', share_url: _url -%}
+                    </div>
+                  </div>
+                </header>
+                <div class="entry-summary"></div>
+              </article>
+              {%- endfor -%}
+            </div>
+          </div>  
+          {%- if settings.portfolio_fullwidth != blank -%}
+          <div class="vc_row-full-width"></div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endpaginate %} 
+{%- endif -%}

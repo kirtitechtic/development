@@ -1,0 +1,52 @@
+{%- if settings.product_main_image_size contains 'x' -%}
+{%- assign image_width = settings.product_main_image_size | split:'x' | first -%}  
+{%- assign image_height = settings.product_main_image_size | split:'x' | last -%}  
+{%- else -%}
+{%- assign image_width = settings.product_main_image_size -%}  
+{%- assign image_height = '' -%}  
+{%- endif -%}
+{%- if image_width == blank -%}
+{%- assign image_width = '600'-%} 
+{%- endif -%}
+{%- if image_height == blank -%}
+{%- assign image_height = '600'-%} 
+{%- endif -%} 
+{%- case settings.product_aspect_ratio -%}
+{%- when '1' -%}
+{%- assign image_width = image_width -%}
+{%- assign image_height = '' -%}  
+{%- else -%}
+{%- assign image_width = image_width -%}
+{%- assign image_height = image_height -%} 
+{%- endcase -%}  
+{%- capture image_size -%}{{ image_width }}x{{ image_height }}{%- endcapture -%}  
+<figure class="shopify-product-gallery__wrapper owl-items-xl-1 owl-items-lg-1 owl-items-md-1 owl-items-sm-1">
+  {% for image in product.images %}
+  <div class="product-image-wrap">
+    <figure data-thumb="{{ image.src | img_url: image_thumb_size, crop: 'center' }}" data-zoom="{{ image | product_img_url:'master' }}" class="shopify-product-gallery__image">
+      <img width="{{image_width}}" height="{{image_height}}" src="{{ image | product_img_url: image_size, crop: 'center' }}" 
+           class="attachment-shop_single size-shop_single" alt="" title="{{product.title}}" data-caption="" 
+           data-src="{{ image | product_img_url:'master' }}" 
+           data-large_image="{{ image | product_img_url:'master' }}" 
+           data-large_image_width="{{ image.width }}" 
+           data-large_image_height="{{ image.height }}" 
+           srcset="{{ image | product_img_url: image_size, crop: 'center' }} {{image_width}}w, 
+                   {{ image.src | img_url: '131x131' }} 131w, 
+                   {{ image.src | img_url: '263x300' }} 263w, 
+                   {{ image.src | img_url: '88x100' }} 88w, 
+                   {{ image.src | img_url: '200x230' }} 200w, 
+                   {{ image.src | img_url: '430x490' }} 430w" sizes="(max-width: {{image_width}}px) 100vw, {{image_width}}px" />
+
+    </figure>
+  </div>
+  {% endfor %}
+</figure> 
+<script type="text/javascript">
+  jQuery(".product-quick-view .shopify-product-gallery__wrapper").addClass("owl-carousel").owlCarousel({
+    rtl: jQuery("body").hasClass("rtl"),
+    items: 1, 
+    dots:false,
+    nav: true,
+    navText: false
+  });
+</script>

@@ -1,0 +1,248 @@
+<!-- /templates/article.liquid --> 
+{%- if settings.blog_sidebar == 'left' -%}
+  {%- case settings.blog_sidebar_size -%}
+  {% when 'small' %}
+  {%- assign class_main = 'col-sm-10 col-sm-push-2' -%}
+  {%- assign class_sidebar = 'col-sm-2 col-sm-pull-10' -%}
+  {% when 'medium' %}
+  {%- assign class_main = 'col-sm-9 col-sm-push-3' -%}
+  {%- assign class_sidebar = 'col-sm-3 col-sm-pull-9' -%}
+  {% when 'large' %}
+  {%- assign class_main = 'col-sm-8 col-sm-push-4' -%}
+  {%- assign class_sidebar = 'col-sm-4 col-sm-pull-8' -%}
+  {%- endcase -%}
+{%- elsif settings.blog_sidebar == 'right' -%}
+  {%- case settings.blog_sidebar_size -%}
+  {% when 'small' %}
+  {%- assign class_main = 'col-sm-10' -%}
+  {%- assign class_sidebar = 'col-sm-2' -%}
+  {% when 'medium' %}
+  {%- assign class_main = 'col-sm-9' -%}
+  {%- assign class_sidebar = 'col-sm-3' -%}
+  {% when 'large' %}
+  {%- assign class_main = 'col-sm-8' -%}
+  {%- assign class_sidebar = 'col-sm-4' -%}
+  {%- endcase -%}
+{%- else -%}
+	{%- assign class_main = 'col-sm-12' -%}
+{%- endif -%} 
+{%- assign number_of_comments = article.comments_count -%}   
+<div class="main-page-wrapper"> 
+  {% include 'page-heading' %}
+  <div class="container">
+    <div class="row content-layout-wrapper">
+      <div class="site-content {{class_main}}">
+        <article id="post-{{article.id}}" class="post-single-page post-{{article.id}} post type-post status-publish format-standard has-post-thumbnail hentry category-wooden-accessories tag-inspiration">
+          <div class="article-inner">
+            <div class="meta-post-categories">
+              <a href="{{blog.url}}" rel="category tag"> 
+                {%- if settings.language_enable -%}
+                <span class="lang1">{{ blog.title | split: '|' | first  }}</span>
+                <span class="lang2">{{ blog.title | split: '|' | last }}</span>
+                {%- else -%}
+                {{ blog.title | split: '|' | first }}
+                {%- endif -%} 
+              </a>
+            </div>
+            <h3 class="entry-title">
+              <a href="{{article.url}}" rel="bookmark">
+                {%- if settings.language_enable -%}
+                <span class="lang1">{{ article.title | split: '|' | first  }}</span>
+                <span class="lang2">{{ article.title | split: '|' | last }}</span>
+                {%- else -%}
+                {{ article.title | split: '|' | first }}
+                {%- endif -%}
+              </a>
+            </h3>
+            <div class="entry-meta woodmart-entry-meta">
+              <ul class="entry-meta-list">
+                <li class="meta-author">
+                  <span {% if settings.language_enable %}data-translate="blogs.article.posted_by"{% endif %}>{{ 'blogs.article.posted_by' | t }}</span>
+                  <a href="javascrip:void()" rel="author">{{article.author}}</a>
+                </li>
+                <li>
+                  <span class="meta-reply">
+                    {%- assign number_of_comments = article.comments_count -%} 
+                    <a href="{{ article.comment_post_url }}">
+                      <span class="comments-count">{{number_of_comments}}</span> 
+                      <span class="comments-count-label" {% if settings.language_enable %}data-translate="blogs.comments.comments_with_count"{%endif%}>{{ 'blogs.comments.comments_with_count'}}</span>
+                    </a>
+                  </span>
+                </li>
+              </ul>
+            </div>
+            <header class="entry-header">
+              {%- if article.image -%}
+              <figure id="carousel-{{article.id}}" class="entry-thumbnail">
+                <div class="post-img-wrapp">
+                  <a href="{{ article.url }}">
+                    <img width="1024" height="460" src="{{ article | img_url: '1024x460' }}" class="attachment-large wp-post-image attachment-large" alt="" srcset="{{ article | img_url: '1024x' }} 1024w, {{ article | img_url: '150x67' }} 150w, {{ article | img_url: '400x180' }} 400w, {{ article | img_url: '768x345' }} 768w, {{ article | img_url: '100x45' }} 100w, {{ article | img_url: '200x90' }} 200w, {{ article | img_url: '430x193' }} 430w, {{ article | img_url: '700x314' }} 700w, {{ article | img_url: '860x386' }}" sizes="(max-width: 1024px) 100vw, 1024px">
+                  </a>
+                </div>
+                <div class="post-image-mask"><span></span></div>
+              </figure>
+              {%- endif -%}
+              <div class="post-date woodmart-post-date">
+                <span class="post-date-day">{{ article.published_at | date: '%d' }}</span>
+                <span class="post-date-month">{{ article.published_at | date: '%b' }}</span>
+              </div>
+            </header>
+            <div class="article-body-container">
+              <div class="entry-content woodmart-entry-content">
+                {% if settings.language_enable %}
+                <div class="lang1">{{ article.content | split: '[lang2]' | first }}</div>
+                <div class="lang2">{{ article.content | split: '[lang2]' | last }}</div>
+                {% else %}
+                {{ article.content | split: '[lang2]' | first }}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </article>
+        <div class="woodmart-single-footer">
+          {%- if article.tags.size > 0 -%} 
+          <div class="single-meta-tags">
+            <span class="tags-title" {% if settings.language_enable %}data-translate="blogs.article.tags"{% endif %}>{{ 'blogs.article.tags' | t }}:</span>
+            <div class="tags-list">
+              {%- for tag in article.tags -%}
+              <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>{% unless forloop.last %} / {% endunless %}
+              {%- endfor -%}
+            </div>
+          </div>
+          {%- endif -%}
+          <div class="single-post-social">
+            <div class="woodmart-social-icons text-center icons-design-colored icons-size-default color-scheme-dark social-share social-form-circle">
+              {%- assign _url = shop.url | append: article.url -%}
+              {%- include 'social-sharing', share_url: _url -%}
+            </div>
+          </div>
+        </div>
+        <div class="single-post-navigation">
+          {%- if blog.previous_article -%}
+          <div class="blog-posts-nav-btn prev-btn">
+            <div class="posts-nav-inner">
+              <a href="{{blog.previous_article}}">
+                <span class="btn-label" {% if settings.language_enable %}data-translate="blogs.article.prev_label"{%endif%}>{{ 'blogs.article.prev_label' | t }}</span>
+                <span class="post-title">
+                  {%- if settings.language_enable -%}
+                  <span class="lang1">{{ blog.previous_article.title | split: '|' | first  }}</span>
+                  <span class="lang2">{{ blog.previous_article.title | split: '|' | last }}</span>
+                  {%- else -%}
+                  {{ blog.previous_article.title | split: '|' | first }}
+                  {%- endif -%}
+                </span>
+              </a>
+            </div>
+          </div>
+          {%- endif -%}
+          <div class="back-to-archive">
+            <a href="{{blog.url}}">
+              <span class="woodmart-tooltip" data-original-title="" title="">Back to list</span>
+            </a>
+          </div>
+          {%- if blog.next_article -%}
+          <div class="blog-posts-nav-btn next-btn">
+            <div class="posts-nav-inner">
+              <a href="{{blog.next_article}}">
+                <span class="btn-label" {% if settings.language_enable %}data-translate="blogs.article.next_label"{%endif%}>{{ 'blogs.article.next_label' | t }}</span>
+                <span class="post-title">
+                  {%- if settings.language_enable -%}
+                  <span class="lang1">{{ blog.next_article.title | split: '|' | first  }}</span>
+                  <span class="lang2">{{ blog.next_article.title | split: '|' | last }}</span>
+                  {%- else -%}
+                  {{ blog.next_article.title | split: '|' | first }}
+                  {%- endif -%}
+                </span>
+              </a>
+            </div>
+          </div>
+          {%- endif -%}
+        </div>
+        {% if blog.comments_enabled? %} 
+        <div id="Comments" class="comments-area">
+          {%- if number_of_comments > 0 -%}
+          <h2 class="comments-title"><span {% if settings.language_enable %}data-translate="blogs.comments.comments_count_label|count:{{number_of_comments}}"{%endif%}>{{ 'blogs.comments.comments_count_label' | t: count: number_of_comments }}</span> 
+            “<span>
+            {%- if settings.language_enable -%}
+            <span class="lang1">{{ article.title | split: '|' | first  }}</span>
+            <span class="lang2">{{ article.title | split: '|' | last }}</span>
+            {%- else -%}
+            {{ article.title | split: '|' | first }}
+            {%- endif -%}
+            </span>”
+          </h2>
+          {%- if comment and comment.created_at -%}
+          <p class="note form-success comment-awaiting-moderation">
+            {% if blog.moderated? %}
+            <span {% if settings.language_enable %}data-translate="blogs.comments.success_moderated"{%endif%}>{{ 'blogs.comments.success_moderated' | t }}</span>
+            {% else %}
+            <span {% if settings.language_enable %}data-translate="blogs.comments.success"{%endif%}>{{ 'blogs.comments.success' | t }}</span>
+            {% endif %}
+          </p>
+          {%- endif -%} 
+          {% paginate article.comments by 5 %}
+          <ol class="comment-list">
+            {% for comment in article.comments %}
+            <li class="comment even thread-even depth-1" id="{{ comment.id }}">
+              <div id="div-{{ comment.id }}" class="comment-body">
+                <div class="comment-author vcard">
+                  <img alt="avatar" src="https://www.gravatar.com/avatar/{{ comment.email | remove: ' ' | strip_newlines | downcase | md5 }}?s=80&d=mm&r=g" srcset="https://www.gravatar.com/avatar/{{ comment.email | remove: ' ' | strip_newlines | downcase | md5 }}?s=160&d=mm&r=g 2x" class="avatar avatar-74 photo" height="74" width="74">        
+                  <cite class="fn">{{ comment.author }}</cite> 
+                  <span class="says" {% if settings.language_enable %}data-translate="blogs.comments.says_label"{%endif%}>{{ 'blogs.comments.says_label' | t }}:</span>
+                </div>
+                <div class="comment-meta commentmetadata">
+                  <a href="{{ comment.url }}">{{ comment.created_at | date: '%m %d, %Y at %R%P' }}</a>
+                </div>
+                <p>{{ comment.content }}</p>
+              </div>
+            </li>
+            {% endfor %}
+          </ol>
+          {% if paginate.pages > 1 %} 
+          {%- include 'pagination' -%}
+          {%- endif -%} 
+          {% endpaginate %}
+          {%- endif -%}
+          <div id="respond" class="comment-respond">
+            <h3 id="reply-title" class="comment-reply-title" {% if settings.language_enable %}data-translate="blogs.comments.title"{%endif%}>{{ 'blogs.comments.title' | t }}</h3>
+            {% form 'new_comment', article %}
+              {{ form.errors | default_errors }}
+              <p class="comment-notes"><span id="email-notes" {% if settings.language_enable %}data-translate="blogs.comments.email_notes"{%endif%}>{{ 'blogs.comments.email_notes' | t }}</span> <span class="required">*</span></p>
+              {% if form.errors %}
+            	<p class="comment-notes"> 
+              	{% assign newHash = 'AddCommentTitle' %}
+                </p>
+              {% endif %}
+              {% if form.posted_successfully? %}
+                <p class="comment-notes"> 
+                  {% assign newHash = 'Comments' %}
+                </p>
+              {% endif %}
+              <p class="comment-form-comment">
+                <label for="comment" {% if settings.language_enable %}data-translate="blogs.comments.message"{%endif%}>{{ 'blogs.comments.message' | t }}</label>
+                <textarea name="comment[body]" id="comment" cols="45" rows="8" required="required" class="input-full{% if form.errors contains 'body' %} error{% endif %}" placeholder="{{ 'blogs.comments.message' | t }}">{{ form.body }}</textarea>
+              </p>
+              <p class="comment-form-author">
+                <label for="author" {% if settings.language_enable %}data-translate="blogs.comments.name"{%endif%}>{{ 'blogs.comments.name' | t }}<span class="required">*</span></label> 
+                <input type="text" name="comment[author]" id="author" size="30" class="input-full{% if form.errors contains 'author' %} error{% endif %}" value="{{ form.author }}" placeholder="{{ 'blogs.comments.name' | t }}" autocapitalize="words" required="required">
+              </p>
+              <p class="comment-form-email">
+                <label for="email" {% if settings.language_enable %}data-translate="blogs.comments.email"{%endif%}>{{ 'blogs.comments.email' | t }} <span class="required">*</span></label> 
+                <input type="email" name="comment[email]" id="email" size="30" class="input-full{% if form.errors contains 'email' %} error{% endif %}" value="{{ form.email }}" placeholder="{{ 'blogs.comments.email' | t }}" autocorrect="off" autocapitalize="off" required="required">
+              </p>
+              <p class="form-submit">
+                <input type="submit" class="submit" {% if settings.language_enable %}data-translate="blogs.comments.post"{%endif%} value="{{ 'blogs.comments.post' | t }}">
+              </p>  
+            {% endform %}
+          </div>
+        </div>
+        {% endif %}
+      </div>
+      {% if settings.blog_sidebar != '0' %}
+      <div class="sidebar-container {{class_sidebar}} sidebar-{{settings.blog_sidebar}} area-sidebar-1"> 
+        {% section 'blog-sidebar' %} 
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>

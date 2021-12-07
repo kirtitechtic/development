@@ -1,0 +1,186 @@
+{% if section.settings.toplink_use != blank %}
+<div class="woodmart-show-categories"><a href="#" {% if settings.language_enable %}data-translate="products.product.category"{% endif %}>{{ 'products.product.category' | t }}</a></div>
+<ul class="woodmart-product-categories {% if section.settings.product_count != blank %}has-product-count{% else %}hasno-product-count{% endif %}">
+  {%- assign product_count = 0 -%}
+  {%- for block in section.blocks -%}
+    {%- assign c_all = collections[block.settings.collection] -%}
+    {%- if forloop.index > 6 -%}
+    	{%- assign product_count = product_count | plus: c_all.all_products_count -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- for block in section.blocks -%}  
+    {%- assign category = collections[block.settings.collection] -%}
+    {%- if forloop.index <= 6 %}
+      <li class="cat-item {%- if collection.handle == category.handle %} current-cat{%- endif -%}">
+        <div class="category-nav-link">
+          <a href="{{category.url}}" class="{%- if collection.handle == category.handle %}active{%- endif -%}">
+            {%- if block.settings.icon_img_use != blank and block.settings.icon_img != blank -%}
+              <img src="{{ block.settings.icon_img | img_url }}" alt="{{ block.settings.icon_img.alt }}" class="category-icon">
+            {%- else -%}
+              {%- if block.settings.icon_svg != '' -%}
+                <div class="category-icon" style="{% if settings.collection_title_size == 'small' %}{% if section.settings.product_count == blank %}width:18px;height:18px;{% else %}width:30px;height:30px;{%endif%}{% else %}{% if section.settings.product_count == blank %}width:18px;height:18px;{% else %}width:40px;height:40px;{%endif%}{% endif %}">{{block.settings.icon_svg}}</div>
+              {%- else -%}
+                {%- if block.settings.icon != '' -%}
+                  <div class="category-icon">
+                    <i class="fa fa-{{block.settings.icon}}"></i>
+                  </div>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endif -%}
+            <span class="category-summary">
+              <span class="category-name">
+                {% if settings.language_enable %}
+                <span class="lang1">{{ category.title | split: '|' | first }}</span>
+                <span class="lang2">{{ category.title | split: '|' | last }}</span> 
+                {% else %}
+                {{ category.title }} 
+                {% endif %}
+              </span> 
+              {% if collection.all_products_count != blank and section.settings.product_count != blank%}
+              <span class="category-products-count">
+                <span class="cat-count-number">{{category.all_products_count}}</span> 
+                <span class="cat-count-label" {% if settings.language_enable %}data-translate="products.product.products"{% endif %}>{{ 'products.product.products' | t }}</span>
+              </span>
+              {% endif %}
+            </span>
+          </a>
+        </div>
+      </li> 
+      {%- endif -%}
+      {%- if forloop.index == 7 -%}
+      <li class="cat-item {%- if collection.handle == category.handle %} current-cat{%- endif -%}">
+        <div class="category-nav-link">
+          <a href="{{category.url}}">
+            <span class="category-summary">
+              <span class="category-name">
+                {% if settings.language_enable %}
+                <span class="lang1">{{ category.title | split: '|' | first }}</span>
+                <span class="lang2">{{ category.title | split: '|' | last }}</span> 
+                {% else %}
+                {{ category.title }} 
+                {% endif %}
+              </span>
+              {% if product_count > 0 %}
+              <span class="category-products-count">
+                <span class="cat-count-number">{{product_count}}</span> 
+                <span class="cat-count-label" {% if settings.language_enable %}data-translate="products.product.products"{% endif %}>{{ 'products.product.products' | t }}</span>
+              </span>
+              {% endif %}
+            </span>
+          </a>
+        </div>
+        {%- if section.blocks.size > 7 -%}
+        <ul class="children">
+          {% for block in section.blocks %}
+          {%- assign collection2 = collections[block.settings.collection] -%}
+          {% if forloop.index > 7 %}
+          <li class="cat-item {%- if collection.handle == collection2.handle %} current-cat{%- endif -%}">
+            <div class="category-nav-link">
+              <a href="{{collection2.url}}">
+                {%- if block.settings.icon_img_use != blank and block.settings.icon_img != blank -%}
+                <img src="{{ block.settings.icon_img | img_url }}" alt="{{ block.settings.icon_img.alt }}" class="category-icon">
+                {%- else -%}
+                  {%- if block.settings.icon_svg != '' -%}
+                    <div class="category-icon" style="{% if settings.collection_title_size == 'small' %}{% if section.settings.product_count == blank %}width:18px;height:18px;{% else %}width:30px;height:30px;{%endif%}{% else %}{% if section.settings.product_count == blank %}width:18px;height:18px;{% else %}width:40px;height:40px;{%endif%}{% endif %}">{{block.settings.icon_svg}}</div>
+                  {%- else -%}
+                    {%- if block.settings.icon != '' -%}
+                    <div class="category-icon">
+                      <i class="fa fa-{{block.settings.icon}}"></i>
+                    </div>
+                    {%- endif -%}
+                  {%- endif -%}
+                {%- endif -%}
+                <span class="category-summary">
+                  <span class="category-name">
+                    {% if settings.language_enable %}
+                    <span class="lang1">{{ collection2.title | split: '|' | first }}</span>
+                    <span class="lang2">{{ collection2.title | split: '|' | last }}</span> 
+                    {% else %}
+                    {{ collection2.title }} 
+                    {% endif %}
+                  </span> 
+                  {% if collection2.all_products_count != blank and section.settings.product_count != blank %}
+                  <span class="category-products-count">
+                    <span class="cat-count-number">{{collection2.all_products_count}}</span> 
+                    <span class="cat-count-label" {% if settings.language_enable %}data-translate="products.product.products"{% endif %}>{{ 'products.product.products' | t }}</span>
+                  </span>
+                  {% endif %}
+                </span>
+              </a>
+            </div> 
+          </li>
+          {% endif %}
+          {% endfor %}
+        </ul>
+        {%- endif -%}
+      </li>
+  	{%- endif -%}
+  {%- endfor -%}
+</ul>
+{% endif %}
+{% schema %}
+  {
+    "name": "Categories Link", 
+    "settings": [ 
+      {
+      "type": "header",
+      "content": "General Settings"
+      }, 
+      {
+        "type": "checkbox",
+        "id": "toplink_use",
+        "label": "Categories Link Use?", 
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "product_count",
+        "label": "Show products count?", 
+        "default": true
+      }
+	],
+    "blocks": [
+      {
+        "type": "categories",
+        "name": "Categories",  
+		"limit": 6,
+        "settings": [
+          {
+           "type": "checkbox",
+           "id": "icon_img_use",
+           "label": "Icon Image Use?"
+          },
+          {
+             "type": "image_picker",
+             "id": "icon_img",
+             "label": "Icon Image",
+             "info": "40x40 (Width x Height)."
+          }, 
+          {
+            "type": "textarea",
+            "id": "icon_svg",
+            "label": "Icon SVG",
+            "info":"Use icon svg code"
+          },
+          {
+            "type": "text",
+            "id": "icon",
+            "label": "Icon",
+            "info":"Ex:user [fontawesome icons](http://fontawesome.io/icons/)"
+          }, 
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Collection Link"
+          } 
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

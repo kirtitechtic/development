@@ -1,0 +1,54 @@
+<a href="/" class="woodmart-logo woodmart-main-logo" rel="home"> 
+  {%- assign _header_overlap = '' -%}
+  {%- if settings.header_overlap != blank and template != 'product' -%}
+    {%- assign _header_overlap = '1' -%}
+  {%- endif -%}  
+  {%- if settings.header_overlap_home != blank and template == 'index' -%}
+    {%- assign _header_overlap = '1' -%}
+  {%- endif -%}  
+  {%- if settings.header_overlap_collection != blank and template == 'collection' and template != 'product' -%}
+    {%- assign _header_overlap = '1' -%}
+  {%- endif -%}  
+  {%- if settings.header_overlap_blog != blank and template == 'blog' -%}
+    {%- assign _header_overlap = '1' -%}
+  {%- endif -%}  
+  {%- if settings.header_overlap_article != blank and template == 'article' -%}
+    {%- assign _header_overlap = '1' -%}
+  {%- endif -%}  
+  {%- if settings.header_overlap_contact != blank and template == 'page.contact' -%}
+    {%- assign _header_overlap = '1' -%}
+  {%- endif -%}  
+  {%- if settings.header_overlap_about != blank and template == 'page.about' -%}
+    {%- assign _header_overlap = '1' -%}
+  {%- endif -%}  
+  {%- if settings.header_overlap_faq != blank and template == 'page.faqs' -%}
+    {%- assign _header_overlap = '1' -%}
+  {%- endif -%}  
+  {%- if settings.header_overlap_landing != blank and template == 'page.landing' -%}
+    {%- assign _header_overlap = '1' -%}
+  {%- endif -%}   
+  {%- if settings.header_overlap_account != blank and template == 'customers/login' -%}
+    {%- assign _header_overlap = '1' -%}
+  {%- endif -%}  
+  {%- if _header_overlap != blank -%}
+    {%- if settings.logo_overlap_svg != '' -%}
+      <img class="logo" src="{{ settings.logo_overlap_svg | asset_url }}" style="width:{{settings.logo_width | remove: 'px' | append: 'px' }};" alt="{{ image.alt | default: shop.name }}"/>
+    {%- else -%}
+      {%- if settings.logo_overlap != blank -%} 
+        <img class="logo" src="{{ settings.logo_overlap | img_url: logo_size }}" alt="{{ image.alt | default: shop.name }}"/> 
+      {%- else -%}
+        {{shop.name}}
+      {%- endif -%}
+    {%- endif -%}
+  {%- else -%}
+    {%- if settings.logo_svg != '' -%}
+    <img class="logo" src="{{ settings.logo_svg | asset_url }}" style="width:{{settings.logo_width | remove: 'px' | append: 'px' }};" alt="{{ image.alt | default: shop.name }}"/>
+    {%- else -%}
+      {%- if settings.logo != blank -%} 
+        <img class="logo" src="{{ settings.logo | img_url: logo_size }}" alt="{{ image.alt | default: shop.name }}"/> 
+      {%- else -%}
+        {{shop.name}}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endif -%}
+</a>

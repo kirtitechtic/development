@@ -1,0 +1,48 @@
+
+
+{%- if settings.header_banner_enable != blank -%}
+<div class="header-banner color-scheme-{{settings.header_banner_text_color}}">
+  <div class="container digi-mag">
+  <a href="https://viewer.ipaper.io/helsemin/august-magazine-2021/?page=1%20target=_blank" class="header-banner-menu">Digital Magazine</a>
+</div>
+  
+  {%- if settings.header_banner_button_close != blank -%}
+  <a href="#" class="close-header-banner"></a>
+  {%- endif -%}
+  
+  <a href="{{settings.header_banner_link}}" class="header-banner-link"></a>
+  <div class="container header-banner-container">
+    
+    {% if settings.language_enable %}
+    <div class="lang1">{{ settings.header_banner_content | split: '[lang2]' | first }}</div>
+    <div class="lang2">{{ settings.header_banner_content | split: '[lang2]' | last }}</div>
+    {% else %}
+    {{ settings.header_banner_content | split: '[lang2]' | first }}
+    {% endif %}
+  </div>
+</div>
+<style>
+  .header-banner {
+    {%- if settings.header_banner_background_image != blank -%}
+    background-image: url({{settings.header_banner_background_image | img_url: 'master'}});
+    background-position: {{settings.header_banner_background_position | replace: '_', ' ' }};
+    background-repeat: {{settings.header_banner_background_image_repeat}};
+    background-size: {{settings.header_banner_background_size}};
+    background-attachment: {{settings.header_banner_background_attachment}};
+    {%- endif -%}
+    background-color: {{settings.header_banner_background_color}};
+    height: {{settings.header_banner_height_desktop | remove: 'px' | append: 'px' }};
+  }
+  .header-banner-display .website-wrapper {
+    margin-top: {{settings.header_banner_height_desktop | remove: 'px' | append: 'px' }};
+  }
+  @media (max-width: 1024px){
+    .header-banner {
+      height: {{settings.header_banner_height_mobile | remove: 'px' | append: 'px' }};
+    }
+    .header-banner-display .website-wrapper {
+      margin-top: {{settings.header_banner_height_mobile | remove: 'px' | append: 'px' }};
+    }
+  }
+</style>
+{%- endif -%}

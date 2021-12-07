@@ -1,0 +1,243 @@
+<div class="mobile-nav">
+  <form role="search" method="get" class="searchform {% if settings.header_ajax_search != blank %}woodmart-ajax-search{% endif %}" action="/search" data-thumbnail="1" data-price="1" data-post-type="product" data-count="15">
+    <div>
+      <label class="screen-reader-text" for="q"></label>
+      <input type="text" class="s" {% if settings.language_enable %}data-translate="general.search.placeholder"{% endif %} placeholder="{{ 'general.search.placeholder' | t }}" value="" name="q" autocomplete="off" style="padding-right: 65px;">
+      <input type="hidden" name="post_type" value="product"> 
+      <button type="submit" class="searchsubmit" {% if settings.language_enable %}data-translate="general.search.submit"{% endif %}>{{ 'general.search.submit' | t }}</button>
+    </div>
+  </form>
+  <div class="search-info-text"><span {% if settings.language_enable %}data-translate="general.search.info_search"{% endif %}>{{ 'general.search.info_search' | t }}</span></div>
+  <div class="search-results-wrapper">
+    <div class="woodmart-scroll has-scrollbar">
+      <div class="woodmart-search-results woodmart-scroll-content" tabindex="0">
+        <div class="autocomplete-suggestions" style="position: absolute; max-height: 300px; z-index: 9999; width: 308px; display: flex;"></div>
+      </div>
+    </div>
+    <div class="woodmart-search-loader"></div>
+  </div>
+  <div class="mobile-nav-tabs">
+    <ul>
+      <li class="mobile-tab-title mobile-pages-title active" data-menu="pages">
+        <span>
+          {% if settings.language_enable %}
+          <span class="lang1">{{ section.settings.menu_title | split: '|' | first }}</span>
+          <span class="lang2">{{ section.settings.menu_title | split: '|' | last }}</span>
+          {% else %}
+          {{ section.settings.menu_title | split: '|' | first }}
+          {% endif %}
+        </span>
+      </li>
+      {%- if section.settings.category_menu != blank -%}
+      <li class="mobile-tab-title mobile-categories-title" data-menu="categories">
+        <span>
+          {% if settings.language_enable %}
+          <span class="lang1">{{ section.settings.category_menu_title | split: '|' | first }}</span>
+          <span class="lang2">{{ section.settings.category_menu_title | split: '|' | last }}</span>
+          {% else %}
+          {{ section.settings.category_menu_title | split: '|' | first }}
+          {% endif %}
+        </span>
+      </li>
+      {%- endif -%}
+    </ul>
+  </div>
+  {%- if section.settings.category_menu != blank -%}
+  <div class="mobile-menu-tab mobile-categories-menu">
+    <div class="menu-mobile-categories-container">
+      <ul id="menu-mobile-categories" class="site-mobile-menu">
+        {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+        <li id="menu-item-{{block.id}}" class="menu-item menu-item-type-custom menu-item-{{block.settings.title | handleize}} item-level-0 menu-item-{{block.id}} menu-item-no-children with-offsets">
+          <a href="{{block.settings.button_link}}" class="woodmart-nav-link">
+            {%- if block.settings.icon != blank -%}<i class="fa fa-{{block.settings.icon}}"></i>{%- endif -%}
+            <span>
+              {% if settings.language_enable %}
+              <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+              <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+              {% else %}
+              {{ block.settings.title | split: '|' | first }}
+              {% endif %}
+            </span> 
+          </a>
+        </li>
+        {%- endfor -%}
+        {%- endif -%}
+      </ul>
+    </div>
+  </div>
+  {%- endif -%}
+  <div class="mobile-menu-tab mobile-pages-menu active">
+    <div class="menu-mobile-menu-container">
+      <ul id="menu-mobile-menu" class="site-mobile-menu">
+        {%- assign list = linklists[section.settings.menu] -%} 
+        {%- for link in list.links -%}
+        {%- assign child_list_handle = link.title | handleize -%}  
+        {%- if linklists[child_list_handle].links != blank -%}
+        <li class="menu-item menu-item-type-post_type {% if list.active %}current-menu-item{% endif %} menu-item-has-children menu-item-object-page menu-item-{{forloop.index}} item-level-0 {% if forloop.index == list.links.size %}last{% endif %}">
+          <a href="{{ link.url }}" class="woodmart-nav-link">
+            <span>  
+              {% if settings.language_enable %} 
+              <span class="lang1">{{ link.title | split: '|' | first | split: '[' | first | capitalize }}</span>
+              <span class="lang2">{{ link.title | split: '|' | last | split: '[' | first | capitalize }}</span>
+              {% else %}
+              {{ link.title | split: '|' | first | split: '[' | first | capitalize }}
+              {% endif %}
+            </span>
+          </a>
+          <div class="sub-menu-dropdown color-scheme-dark">
+            <div class="container">
+              <ul class="sub-menu color-scheme-dark"> 
+                {% for childlink in linklists[child_list_handle].links %}  
+                {% assign grand_child_list_handle = childlink.title | handle %}
+                {% if linklists[grand_child_list_handle].links != blank %} 
+                <li class="menu-item menu-item-type-custom menu-item-object-custom {% if childlink.active %}current-menu-item{% endif %} menu-item-has-children menu-item-{{forloop.index}} item-level-1 {% if forloop.index == linklists[child_list_handle].links.size %}last{% endif %}">
+                  <a href="{{ childlink.url }}" class="woodmart-nav-link">
+                    <span>  
+                      {% if settings.language_enable %} 
+                      <span class="lang1">{{ childlink.title | split: '|' | first | split: '[' | first | capitalize }}</span>
+                      <span class="lang2">{{ childlink.title | split: '|' | last | split: '[' | first | capitalize }}</span>
+                      {% else %}
+                      {{ childlink.title | split: '|' | first | split: '[' | first | capitalize }}
+                      {% endif %}
+                    </span>
+                  </a>
+                  <ul class="sub-sub-menu">
+                    {% for grand_child_link in linklists[grand_child_list_handle].links %}
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page {% if grand_child_link.active %}current-menu-item{% endif %} menu-item-{{forloop.index}} item-level-2 {% if forloop.index == linklists[grand_child_list_handle].links.size %}last{% endif %}">
+                      <a href="{{ grand_child_link.url }}" class="woodmart-nav-link"> 
+                        {% if settings.language_enable %} 
+                        <span class="lang1">{{ grand_child_link.title | split: '|' | first | split: '[' | first | capitalize }}</span>
+                        <span class="lang2">{{ grand_child_link.title | split: '|' | last | split: '[' | first | capitalize }}</span>
+                        {% else %}
+                        {{ grand_child_link.title | split: '|' | first | split: '[' | first | capitalize }}
+                        {% endif %}
+                      </a>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                  <span class="icon-sub-menu"></span>
+                </li>
+                {% else %}
+                <li class="menu-item menu-item-type-custom menu-item-object-custom {% if childlink.active %}current-menu-item{% endif %} menu-item-{{forloop.index}} item-level-1 {% if forloop.index == linklists[child_list_handle].links.size %}last{% endif %}">
+                  <a href="{{ childlink.url }}">
+                    <span>  
+                      {% if settings.language_enable %} 
+                      <span class="lang1">{{ childlink.title | split: '|' | first | split: '[' | first | capitalize }}</span>
+                      <span class="lang2">{{ childlink.title | split: '|' | last | split: '[' | first | capitalize }}</span>
+                      {% else %}
+                      {{ childlink.title | split: '|' | first | split: '[' | first | capitalize }}
+                      {% endif %}
+                    </span>
+                  </a>
+                </li>
+                {% endif %}
+                {% endfor %}
+              </ul>
+              <span class="icon-sub-menu"></span>
+            </div>
+          </div>
+        </li>
+        {%- else -%}
+        <li class="menu-item menu-item-type-post_type {% if list.active %}current-menu-item{% endif %} menu-item-object-page menu-item-{{forloop.index}} item-level-0 {% if forloop.index == list.links.size %}last{% endif %}">
+          <a href="{{ link.url }}" class="woodmart-nav-link"> 
+            {% if settings.language_enable %} 
+            <span class="lang1">{{ link.title | split: '|' | first | split: '[' | first | capitalize }}</span>
+            <span class="lang2">{{ link.title | split: '|' | last | split: '[' | first | capitalize }}</span>
+            {% else %}
+            {{ link.title | split: '|' | first | split: '[' | first | capitalize }}
+            {% endif %}
+          </a>
+        </li>
+        {%- endif -%}
+        {%- endfor -%}
+        {%- if settings.collection_wishlist_dis == blank-%}
+        <li class="menu-item item-level-0 menu-item-wishlist">
+          <div class="woodmart-wishlist-info-widget">
+            <a href="#">
+              <span class="wishlist-info-wrap">
+                <span class="wishlist-icon">
+                  <span class="count">0</span>
+                </span>
+                <span class="wishlist-label" {% if settings.language_enable %}data-translate="header.settings.wishlist"{% endif %}>{{ 'header.settings.wishlist' | t }}</span> 
+              </span>
+            </a>
+          </div>
+        </li>
+        {%- endif -%}
+        {%- if customer -%}
+        <li class="item-level-0 my-account-with-text menu-item-register">
+          <a href="/account" class="link" style="padding-left: 10px;"><span {% if settings.language_enable %}data-translate="header.settings.my_account"{% endif %}>{{ 'header.settings.my_account' | t }}</span></a> /
+          <a href="/account/logout" class="link" style="padding-right: 10px;"><span {% if settings.language_enable %}data-translate="header.settings.logout"{% endif %}>{{ 'header.settings.logout' | t }}</span></a>
+        </li>  
+        {%- else -%}
+        <li class="item-level-0 my-account-with-text menu-item-register">
+          <a href="/account/login"><span {% if settings.language_enable %}data-translate="header.settings.register"{% endif %}>{{ 'header.settings.register' | t }}</span></a>
+        </li>
+        {%- endif -%}
+      </ul>
+    </div>
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Mobile Menu",
+    "settings": [
+      {
+        "type": "text",
+        "id": "menu_title",
+        "label": "Menu Title",
+		"default": "Menu"
+      },
+      {
+        "type": "link_list",
+        "id": "menu",
+        "label": "Select Menu"
+      },
+      {
+        "type": "checkbox",
+        "id": "category_menu",
+        "label": "Show category menu",
+		"default": true
+      },
+      {
+        "type": "text",
+        "id": "category_menu_title",
+        "label": "Category Menu Title",
+		"default": "Categories"
+      }
+	],
+	"blocks": [
+      {
+        "type":"category_menu",
+        "name":"Category Menu",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Navigation Title",
+            "default": "Fashion",
+            "info": "Ex: Fashion"
+          },
+          {
+            "id": "icon",
+            "type": "text",
+            "label": "Icon",
+            "info":"Ex:user [fontawesome icons](http://fontawesome.io/icons/)"
+          },
+          {
+            "type": "url",
+            "id": "button_link",
+            "label": "Navigation link"
+          }
+        ]
+      }	
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

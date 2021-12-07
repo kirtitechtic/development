@@ -1,0 +1,398 @@
+{%- case section.settings.section_layout -%}
+{%- when '0' -%}
+{%- capture data_fullwidth -%}{%- endcapture -%}
+{%- when '1' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true"{%- endcapture -%}
+{%- when '2' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- when '3' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- endcase -%} 
+<div data-section-id="{{ section.id }}" data-section-type="gallery-section">
+  <div {{data_fullwidth}} class="vc_row wpb_row vc_row-fluid {% if section.settings.hide_background_mobile != blank %}mobile-bg-img-hidden{% endif %} vc_custom_{{section.id}} vc_row-has-fill woodmart-bg-center-center {% if section.settings.section_layout == '3' %}vc_row-no-padding{% endif %} woodmart-bg-left-top" style="margin-top:{{section.settings.margin_top | remove: 'px' | append: 'px' }}; margin-bottom:{{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.padding}};">
+    <div class="wpb_column vc_column_container vc_col-sm-12">
+      <div class="vc_column-inner">
+        <div class="wpb_wrapper"> 
+          <div class="vc_row wpb_row vc_row-fluid vc_row-o-content-middle vc_row-flex">
+            <div class="wpb_column vc_column_container vc_col-sm-6">
+              <div class="vc_column-inner vc_custom_1500912798491">
+                <div class="wpb_wrapper">
+                  <div id="gallery_{{section.id}}" class="woodmart-images-gallery woodmart-spacing-6 gallery-spacing-6 columns-2 view-masonry photoswipe-images">
+                    <div class="gallery-images">
+                      {%- if section.blocks.size > 0 -%}
+                      {%- for block in section.blocks -%}
+                      <div class="woodmart-gallery-item">
+                        {%- if block.settings.image != blank -%}
+                        {%- assign img_url = block.settings.image | img_url: '400x400' -%}
+                        {%- assign img_height = block.settings.image.height -%}
+                        {%- else -%}
+                        {%- assign img_url = '400x400.png' | asset_url -%}
+                        {%- assign img_height = '400' -%}
+                        {%- endif -%}
+                        <a href="{{img_url}}" data-index="{{forloop.index}}" data-width="400" data-height="{{img_height}}">
+                          <img width="400" height="{{img_height}}" src="{{img_url}}" class="woodmart-gallery-image image-{{forloop.index}} attachment-full" alt="">
+                        </a>
+                      </div>
+                      {%- endfor -%}
+                      {%- endif -%}
+                    </div>
+                  </div>
+                </div> 
+              </div>
+            </div>
+            <div class="wpb_column vc_column_container vc_col-sm-6">
+              <div class="vc_column-inner vc_custom_1500556851730">
+                <div class="wpb_wrapper">
+                  <style>#woodmart-text-block-id-{{section.id}} .woodmart-text-block{font-size:34px;line-height:44px}@media (max-width: 1024px){#woodmart-text-block-id-{{section.id}} .woodmart-text-block{font-size:26px;line-height:36px}}</style>
+                  <div id="woodmart-text-block-id-{{section.id}}" class="woodmart-text-block-wrapper color-scheme-{{section.settings.title_color}} woodmart-title-size-custom woodmart-title-width-100 text-left vc_custom_1500913048447">
+                    <div class="woodmart-title-container woodmart-text-block font-primary woodmart-font-weight-300">
+                      {%- if settings.language_enable -%}
+                      <div class="lang1">{{ section.settings.title | split: '|' | first }}</div>
+                      <div class="lang2">{{ section.settings.title | split: '|' | last }}</div>
+                      {%- else -%}
+                      {{ section.settings.title | split: '|' | first }}
+                      {%- endif -%}
+                    </div>
+                  </div>
+                  <div class="wpb_text_column wpb_content_element  vc_custom_1501667455969 text-larger">
+                    <div class="wpb_wrapper">
+                      {%- if settings.language_enable -%}
+                      <div class="lang1">{{ section.settings.content | split: '[lang2]' | first }}</div>
+                      <div class="lang2">{{ section.settings.content | split: '[lang2]' | last }}</div>
+                      {%- else -%}
+                      {{ section.settings.content | split: '[lang2]' | first }}
+                      {%- endif -%}
+                    </div>
+                  </div>
+                  <div class="vc_separator wpb_content_element vc_separator_align_center vc_sep_width_100 vc_sep_pos_align_center vc_separator_no_text">
+                    <span class="vc_sep_holder vc_sep_holder_l">
+                      <span style="border-color:#efefef;" class="vc_sep_line"></span>
+                    </span>
+                    <span class="vc_sep_holder vc_sep_holder_r">
+                      <span style="border-color:#efefef;" class="vc_sep_line"></span>
+                    </span>
+                  </div>
+                  <div class="vc_row wpb_row vc_inner vc_row-fluid">
+                    <div class="wpb_column vc_column_container vc_col-sm-6">
+                      <div class="vc_column-inner vc_custom_1500912804752">
+                        <div class="wpb_wrapper">
+                          <div class="wpb_text_column wpb_content_element  vc_custom_1501667538426 text-larger">
+                            <div class="wpb_wrapper">
+                              {%- if settings.language_enable -%}
+                              <div class="lang1">{{ section.settings.social_content | split: '[lang2]' | first }}</div>
+                              <div class="lang2">{{ section.settings.social_content | split: '[lang2]' | last }}</div>
+                              {%- else -%}
+                              {{ section.settings.social_content | split: '[lang2]' | first }}
+                              {%- endif -%}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="wpb_column vc_column_container vc_col-sm-6">
+                      <div class="vc_column-inner vc_custom_1500553749715">
+                        <div class="wpb_wrapper">
+                          <div class="wpb_single_image wpb_content_element vc_align_right  vc_custom_1500912818214">
+                            <figure class="wpb_wrapper vc_figure">
+                              <div class="vc_single_image-wrapper vc_box_border_grey">
+                                {%- if section.settings.signature_image != blank -%}
+                                {%- assign sig_url = section.settings.signature_image | img_url: '141x29' -%}
+                                {%- else -%}
+                                {%- assign sig_url = 'austen.jpg' | asset_url -%}
+                                {%- endif -%}  
+                                <img width="141" height="29" src="{{sig_url}}" class="vc_single_image-img attachment-full" alt="">
+                              </div>
+                            </figure>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 
+    <style>
+      .vc_custom_{{section.id}} {  
+        {%- if section.settings.background_image != blank -%}
+        background-image: url({{section.settings.background_image | img_url: 'master'}}) !important;
+        background-position: {{section.settings.background_position | replace: '_', ' ' }} !important;
+        background-repeat: {{section.settings.background_image_repeat}} !important;
+        background-size: {{section.settings.background_size}} !important;
+        background-attachment: {{section.settings.background_attachment}} !important;
+        {%- endif -%}
+        background-color: {{section.settings.background_color}};
+        border-top-width: 1px !important; 
+        border-top-color: #ededed !important;
+        border-top-style: solid !important;
+      }
+      .vc_custom_1500913048447 {
+        margin-bottom: 30px !important;
+      }
+      .vc_custom_1500912798491 {
+        margin-bottom: 20px !important;
+        padding-top: 0px !important;
+      }
+      .vc_custom_1500556851730 {
+        padding-top: 0px !important;
+      } 
+    </style>
+  </div>
+  {%- if section.settings.section_layout != '0' -%}
+  <div class="vc_row-full-width vc_clearfix"></div>
+  {%- endif -%} 
+</div>
+{% schema %}
+{
+  "name": "About Us 2",
+  "settings": [ 
+    {
+      "type": "header", 
+      "content": "Section Settings"
+    },
+    {
+      "type": "select",
+      "id": "section_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "0",
+          "label": "Default"
+        },
+        {
+          "value": "1",
+          "label": "Fullwidth row"
+        },
+        {
+          "value": "2",
+          "label": "Fullwidth row and content"
+        },
+        {
+          "value": "3",
+          "label": "Fullwidth row and content (no padding)"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color", 
+	  "default": "transparent"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section background image" 
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_background_mobile",
+      "label": "Hide background image on mobile?", 
+	  "default": true
+    },
+    {
+      "type": "select",
+      "id": "background_image_repeat",
+      "label": "Background Repeat",
+      "options": [
+        {
+          "value": "no-repeat",
+          "label": "No Repeat"
+        },
+        {
+          "value": "repeat-x",
+          "label": "Repeat x (Repeat Horizontal)"
+        },
+        {
+          "value": "repeat-y",
+          "label": "Repeat y (Repeat Verticle)"
+        },
+        {
+          "value": "repeat",
+          "label": "Repeat All"
+        }
+      ],
+      "default": "no-repeat"
+    },
+    {
+      "type": "select",
+      "id": "background_size",
+      "label": "Background Size",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "background_attachment",
+      "label": "Background Attachment",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "fixed",
+          "label": "Fixed"
+        },
+        {
+          "value": "scroll",
+          "label": "Scroll"
+        },
+        {
+          "value": "inherit",
+          "label": "Inherit"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "background_position",
+      "label": "Background Position",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "left_top",
+          "label": "Left Top"
+        },
+        {
+          "value": "left_center",
+          "label": "Left Center"
+        },
+        {
+          "value": "left_bottom",
+          "label": "Left Bottom"
+        },
+        {
+          "value": "center_top",
+          "label": "Center Top"
+        },
+        {
+          "value": "center_center",
+          "label": "Center Center"
+        },
+        {
+          "value": "center_bottom",
+          "label": "Center Bottom"
+        }
+      ],
+      "default": "center_center"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section Margin Top",
+	  "info": "45px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section Margin Bottom",
+      "default" : "0",
+	  "info": "45px"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Section Padding",
+      "default" : "0 0 0 0",
+      "info": "Ex:(40px 40px 40px) (top right bottom left)"
+    },   
+    {
+      "type": "header", 
+      "content": "Content Settings"
+    }, 
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "As an official stockist of all brands, we offer <strong class=\"add-border border-width-3 border-color-primary\">watches for men &amp; ladies.</strong>"
+    }, 
+    {
+      "type": "textarea",
+      "id": "content",
+      "label": "Content",
+      "default": "<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using <strong><a href=\"#\">‘Content here, content here’</a></strong>, making it look like readable English.&nbsp;Many desktop publishing packages and web.</p>"
+    }, 
+    {
+      "type": "image_picker",
+      "id": "signature_image",
+      "label": "Signature Image" 
+    },  
+    {
+      "type": "textarea",
+      "id": "social_content",
+      "label": "Social Content",
+      "default": "<p>Follow me on <strong><a href=\"https://twitter.com/\">Twitter</a></strong>&nbsp;and <strong><a href=\"http://facebook.com\">Facebook</a></strong></p>"
+    },  
+    {
+      "type": "select",
+      "id": "title_color",
+      "label": "Content Color",
+      "default": "dark",
+      "options": [ 
+        {
+          "value": "dark",
+          "label": "Dark"
+        },
+        {
+          "value": "light",
+          "label": "Light"
+        } 
+      ]
+    } 
+  ], 
+  "blocks": [
+    {
+      "type": "gallery",
+      "name": "Gallery Item",
+	  "limit": 4,
+      "settings": [ 
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        } 
+      ]
+    } 
+  ],
+  "presets": [{
+    "name": "About Us 2",
+    "category": "Banner",
+    "blocks": [
+      {
+        "type": "gallery"
+      },
+      {
+        "type": "gallery"
+      },
+      {
+        "type": "gallery"
+      },
+      {
+        "type": "gallery"
+      } 
+    ]
+  }]
+}
+{% endschema %}

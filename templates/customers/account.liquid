@@ -1,0 +1,260 @@
+<!-- /templates/customers/account.liquid -->  
+<div class="main-page-wrapper">
+   <div class="page-title page-title-default title-size-default color-scheme-light title-design-centered" style="background-color: #fac480; ">
+  <div class="container">
+    <header class="entry-header"><h1 class="entry-title">
+        <span>
+          
+        Min Profil
+          
+        </span>
+      </h1><div class="breadcrumbs" xmlns:v="http://rdf.data-vocabulary.org/#">
+        <a href="/" rel="v:url" property="v:title">Hjem</a> »<span class="current">
+            
+          Min Profil
+            
+          </span></div></header>
+  </div>
+</div>
+ 
+  <div class="container"> 
+    <div class="row content-layout-wrapper">
+      <div class="site-content col-sm-12">
+        <div class="entry-content">
+          <div class="main-account">
+            <div class="my-account">  
+              <h5>{{ customer.name }} <span><a href="/account/logout" {% if settings.language_enable %}data-translate="customer.account.title"{% endif %}>({{ 'customer.logout.title' | t }})</a></span></h5>
+              <div class="content">
+                {% if customer.default_address != nil %}
+                <p>
+                  {{ customer.default_address.address1 }}<br>
+
+                  {% if customer.default_address.address2 != "" %}
+                  {{ customer.default_address.address2 }}<br>
+                  {% endif %}
+
+                  {% if customer.default_address.city != "" %}
+                  {{ customer.default_address.city }}<br>
+                  {% endif %}
+
+                  {% if customer.default_address.province_code != "" %}
+                  {{ customer.default_address.province_code | upcase }}<br>
+                  {% endif %}
+
+                  {% if customer.default_address.zip != "" %}
+                  {{ customer.default_address.zip | upcase }}<br>
+                  {% endif %}
+
+                  {% if customer.default_address.country != "" %}
+                  {{ customer.default_address.country }}<br>
+                  {% endif %}
+
+                  {% if customer.default_address.phone != "" %}
+                  {{ customer.default_address.phone }}
+                  {% endif %}
+                </p>
+
+                {% endif %}
+
+              
+               <p><a href="/account/addresses" class="btn-button bordered"><span {% if settings.language_enable %}data-translate="customer.account.view_addresses"{% endif %}>{{ 'customer.account.view_addresses' | t }}</span> ({{ customer.addresses_count }})</a></p>
+                <div class="my-account">
+						<h5>{{ customer.name }} 
+                          <span><a href="/account/login#recover" {% if settings.language_enable %}data-translate="customer.account.title"{% endif %}>
+                            Change Password</a></span></h5>
+            </div>
+              </div>
+              
+            </div>
+           
+            
+            <div class="my-order">
+              <h5>{{ 'customer.orders.title' | t }}</h5> 
+              {% comment %}
+              If we have past orders, loop through each one
+              {% endcomment %}
+              {% paginate customer.orders by 20 %}
+              {% if customer.orders.size != 0 %}
+
+              <div class="table-wrap">
+                <table class="full">
+                  <thead>
+                    <tr>
+                      <th {% if settings.language_enable %}data-translate="customer.orders.order_number"{% endif %}>{{ 'customer.orders.order_number' | t }}</th>
+                      <th {% if settings.language_enable %}data-translate="customer.orders.date"{% endif %}>{{ 'customer.orders.date' | t }}</th>
+                      <th {% if settings.language_enable %}data-translate="customer.orders.payment_status"{% endif %}>{{ 'customer.orders.payment_status' | t }}</th>
+                      <th {% if settings.language_enable %}data-translate="customer.orders.fulfillment_status"{% endif %}>{{ 'customer.orders.fulfillment_status' | t }}</th>
+                      <th {% if settings.language_enable %}data-translate="customer.orders.total"{% endif %}>{{ 'customer.orders.total' | t }}</th>
+                      <th {% if settings.language_enable %}data-translate="Track Your Order"{% endif %}>{{ 'Track Order'}}</th>
+                   
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for order in customer.orders %}
+                    <tr>
+                      <td>{{ order.name | link_to: order.customer_url }}</td>
+                      <td>{{ order.created_at | date: format: 'month_day_year' }}</td>
+                      <td>{{ order.financial_status_label }}</td>
+                      <td>{{ order.fulfillment_status_label }}</td>
+                      <td>{{ order.total_price | money }} </td> 
+                      <td><a id="track-button" href="/apps/parcelpanel" class="btn-button bordered">Track</a></td>
+                       </tr>
+                    
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              {% else %}
+              <p {% if settings.language_enable %}data-translate="customer.account.title"{% endif %}>{{ 'customer.orders.none' | t }}</p>
+              {% endif %}
+              {% if paginate.pages > 1 %}
+              <hr>
+              <div class="pagination">
+                {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+              </div>
+              {% endif %}
+              {% endpaginate %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+<!--   
+  <div class="container"> 
+    <div class="row content-layout-wrapper">
+      <div class="site-content col-sm-12">
+        <div class="entry-content">
+          <div class="main-account">
+            <div class="my-account">  
+              <h5>{{ customer.name }} <span><a href="/account/logout" {% if settings.language_enable %}data-translate="customer.account.title"{% endif %}>({{ 'customer.logout.title' | t }})</a></span></h5>
+              <div class="content account_profile_data">
+                {% if customer.default_address != nil %}
+                <p class="account_user_data">
+                  {{ customer.default_address.address1 }}<br>
+
+                  {% if customer.default_address.address2 != "" %}
+                  {{ customer.default_address.address2 }}<br>
+                  {% endif %}
+
+                  {% if customer.default_address.city != "" %}
+                  {{ customer.default_address.city }}<br>
+                  {% endif %}
+
+                  {% if customer.default_address.province_code != "" %}
+                  {{ customer.default_address.province_code | upcase }}<br>
+                  {% endif %}
+
+                  {% if customer.default_address.zip != "" %}
+                  {{ customer.default_address.zip | upcase }}<br>
+                  {% endif %}
+
+                  {% if customer.default_address.country != "" %}
+                  {{ customer.default_address.country }}<br>
+                  {% endif %}
+
+                  {% if customer.default_address.phone != "" %}
+                  {{ customer.default_address.phone }}
+                  {% endif %}
+                </p>
+
+                {% endif %}
+                <div class="change_password_frm">
+				<form method="post" id="customer_passwordnew">
+                  
+                <label for="CustomerPasswordold" class="hidden-label" {% if settings.language_enable %}data-translate="customer.activate_account.password_old"{% endif %}>Old Password <span class="required">*</span></label>
+                <input required="required" type="password" value="" name="customer[password_old]" id="CustomerPasswordOld" class="input-full" placeholder="Old Password">
+
+                <label for="CustomerPassword" class="hidden-label" {% if settings.language_enable %}data-translate="customer.activate_account.password"{% endif %}>{{ 'customer.activate_account.password' | t }}<span class="required">*</span></label>
+                <input required="required" type="password" value="" name="customer[password]" id="CustomerPassword" class="input-full" placeholder="{{ 'customer.activate_account.password' | t }}">
+
+                <label for="CustomerPasswordConfirmation" class="hidden-label" {% if settings.language_enable %}data-translate="customer.activate_account.password_confirm"{% endif %}>{{ 'customer.activate_account.password_confirm' | t }}<span class="required">*</span></label>
+                <input required="required" type="password" value="" name="customer[password_confirmation]" id="CustomerPasswordConfirmation" class="input-full" placeholder="{{ 'customer.activate_account.password_confirm' | t }}">
+                <div class="submit_password">
+                  <input type="submit" value="Submit">
+                   <a id="edit-button" href="/account/addresses">EDIT</a>
+                  <a href="/account/addresses" class="btn-button bordered"><span {% if settings.language_enable %}data-translate="customer.account.view_addresses"{% endif %}>{{ 'customer.account.view_addresses' | t }}</span> ({{ customer.addresses_count }})</a>
+                  </div>
+                </form>
+                </div>
+              </div> 
+            </div>
+            <div class="my-order">
+              <h5>{{ 'customer.orders.title' | t }}</h5> 
+              {% comment %}
+              If we have past orders, loop through each one
+              {% endcomment %}
+              {% paginate customer.orders by 20 %}
+              {% if customer.orders.size != 0 %}
+
+              <div class="table-wrap">
+                <table class="full">
+                  <thead>
+                    <tr>
+                      <th {% if settings.language_enable %}data-translate="customer.orders.order_number"{% endif %}>{{ 'customer.orders.order_number' | t }}</th>
+                      <th {% if settings.language_enable %}data-translate="customer.orders.date"{% endif %}>{{ 'customer.orders.date' | t }}</th>
+                      <th {% if settings.language_enable %}data-translate="customer.orders.payment_status"{% endif %}>{{ 'customer.orders.payment_status' | t }}</th>
+                      <th {% if settings.language_enable %}data-translate="customer.orders.fulfillment_status"{% endif %}>{{ 'customer.orders.fulfillment_status' | t }}</th>
+                      <th {% if settings.language_enable %}data-translate="customer.orders.total"{% endif %}>{{ 'customer.orders.total' | t }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for order in customer.orders %}
+                    <tr>
+                      <td>{{ order.name | link_to: order.customer_url }}</td>
+                      <td>{{ order.created_at | date: format: 'month_day_year' }}</td>
+                      <td>{{ order.financial_status_label }}</td>
+                      <td>{{ order.fulfillment_status_label }}</td>
+                      <td>{{ order.total_price | money }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              {% else %}
+              <p {% if settings.language_enable %}data-translate="customer.account.title"{% endif %}>{{ 'customer.orders.none' | t }}</p>
+              {% endif %}
+              {% if paginate.pages > 1 %}
+              <hr>
+              <div class="pagination">
+                {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+              </div>
+              {% endif %}
+              {% endpaginate %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  
+</div> 
+{% if content_for_header contains 'bss-b2b-customer-portal' %}{% render "bss-b2b-customer-portal-link" %}{% endif %}

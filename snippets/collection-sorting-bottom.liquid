@@ -1,0 +1,12 @@
+{%- if settings.collection_pagination == 'pagination' -%}
+{%- include 'pagination-page' -%}
+{%- endif -%}
+{%- if settings.collection_pagination == 'infinit' or settings.collection_pagination == 'more-btn' -%}  
+{%- if check_template_list -%}{%- assign view_ajax = 'ajax_' |append:template_suffix -%}{%- endif-%} 
+{%- if paginate.next.is_link -%} 
+<a href="{%- if check_template_list -%}{{ paginate.next.url | replace: template_suffix, view_ajax }}{%- else -%}{{ paginate.next.url | append: '&view=ajax_grid' }}{%- endif -%}" class="btn woodmart-load-more woodmart-products-load-more {% if settings.collection_pagination == 'infinit' %}load-on-scroll{%else%}load-on-click{% endif %}">
+  <span class="load-more-label" {% if settings.enable_multilang %}data-translate="collections.general.show_more"{% endif %}>{{ 'collections.general.show_more' | t}}</span>
+  <span class="load-more-loading" {% if settings.enable_multilang %}data-translate="collections.general.loading"{% endif %}>{{ 'collections.general.loading' | t}} ...</span>
+</a>
+{%- endif -%}  
+{%- endif -%}  

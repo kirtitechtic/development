@@ -1,0 +1,78 @@
+<div class="container">
+  <div class="wrapp-header" style="min-height: {{settings.header_min_height | remove: 'px' | append: 'px'}};">
+    <div class="header-left-side">
+      <div class="woodmart-burger-icon mobile-nav-icon">
+        <span class="woodmart-burger"></span>
+        <span class="woodmart-burger-label" {% if settings.language_enable %}data-translate="header.settings.menu"{% endif %}>{{ 'header.settings.menu' | t }}</span>
+      </div>
+    </div>
+    <div class="site-logo">
+      <div class="woodmart-logo-wrap">
+        {%- include 'header-logo' -%}
+      </div>
+    </div>
+    <div class="site-navigation woodmart-navigation menu-{{settings.header_menu_align}} navigation-style-{{settings.header_menu_style}} main-nav">
+      <div class="menu-main-navigation-container">
+        {% section 'main-menu' %}
+      </div>
+    </div> 
+    <div class="right-column">
+      {%- if settings.header_login != blank -%}
+      <div class="woodmart-header-links">
+        <ul>
+          {%- if customer -%}
+          <li class="item-level-0 my-account-with-text menu-item-register">
+            <a href="/account" class="link" style="padding-left: 10px;"><span {% if settings.language_enable %}data-translate="header.settings.my_account"{% endif %}>{{ 'header.settings.my_account' | t }}</span></a> /
+            <a href="/account/logout" class="link" style="padding-right: 10px;"><span {% if settings.language_enable %}data-translate="header.settings.logout"{% endif %}>{{ 'header.settings.logout' | t }}</span></a>
+          </li>  
+          {%- else -%}
+          <li class="item-level-0 my-account-with-text menu-item-register">
+            <a href="/account/login"><span {% if settings.language_enable %}data-translate="header.settings.register"{% endif %}>{{ 'header.settings.register' | t }}</span></a>
+          </li>
+          {%- endif -%}
+        </ul>
+      </div>
+      {%- endif -%}
+      <div class="search-button {% if settings.header_search_widget == 'fullscreent' %}woodmart-search-full-screen{%else%}woodmart-search-dropdown{% endif %}">
+        <a href="#"><span class="search-button-icon"></span></a> 
+        {% if settings.header_search_widget != 'disable' %}
+        <div class="woodmart-search-wrapper">
+          <div class="woodmart-search-inner">
+            <span class="woodmart-close-search">close</span>
+            <form role="search" method="get" class="searchform{% if settings.header_search_background != blank %} search-style-with-bg{% endif %} {% if settings.header_ajax_search != blank %}woodmart-ajax-search{% endif %}" action="/search" data-thumbnail="1" data-price="1" data-post-type="product" data-count="15">
+              <div>
+                <label class="screen-reader-text" for="q"></label>
+                <input type="text" class="s" {% if settings.language_enable %}data-translate="general.search.placeholder"{% endif %} placeholder="{{ 'general.search.placeholder' | t }}" value="" name="q" autocomplete="off" style="padding-right: 65px;">
+                <input type="hidden" name="post_type" value="product">
+                <button type="submit" class="searchsubmit" {% if settings.language_enable %}data-translate="general.search.submit"{% endif %}>{{ 'general.search.submit' | t }}</button>
+              </div>
+            </form>
+            <div class="search-info-text"><span {% if settings.language_enable %}data-translate="general.search.info_search"{% endif %}>{{ 'general.search.info_search' | t }}</span></div>
+            <div class="search-results-wrapper">
+              <div class="woodmart-scroll has-scrollbar">
+                <div class="woodmart-search-results woodmart-scroll-content" tabindex="0">
+                  <div class="autocomplete-suggestions" style="position: absolute; max-height: 300px; z-index: 9999; width: 308px; display: flex;"></div>
+                </div>
+              </div>
+              <div class="woodmart-search-loader"></div>
+            </div>
+          </div>
+        </div> 
+        {%- endif -%}
+      </div>
+      {%- if settings.header_wishlist != blank and settings.collection_wishlist_dis == blank-%}
+      <div class="woodmart-wishlist-info-widget">
+        <a href="#">
+          <span class="wishlist-info-wrap">
+            <span class="wishlist-label" {% if settings.language_enable %}data-translate="header.settings.wishlist"{% endif %}>{{ 'header.settings.wishlist' | t }}</span> 
+            <span class="wishlist-icon">
+              <span class="count">0</span>
+            </span>
+          </span>
+        </a>
+      </div>
+      {%- endif -%}
+      {%- include 'header-cart' -%}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,505 @@
+{% assign variant_tmp = product.selected_or_first_available_variant | default: product.variants.first %}
+{%- if settings.product_sidebar == 'left' -%}
+   {%- case settings.product_sidebar_size -%}
+     {% when 'small' %}
+       {%- assign class_main = 'col-sm-10 col-sm-push-2' -%}
+       {%- assign class_sidebar = 'col-sm-2 col-sm-pull-10' -%}
+     {% when 'medium' %}
+       {%- assign class_main = 'col-sm-9 col-sm-push-3' -%}
+       {%- assign class_sidebar = 'col-sm-3 col-sm-pull-9' -%}
+     {% when 'large' %}
+       {%- assign class_main = 'col-sm-8 col-sm-push-4' -%}
+       {%- assign class_sidebar = 'col-sm-4 col-sm-pull-8' -%}
+   {%- endcase -%}
+{%- elsif settings.product_sidebar == 'right' -%}
+   {%- case settings.product_sidebar_size -%}
+     {% when 'small' %}
+       {%- assign class_main = 'col-sm-10' -%}
+       {%- assign class_sidebar = 'col-sm-2' -%}
+     {% when 'medium' %}
+       {%- assign class_main = 'col-sm-9' -%}
+       {%- assign class_sidebar = 'col-sm-3' -%}
+     {% when 'large' %}
+       {%- assign class_main = 'col-sm-8' -%}
+       {%- assign class_sidebar = 'col-sm-4' -%}
+   {%- endcase -%}
+{%- else -%}
+   {%- assign class_main = 'col-sm-12' -%}
+{%- endif -%}
+{%- case settings.product_image_size -%}
+  {% when 'small' %}
+    {%- assign class_gallery = 'col-sm-4' -%}
+    {%- assign class_summary = 'col-sm-8' -%}
+  {% when 'medium' %}
+    {%- assign class_gallery = 'col-sm-6' -%}
+    {%- assign class_summary = 'col-sm-6' -%}
+  {% when 'large' %}
+    {%- assign class_gallery = 'col-sm-8' -%}
+    {%- assign class_summary = 'col-sm-4' -%}
+  {%- endcase -%}
+{%- if settings.product_tab_summary != blank -%}
+	{%- assign tab_location = 'summary' -%}
+{%- else -%}
+	{%- assign tab_location = 'standard' -%} 
+{%- endif -%}
+{% if settings.product_layout == 'default' %}
+ 
+  <div class="container">
+    <div class="single-breadcrumbs-wrapper">
+                <div class="single-breadcrumbs">
+    <nav class="shopify-breadcrumb">
+      <a class="breadcrumb-link" href="/" title="{{ 'general.breadcrumbs.home_link_title' | t }}" {% if settings.language_enable %}data-translate="general.breadcrumbs.home"{% endif %}>{{ 'general.breadcrumbs.home' | t }}</a>
+      {% if template contains 'product' %}
+      {% if collection %} 
+      {% if collection.handle %}
+      {% capture url %}/collections/{{ collection.handle }}{% endcapture %} 
+      <a class="breadcrumb-link " href="{{url}}">
+        {% if settings.language_enable %}
+        <span class="lang1">{{ collection.title | split: '|' | first }}</span>
+        <span class="lang2">{{ collection.title | split: '|' | last }}</span>
+        {% else %}
+        {{ collection.title | split: '|' | first }}
+        {% endif %}
+      </a>
+      {% endif %} 
+      {% endif %} 
+      <span class="breadcrumb-last"> 
+        {% if settings.language_enable %}
+        <span class="lang1">{{ product.title | split: '|' | first  }}</span>
+        <span class="lang2">{{ product.title | split: '|' | last }}</span>
+        {% else %}
+        {{ product.title | split: '|' | first }}
+        {% endif %}  
+      </span> 
+      {% endif %} 
+    </nav> 
+    {%- include 'product-prevnext-nav' -%} 
+      </div>
+    </div>
+  </div> 
+
+{% endif %}
+<div id="product-{{product.id}}" class="single-product-page single-product-content {% if settings.product_summary_shadow != blank %}product-summary-shadow{% endif %} product-design-{{settings.product_layout}} {% if settings.product_tab_type != 'tabs' %}tabs-location-{{tab_location}}{% else %}tabs-location-standar{% endif %} tabs-type-{{settings.product_tab_type}} {% if settings.product_sticky_layout != blank %}product-sticky-on {% endif %}{% if settings.product_tab_summary != blank and settings.product_review_fullwidth != blank and settings.product_tab_type == 'accordion' %}reviews-location-separate{% endif %} {%- if settings.product_layout == 'default' -%}meta-location-add_to_cart{% endif %} product-with-attachments">
+  <meta itemprop="name" content="{{ product.title }}">
+  <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+  <meta itemprop="image" content="{{ product.featured_image.src | img_url: '800x' }}">
+  <div class="container">
+    <div class="row product-image-summary-wrap">
+       <div class="pro_certified">
+                 
+                  {% if product.metafields.my_fields.certified_product %}
+     				 <img src="{{ 'certificate.png' | asset_url}}">
+                  {% endif %}
+                </div>
+      <div class="product-image-summary {{class_main}}">
+        <div class="row product-image-summary-inner dd">
+          <div class="{{class_gallery}} product-images">
+            <div class="product-images-inner">
+              <div class="shopify-product-gallery shopify-product-gallery--with-images shopify-product-gallery--columns-4 images row {% if settings.product_image_thumb_position == 'left' and settings.product_image_gallery_slider == blank %}thumbs-position-bottom_column{% else %}thumbs-position-{{settings.product_image_thumb_position}}{% endif %} image-action-{{settings.product_image_action}}" style="opacity: 1; transition: opacity .25s ease-in-out;">
+                {% include 'media' %}
+              </div>
+            </div>
+          </div>
+          <div class="{{class_summary}} summary entry-summary">
+            <div class="summary-inner">
+              {% if settings.product_layout == 'alt' %}
+              <div class="single-breadcrumbs-wrapper">
+                <div class="single-breadcrumbs">
+                  <nav class="shopify-breadcrumb">
+                    <a class="breadcrumb-link" href="/" title="{{ 'general.breadcrumbs.home_link_title' | t }}" {% if settings.language_enable %}data-translate="general.breadcrumbs.home"{% endif %}>{{ 'general.breadcrumbs.home' | t }}</a>
+                    {% if template contains 'product' %}
+                    {% if collection %} 
+                    {% if collection.handle %}
+                    {% capture url %}/collections/{{ collection.handle }}{% endcapture %} 
+                    <a class="breadcrumb-link " href="{{url}}">
+                      {% if settings.language_enable %}
+                      <span class="lang1">{{ collection.title | split: '|' | first }}</span>
+                      <span class="lang2">{{ collection.title | split: '|' | last }}</span>
+                      {% else %}
+                      {{ collection.title | split: '|' | first }}
+                      {% endif %}
+                    </a>
+                    {% endif %} 
+                    {% endif %} 
+                    <span class="breadcrumb-last"> 
+                      {% if settings.language_enable %}
+                      <span class="lang1">{{ product.title | split: '|' | first  }}</span>
+                      <span class="lang2">{{ product.title | split: '|' | last }}</span>
+                      {% else %}
+                      {{ product.title | split: '|' | first }}
+                      {% endif %}  
+                    </span> 
+                    {% endif %}
+                  </nav> 
+                  {%- include 'product-prevnext-nav' -%} 
+                </div>
+              </div>
+              {% endif %}
+              <h1 itemprop="name" class="product_title entry-title"> 
+                {% if settings.language_enable %}
+                <span class="lang1">{{ product.title | split: '|' | first }}</span>
+                <span class="lang2">{{ product.title | split: '|' | last }}</span>
+                {% else %}
+                {{ product.title | split: '|' | first }}
+                {% endif %} 
+                
+              </h1> 
+              <div class="shopify-product-rating">
+                <div class="star-rating">
+                  <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+                </div>
+                
+              </div> 
+              
+              {% if settings.product_availability %}
+              <div class="product-inventory">  
+                <span {% if settings.language_enable %}data-translate="products.product.availability"{% endif %}>{{ 'products.product.availability' | t }} </span> 
+                <span class="in-stock">
+                  {% if product.selected_or_first_available_variant.inventory_management %}
+                  {% assign first_inventory = product.selected_or_first_available_variant.inventory_quantity %}
+                  {% if first_inventory > 0 %}
+                  {{first_inventory}} {{ 'products.product.in_stock' | t }}
+                  {% else %}
+                  {{ 'products.product.out_of_stock' | t }}
+                  {% endif %}
+                  {% else %}
+                  {{ 'products.product.many_in_stock' | t }}
+                  {% endif %}
+                </span>
+              </div> 
+              {% endif %}
+              {%- if settings.product_countdown != blank and product.description contains '[countdown]' -%}  
+              {%- assign count_down_first = product.description | split:'[/countdown]' | first -%}
+              {%- assign count_down_final = count_down_first | split:'[countdown]' | last -%}
+              <div class="woodmart-product-countdown woodmart-timer" data-end-date="{{ count_down_final }}" data-timezone="GMT"></div> 
+              {%- endif -%}  
+              {% if settings.product_short_desc != '0'%}
+              <div class="shopify-product-details__short-description">
+                <div class="short-description 12121">
+                  {%- assign description = product.description -%}  
+                  {%- if product.description contains '[shortdesc]' and settings.product_short_desc == '1' -%} 
+                    {%- assign first = description | split:'[/shortdesc]' | first -%} 
+                    {%- assign description = first | split:'[shortdesc]' | last -%} 
+                  {%- else -%}
+                    {%- if product.description contains '[countdown]' -%}
+                    	{%- assign description = description | split:'[/countdown]' | last -%}  
+                  	{%- endif -%}
+                    {%- if product.description contains '[shortdesc]' -%}
+                    	{%- assign description = description | split:'[/shortdesc]' | last -%}  
+                  	{%- endif -%}
+                    {%- if product.description contains '[additional]' -%}
+                    	{%- assign description = description | split:'[/additional]' | last -%}  
+                  	{%- endif -%}
+                    {%- if settings.product_short_desc == '1' -%}  
+                      {%- assign description = description | strip_html | truncatewords: 30 -%}
+                    {%- endif -%}
+                  {%- endif -%}  
+                  {%- if settings.language_enable -%}
+                  <div class="lang1">{{ description | split: '[lang2]' | first | remove:'[des]' }}</div>
+                  <div class="lang2">{{ description | split: '[lang2]' | last | remove:'[des]' }}</div>
+                  {%- else -%}
+                  {{ description | split: '[lang2]' | first | remove:'[des]' }}
+                  {%- endif -%}  
+                </div>
+              </div> 
+              {% endif %} 
+               <div class="price-box"> 
+                
+                <span class="price">
+                  {% if variant_tmp.compare_at_price > variant_tmp.price %} 
+                  <del><span class="shopify-Price-amount amount"><span class="money">{{ product.compare_at_price | money }}</span></span></del> 
+                  <ins><span class="shopify-Price-amount amount"><span class="money">{{ product.price | money }}</span></span></ins>
+                  {% else %}
+                  <span class="shopify-Price-amount amount"><span class="money">{{ product.price | money }}</span></span>
+                  {% endif %}
+                </span>
+                <meta itemprop="priceCurrency" content="{{ shop.currency }}" /> 
+                {% if product.available %}
+                <link itemprop="availability" href="http://schema.org/InStock" />
+                {% else %}
+                <link itemprop="availability" href="http://schema.org/OutOfStock" />
+                {% endif %}
+                
+              </div> 
+              <div class="product-type-main">  
+                <form class="product-form" id="product-main-form" action="/cart/add" method="post" enctype="multipart/form-data" data-product-id="{{product.id}}" data-id="{{ product.handle }}"> 
+                  <div id="product-variants" class="product-options" {% if product.options.size == 1 and product.options.first == 'Title' %}style="display: none;"{% endif %}> 
+                    <select id="product-selectors" name="id" style="display: none;">
+                      {% for variant in product.variants %}
+                      {% if variant.available %}
+                      <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}</option>
+                      {% else %}
+                      <option disabled="disabled">
+                        {{ variant.title }} - {{'products.product.sold_out' | t}}
+                      </option>
+                      {% endif %}
+                      {% endfor %}
+                    </select> 
+                  </div>
+                  {%- if settings.catalog_mode_enable == blank -%}
+                  <div class="single_variation_wrap">				
+                    <div class="shopify-variation-add-to-cart variations_button shopify-variation-add-to-cart-disabled">
+                      <div class="quantity"> 
+                        <input type="button" value="-" class="minus" onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty > 1 ) result.value--;return false;">
+                        <input type="number" id="qty" name="quantity" value="1" min="1" class="input-text qty text" size="4"> 
+                        <input type="button" value="+" class="plus" onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty )) result.value++;return false;">
+                      </div>
+                      {% if product.available %}
+                        <button type="submit" name="add" class="single_add_to_cart_button button">  
+                          <span {% if settings.language_enable %}data-translate="products.product.add_to_cart"{% endif %}>{{ 'products.product.add_to_cart' | t }}</span>
+                        </button> 
+                      {% else %} 
+                        <button href="javascript:;" class="button" disabled>
+                          <span>
+                            <span {% if settings.language_enable %}data-translate="products.product.sold_out"{% endif %}>{{ 'products.product.sold_out' | t }}</span>
+                          </span>
+                        </button> 
+                      {% endif %}
+                    </div>
+                  </div>
+                  {%- endif -%}
+                </form> 
+              </div>
+              {% include 'product-actions-link'%} 
+              {%- if settings.product_tab_summary != blank and settings.product_tab_type == 'accordion' -%}
+              {% section 'in-section-product-page-tab' %}
+              {%- endif -%}
+            
+              
+              {%- if settings.product_layout == 'default' -%}
+              <div class="product_meta"> 
+                {%- if settings.product_sku -%}
+                  {%- assign current_variant = product.selected_or_first_available_variant -%}
+                  <span class="sku_wrapper"><b {% if settings.language_enable %}data-translate="products.product.sku"{% endif %}>{{ 'products.product.sku' | t }} </b><span class="sku">{% if current_variant.sku != blank %}{{ current_variant.sku }}{% else %}{{ 'products.product.sku_na' | t }}{% endif %}</span></span>
+                {%- endif -%} 
+                {%- if settings.product_type -%}
+                  <div class="product-type">
+                    <label {% if settings.language_enable %}data-translate="products.product.product_type"{% endif %}>{{ 'products.product.product_type' | t }} </label>
+                    <span>{{ product.type }}</span>
+                  </div>
+                {%- endif -%}
+                {%- if settings.product_vendor -%}
+                  <div class="product-vendor"> 
+                    <label {% if settings.language_enable %}data-translate="products.product.product_vendor"{% endif %}>{{ 'products.product.product_vendor' | t }} </label> 
+                    <span>{{ product.vendor }}</span>
+                  </div>
+                {%- endif -%}   
+                {%- if settings.product_category -%}
+                  <span class="posted_in"><label {% if settings.language_enable %}data-translate="products.product.product_category"{% endif %}>{{ 'products.product.product_category' | t }}</label> 
+                    &nbsp;
+                    {%- for collection in product.collections limit:10 -%}
+                    {{ collection.title | link_to: collection.url }}{%- if forloop.last == false -%}<span class="meta-sep">,</span>{%- endif -%}
+                    {%- endfor -%}
+                  </span>
+                {%- endif -%}
+                {%- if settings.product_tags -%}         
+                  <div class="tags">
+                    <span class="icon-tags" {% if settings.language_enable %}data-translate="blogs.article.tags"{% endif %}><label>{{ 'blogs.article.tags' | t }} : </label></span> 
+                     &nbsp;
+                    {%- for tag in product.tags -%}
+                      
+                    <a href="/collections/all/{{ tag | handle }}" rel="tag">{{ tag }}</a>
+                    {%- if forloop.last == false -%}<span class="meta-sep">,&nbsp;</span>{%- endif -%}
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%} 
+              </div>
+              {%- if settings.product_button_share != blank -%}
+              <div class="product-share">
+                {{ product.global.ingredients_content }}
+                <span class="share-title" {% if settings.language_enable %}data-translate="products.product.button_share"{% endif %}>{{ 'products.product.button_share' | t }}:</span>
+                <div class="woodmart-social-icons text-center icons-design-default icons-size-small color-scheme-dark social-share social-form-circle">
+                  {%- assign _url = shop.url | append: product.url -%}
+                  {%- include 'social-sharing', share_url: _url -%}
+                </div>
+              </div>
+              
+              {%- endif -%}
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      </div>
+      {%- if settings.product_sidebar != '0' -%}
+      <div class="sidebar-container {{class_sidebar}} sidebar-{{settings.product_sidebar}} area-sidebar-product-single">
+        <div class="sidebar-inner woodmart-sidebar-scroll">
+          <div class="widget-area woodmart-sidebar-content">
+            {%- if settings.product_sidebar_brand_use != blank -%}
+            <div class="woodmart-product-brands">
+              <div class="woodmart-product-brand">
+                <a href="{{settings.product_sidebar_brand_url}}">
+                  {%- if settings.product_sidebar_brand != blank -%}
+                  <img src="{{settings.product_sidebar_brand | img_url:'180x'}}" title="{{settings.product_sidebar_brand.alt}}" alt="{{settings.product_sidebar_brand.alt}}">
+                  {%- endif -%}
+                </a>
+              </div>
+            </div>
+            {%- endif -%}
+            
+            
+            <div class="product-tabs-wrapper"> 
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 poduct-tabs-inner">
+          {%- if settings.product_tab_summary == blank and settings.product_tab_type == 'accordion' -%} 
+          {% section 'in-section-product-page-tab' %}
+          {%- endif -%}
+          {%- if settings.product_tab_summary == blank and settings.product_tab_type == 'tabs' -%}
+          {% section 'in-section-product-page-tab' %}
+          {%- endif -%}
+          {%- if settings.product_tab_summary != blank and settings.product_tab_type == 'tabs' -%}
+          {% section 'in-section-product-page-tab' %}
+          {%- endif -%} 
+          {%- if settings.product_tab_summary != blank and settings.product_review_fullwidth != blank and settings.product_tab_type == 'accordion' -%}
+          
+          {%- endif -%}  
+        </div>
+      </div>
+    </div>
+  </div>
+            
+            {%- if settings.product_sidebar_collection_use != blank -%}
+<!--             <div class="upsells-widget">
+              {%- if settings.settings.product_sidebar_collection_title != '' -%}
+              <h5 class="widget-title">
+                {%- if settings.language_enable -%}
+                <span class="lang1">{{ settings.product_sidebar_collection_title | split: '|' | first }}</span>
+                <span class="lang2">{{ settings.product_sidebar_collection_title | split: '|' | last }}</span>
+                {%- else -%}
+                {{ settings.product_sidebar_collection_title | split: '|' | first }}
+                {%- endif -%}
+              </h5>
+              {%- endif -%}
+              <ul class="product_list_widget">
+                {%- assign limit = settings.product_sidebar_collection_limit -%}   
+                {%- assign name_collection = settings.product_sidebar_collection -%}
+                {%- if name_collection == blank -%}{%- assign name_collection = "all" -%}{%- endif -%}
+                {%- assign collection = collections[name_collection] -%} 
+                {%- for product in collection.products limit: limit -%} 
+                {%- assign on_sale = false -%}
+                {%- if product.compare_at_price_min > product.price_min -%}
+                {%- assign on_sale = true -%}
+                {%- endif -%}
+                <li class="small-product-content">
+                  <div class="product-pseudo-wrap"></div>
+                  <div class="product-small-inner">
+                    <a href="{{ product.url | within: collection }}">
+                      <img width="200" height="230" src="{{ product.featured_image.src | img_url: '200x230' }}" class="attachment-shop_thumbnail size-shop_thumbnail" alt="">
+                    </a>
+                    <div class="small-product-info">
+                      <span class="product-title">
+                        {%- if settings.language_enable -%}
+                        <span class="lang1">{{ product.title | split: '|' | first }}</span>
+                        <span class="lang2">{{ product.title | split: '|' | last }}</span>
+                        {%- else -%}
+                        {{ product.title | split: '|' | first }}
+                        {%- endif -%}
+                      </span>
+                      <div class="price"> 
+                        {%- if on_sale -%}
+                        {%- if product.price_varies -%}
+                        {%- assign sale_price = product.price | money -%}
+                        <span class="money">
+                          {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
+                        </span>
+                        {%- else -%} 
+                        <div class="special-price">
+                          <span class="money">{{ product.price | money }}</span>
+                        </div>
+                        {%- endif -%}
+                        {%- else -%}
+                        {%- if product.price_varies -%}
+                        {%- assign price = product.price | money -%}
+                        <span class="money">{{ 'products.general.from_text_html' | t: price: price }}</span>
+                        {%- else -%}
+                        <span class="money">
+                          {{ product.price | money }}
+                        </span>
+                        {%- endif -%}
+                        {%- endif -%}
+                        {%- if sold_out -%}
+                        <span class="money">{{ 'products.product.sold_out' | t }}</span>
+                        {%- endif -%}
+                        {%- if on_sale -%} 
+                        <div class="compare-price">
+                          <span class="money">{{ product.compare_at_price | money }}</span>
+                        </div>
+                        {%- endif -%} 
+                      </div> 
+                    </div>
+                  </div>
+                </li>
+                {%- endfor -%}
+              </ul>
+            </div> -->
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+      {%- endif -%}
+    </div>
+  </div>
+  
+  {% section 'section-info-box2'%}
+  
+  <div class="container-review"> 
+    <div class="container">
+  <div id="wc_review_section" class="wc_review_main_content" data-url="{{ shop.url }}" data-handle="{{ product.handle }}" data-product_id="{{ product.id }}" data-limit="0"></div>
+    </div>
+  </div>
+  
+  {%- if settings.product_layout == 'alt' -%}
+  <div class="woodmart-before-product-tabs">
+    <div class="container">
+      <div class="product_meta"> 
+        {%- if settings.product_sku -%}
+        {%- assign current_variant = product.selected_or_first_available_variant -%}
+        <span class="sku_wrapper"><b {% if settings.language_enable %}data-translate="products.product.sku"{% endif %}>{{ 'products.product.sku' | t }} </b><span class="sku">{% if current_variant.sku != blank %}{{ current_variant.sku }}{% else %}{{ 'products.product.sku_na' | t }}{% endif %}</span></span>
+        {%- endif -%} 
+        {%- if settings.product_type -%}
+        <div class="product-type">
+          <label {% if settings.language_enable %}data-translate="products.product.product_type"{% endif %}>{{ 'products.product.product_type' | t }} </label>
+          <span>{{ product.type }}</span>
+        </div>
+        {%- endif -%}
+        {%- if settings.product_vendor -%}
+        <div class="product-vendor"> 
+          <label {% if settings.language_enable %}data-translate="products.product.product_vendor"{% endif %}>{{ 'products.product.product_vendor' | t }} </label> 
+          <span>{{ product.vendor }}</span>
+        </div>
+        {%- endif -%}   
+        {%- if settings.product_category -%}
+        <span class="posted_in"><label {% if settings.language_enable %}data-translate="products.product.product_category"{% endif %}>{{ 'products.product.product_category' | t }}</label> 
+          &nbsp;
+          {%- for collection in product.collections limit:10 -%}
+          {{ collection.title | link_to: collection.url }}{%- if forloop.last == false -%}<span class="meta-sep">,</span>{%- endif -%}
+          {%- endfor -%}
+        </span>
+        {%- endif -%}
+        {%- if settings.product_tags -%}         
+        <div class="tags">
+          <i class="icon-tags" {% if settings.language_enable %}data-translate="blogs.article.tags"{% endif %}>{{ 'blogs.article.tags' | t }}</i> 
+          {%- for tag in product.tags -%}
+          <span class="separator">/</span>
+          <a href="/collections/all/{{ tag | handle }}" rel="tag">{{ tag }}</a>
+          {%- endfor -%}
+        </div>
+        {%- endif -%} 
+      </div>
+      {%- if settings.product_button_share != blank -%}
+      <div class="product-share">
+        <span class="share-title" {% if settings.language_enable %}data-translate="products.product.button_share"{% endif %}>{{ 'products.product.button_share' | t }}:</span>
+        <div class="woodmart-social-icons text-center icons-design-default icons-size-small color-scheme-dark social-share social-form-circle">
+          {%- assign _url = shop.url | append: product.url -%}
+          {%- include 'social-sharing', share_url: _url -%}
+        </div>
+      </div>
+      {%- endif -%}
+    </div>
+  </div>
+  {%- endif -%}
+</div>
+
+
+
+

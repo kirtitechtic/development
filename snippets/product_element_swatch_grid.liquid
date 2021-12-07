@@ -1,0 +1,23 @@
+<div class="swatches-on-grid">
+  {% for option in product.options %}
+  {% if option == 'Color' %}
+  {% assign index = forloop.index0 %}
+  {% assign colorlist = '' %}
+  {% assign color = '' %}
+  {% for variant in product.variants %}
+  {% capture color %}
+  {{ variant.options[index] }}
+  {% endcapture %}
+  {% unless colorlist contains color %} 
+  {% if variant.image.src != blank %}
+  <div class="swatch-on-grid woodmart-tooltip swatch-has-image swatch-size-default" style="background-image: url({{ color | downcase | strip_newlines | strip_html | remove: '  ' | append: '.png' | replace: ' ', '-' | asset_url }})" data-image-src="{{ variant.image.src | img_url: image_size, crop: 'center' }}" data-original-title="" title="">{{color}}</div>
+  {% endif %}
+  {% capture tempList %}
+  {{colorlist | append: color | append: ' '}}
+  {% endcapture %}
+  {% assign colorlist = tempList %}
+  {% endunless %}
+  {% endfor %}
+  {% endif %}
+  {% endfor %}
+</div>

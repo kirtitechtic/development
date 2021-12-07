@@ -1,0 +1,81 @@
+<div class="container">
+  <div class="wrapp-header" style="min-height: {{settings.header_min_height | remove: 'px' | append: 'px'}};">
+    <div class="header-left-side">
+      <div class="woodmart-burger-icon mobile-nav-icon">
+        <span class="woodmart-burger"></span>
+        <span class="woodmart-burger-label" {% if settings.language_enable %}data-translate="header.settings.menu"{% endif %}>{{ 'header.settings.menu' | t }}</span>
+      </div>
+    </div>
+    <div class="site-logo">
+      <div class="woodmart-logo-wrap">
+        {%- include 'header-logo' -%}
+      </div>
+    </div>
+    <div class="widgetarea-head">
+      {% if settings.language_enable %}
+      <div class="lang1">{{ settings.header_custom_text | split: '|' | first }}</div>
+      <div class="lang2">{{ settings.header_custom_text | split: '|' | last }}</div>
+      {% else %}
+      {{ settings.header_custom_text | split: '|' | first }}
+      {% endif %}
+    </div>
+    <div class="search-extended" {% if settings.header_search_colletion != blank %}style="width: 460px;"{% endif %}> 
+      <form role="search" method="get" class="searchform{% if settings.header_search_background != blank %} search-style-with-bg{% endif %} {% if settings.header_search_colletion != blank %}has-categories-dropdown{% endif %} {% if settings.header_ajax_search != blank %}woodmart-ajax-search{% endif %}" action="/search" data-thumbnail="1" data-price="1" data-post-type="product" data-count="15">
+        <div>
+          <label class="screen-reader-text" for="q"></label>
+          <input type="text" class="s" {% if settings.language_enable %}data-translate="general.search.placeholder"{% endif %} placeholder="{{ 'general.search.placeholder' | t }}" value="" name="q" autocomplete="off" style="padding-right: 65px;">
+          <input type="hidden" name="type" value="product">
+          {%- section 'search-by-category' -%} 
+          <button type="submit" class="searchsubmit" {% if settings.language_enable %}data-translate="general.search.submit"{% endif %}>{{ 'general.search.submit' | t }}</button>
+        </div>
+      </form>
+      <div class="search-info-text"><span {% if settings.language_enable %}data-translate="general.search.info_search"{% endif %}>{{ 'general.search.info_search' | t }}</span></div>
+      <div class="search-results-wrapper">
+        <div class="woodmart-scroll has-scrollbar">
+          <div class="woodmart-search-results woodmart-scroll-content" tabindex="0">
+            <div class="autocomplete-suggestions" style="position: absolute; max-height: 300px; z-index: 9999; width: 308px; display: flex;"></div>
+          </div>
+        </div>
+        <div class="woodmart-search-loader"></div>
+      </div>
+    </div> 
+    <div class="right-column">
+      {% include 'header-cart' %}
+    </div>
+  </div>
+</div>
+<div class="secondary-header">
+  <div class="container">
+    <div class="secondary-inner">
+      <div class="vertical-navigation header-categories-nav {% if template contains 'index' and settings.header_categories_menu_opened != blank %}opened-menu{% else %}show-on-hover{% endif %}" role="navigation">
+        <span class="menu-opener color-scheme-{{settings.header_categories_menu_color}} has-bg">
+          <span class="menu-open-label">
+            <span class="burger-icon"></span>
+            {% if settings.language_enable %}
+            <span class="lang1">{{ settings.header_category_text | split: '|' | first }}</span>
+            <span class="lang2">{{ settings.header_category_text | split: '|' | last }}</span>
+            {% else %}
+            {{ settings.header_category_text | split: '|' | first }}
+            {% endif %}
+          </span>
+          <span class="arrow-opener"></span>
+        </span>
+        <div class="categories-menu-dropdown woodmart-navigation">
+          <div class="menu-categories-container">
+            {% section 'categories-menu' %}
+          </div>
+        </div>
+      </div>
+      <div class="woodmart-navbar">
+        <div class="site-navigation woodmart-navigation menu-{{settings.header_menu_align}} navigation-style-{{settings.header_menu_style}} main-nav">
+          <div class="menu-main-navigation-container">
+            {% section 'main-menu' %}
+          </div>
+        </div>
+        <div class="right-column"> 
+          {% include 'header-cart' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

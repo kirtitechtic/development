@@ -1,0 +1,451 @@
+{% capture bsscommerce_login_require_template %}{% include 'bsscommerce_login_require' %}{% endcapture %}{% unless bsscommerce_login_require_template contains "Liquid error" %}{{ bsscommerce_login_require_template }}{% endunless %}<!doctype html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="ie9 no-js"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+<head>{{ 'tiny.content.min.css' | asset_url | stylesheet_tag }}
+   
+  <!-- Basic page needs ================================================== -->
+  <meta charset="utf-8">  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+  <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/png" /> 
+  {% if template contains 'index' %}
+  {% if page_title != blank and page_title != 'Welcome' %}
+  
+
+  
+
+<title>{{ page_title }}</title>
+  {% else %}
+  <title>{{ shop.name }}</title>
+  {% endif %}
+  {% elsif template == '404' %}
+  <title>Page Not Found - {{ shop.name }}</title>
+  {% else %}
+  <title>{{ page_title }} - {{ shop.name }}</title>
+  {% endif %}
+
+  {% if page_description %}
+  <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+
+  <!-- Helpers ================================================== -->
+  {% include 'social-meta-tags' %}
+  <link rel="canonical" href="{{ canonical_url }}"> 
+  {% if settings.disable_responsive == 'no'%}
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+  {% endif %}
+  <meta name="theme-color" content="{{ settings.color_primary }}">
+  {{ 'custom_style.css' | asset_url | stylesheet_tag }}
+  {{ 'aditi_style.css' | asset_url | stylesheet_tag }}
+  {{ 'bootstrap.min.css' | asset_url | stylesheet_tag }}
+  <!-- CSS ==================================================+ -->
+  
+  {{ 'woodmart.css' | asset_url | stylesheet_tag }} 
+  {{ 'font-awesome.min.css' | asset_url | stylesheet_tag }} 
+  {{ 'owl.carousel.min.css' | asset_url | stylesheet_tag }} 
+  {{ 'magnific-popup.css' | asset_url | stylesheet_tag }} 
+  {{ 'styles.scss.css' | asset_url | stylesheet_tag }} 
+  {{ 'photoswipe.css' | asset_url | stylesheet_tag }} 
+  {% if template contains 'product' %}
+  {{ 'slick.css' | asset_url | stylesheet_tag }} 
+  {{ 'threesixty.css' | asset_url | stylesheet_tag }} 
+  {%endif%} 
+  {{ 'animate.css' | asset_url | stylesheet_tag }} 
+  {{ 'color-config.scss.css' | asset_url | stylesheet_tag }} 
+  <!-- Header hook for plugins ================================================== -->
+ 
+
+  <!-- Avada FSB Script -->
+ {% include 'avada-fsb-setting' %}
+  <!-- /Avada FSB Script -->
+
+ {{ content_for_header }}{% include 'globo.menu.script' %}
+
+
+  {% include 'oldIE-js' %}
+ 
+  {{ 'vendor.js' | asset_url | script_tag }}
+  {{ 'bootstrap.min.js' | asset_url | script_tag }} 
+  {% if template contains 'customers' %}
+  {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+  {% endif %}
+  {%- if settings.body_font != '' and settings.body_font_type == 'google' -%}
+  <link href="https://use.typekit.net/gvz4clw.css" rel='stylesheet' type='text/css'>
+  {%- endif -%}
+  {%- if settings.title_font != '' and settings.title_font_type == 'google' -%}
+  <link href="//fonts.googleapis.com/css?family={{ settings.title_font }}:300italic,400italic,500italic,600italic,700italic,800italic,700,300,600,800,400,500&amp;subset=cyrillic-ext,greek-ext,latin,latin-ext,cyrillic,greek,vietnamese" rel='stylesheet' type='text/css'>
+  {%- endif -%}
+  {%- if settings.title_font_products != '' and settings.title_font_products_type == 'google' -%}
+  <link href="//fonts.googleapis.com/css?family={{ settings.title_font_products }}:300italic,400italic,500italic,600italic,700italic,800italic,700,300,600,800,400,500&amp;subset=cyrillic-ext,greek-ext,latin,latin-ext,cyrillic,greek,vietnamese" rel='stylesheet' type='text/css'>
+  {%- endif -%}
+  {%- if settings.title_font_widget != '' and settings.title_font_widget_type == 'google' -%}
+  <link href="//fonts.googleapis.com/css?family={{ settings.title_font_widget }}:300italic,400italic,500italic,600italic,700italic,800italic,700,300,600,800,400,500&amp;subset=cyrillic-ext,greek-ext,latin,latin-ext,cyrillic,greek,vietnamese" rel='stylesheet' type='text/css'>
+  {%- endif -%}
+  {%- if settings.title_font_banner != '' and settings.title_font_banner_type == 'google' -%}
+  <link href="//fonts.googleapis.com/css?family={{ settings.title_font_banner }}:300italic,400italic,500italic,600italic,700italic,800italic,700,300,600,800,400,500&amp;subset=cyrillic-ext,greek-ext,latin,latin-ext,cyrillic,greek,vietnamese" rel='stylesheet' type='text/css'>
+  {%- endif %}
+  {%- if settings.font_menu != '' and settings.font_menu_type == 'google' -%}
+  <link href="//fonts.googleapis.com/css?family={{ settings.font_menu }}:300italic,400italic,500italic,600italic,700italic,800italic,700,300,600,800,400,500&amp;subset=cyrillic-ext,greek-ext,latin,latin-ext,cyrillic,greek,vietnamese" rel='stylesheet' type='text/css'>
+  {%- endif -%}
+  {%- assign _custom_font = 'custom' -%}
+  {%- if settings.body_font_type == 'google' and settings.title_font_type == 'google' and settings.title_font_products_type == 'google' and settings.title_font_widget_type == 'google' and settings.title_font_banner_type == 'google' and settings.font_menu_type == 'google' -%}
+  {%- assign _custom_font = 'google' -%}
+  {%- endif -%}
+  {%- if _custom_font == 'custom' -%}
+  <style>
+    
+    @font-face {
+      font-family: 'Glaciall';
+      src: url({{'GlacialIndifference-Regular.eot' | asset_url}});
+      src: url({{'GlacialIndifference-Regular.eot' | asset_url}}) format('embedded-opentype'),url({{'GlacialIndifference-Regular.woff2' | asset_url}}) format('woff2'),url({{'GlacialIndifference-Regular.woff' | asset_url}}) format('woff'),url({{'GlacialIndifference-Regular.ttf' | asset_url}}) format('truetype'),url({{'GlacialIndifference-Regular.svg' | asset_url}}) format('svg');
+      font-weight: 400;
+      font-style: normal
+    }
+
+    @font-face {
+      font-family: 'Glaciall';
+      src: url({{'GlacialIndifference-Bold.eot' | asset_url}});
+      src: url({{'GlacialIndifference-Bold.eot' | asset_url}}) format('embedded-opentype'),url({{'GlacialIndifference-Bold.woff2' | asset_url}}) format('woff2'),url({{'GlacialIndifference-Bold.woff' | asset_url}}) format('woff'),url({{'GlacialIndifference-Bold.ttf' | asset_url}}) format('truetype'),url({{'GlacialIndifference-Bold.svg' | asset_url}}) format('svg');
+      font-weight: 600;
+      font-style: bold
+    }
+    @font-face {
+      font-family: "HKGrotesk-Pro";
+      src: url({{'HKGroteskPro-RegularLegacy.eot' | asset_url}});
+      src: url("{{'HKGroteskPro-RegularLegacy.eot' | asset_url}}#iefix") format("embedded-opentype"),url({{'HKGroteskPro-Regular.woff' | asset_url}}) format("woff"),url({{'HKGroteskPro-Regular.woff2' | asset_url}}) format("woff2"),url({{'HKGroteskPro-Regular.ttf' | asset_url}}) format("truetype"),url("{{'HKGroteskPro-Regular.svg' | asset_url}}#HKGrotesk-Pro") format("svg");
+      font-weight: 400;
+      font-style: normal
+    }
+
+    @font-face {
+      font-family: "HKGrotesk-Pro";
+      src: url({{'HKGroteskPro-SemiBold.eot' | asset_url}});
+      src: url("{{'HKGroteskPro-SemiBold.eot' | asset_url}}#iefix") format("embedded-opentype"),url({{'HKGroteskPro-SemiBold.woff' | asset_url}}) format("woff"),url({{'HKGroteskPro-SemiBold.woff2' | asset_url}}) format("woff2"),url({{'HKGroteskPro-SemiBold.ttf' | asset_url}}) format("truetype"),url("{{'HKGroteskPro-SemiBold.svg' | asset_url}}#HKGrotesk-Pro") format("svg");
+      font-weight: 600;
+      font-style: normal
+    }
+  </style>
+  {%- endif -%}
+  
+  <script type="text/javascript">
+    var productsObj = {}; 
+    var swatch_color_type = {{ settings.product_swatch_type }}; 
+    var product_swatch_size = '{{settings.product_swatch_size}}';
+    var asset_url = '{{'/' | asset_url}}';
+    var money_format = '<span class="money">{{shop.money_format}}</span>';
+    var multi_language = {{settings.language_enable}};
+    var OSName="Unknown OS";
+    if (navigator.appVersion.indexOf("Win")!=-1) OSName="Windows";
+    if (navigator.appVersion.indexOf("Mac")!=-1) OSName="Mac OS X";
+    if (navigator.appVersion.indexOf("X11")!=-1) OSName="UNIX";
+    if (navigator.appVersion.indexOf("Linux")!=-1) OSName="Linux";
+    $('html').addClass('platform-'+OSName);
+  </script> 
+  {% include 'translator' %}
+  <style>
+    {% if settings.product_swatch_type == '1' or settings.product_swatch_type == '2' %}
+    .single-product-content .product-options .selector-wrapper {
+      display: none;
+    }
+    {% endif %} 
+    {{settings.custom_style_1}}
+    {{settings.custom_style_2}}
+  </style>  
+  {% include 'qikify-contactform' %}
+  {% render 'judgeme_core' %}
+{% render 'weglot_hreftags' %}
+{% render 'weglot_switcher' %}
+{{ 'zify-sizechart.css' | asset_url | stylesheet_tag }}
+{% include 'fa_translate_core' %} 
+ 
+<!--begin-boost-pfs-filter-css-->
+  {% render 'boost-pfs-style' %}
+<!--end-boost-pfs-filter-css-->
+
+
+  <script src="https://shopoe.net/app.js"></script>
+{% include 'wiser' %}{% include 'wiser_popup' %}  {% include 'qikify-navigator' %}
+  {% include 'qikify-smartmenu' %}
+</head>  
+{%- assign overlap_class = '' -%}
+{%- if settings.header_overlap != blank and template != 'product' -%}
+  {%- assign overlap_class = 'woodmart-header-overlap' -%}
+{%- endif -%} 
+{%- if settings.header_overlap_home != blank and template == 'index' -%}
+  {%- assign overlap_class = 'woodmart-header-overlap' -%}
+{%- endif -%} 
+{%- if settings.header_overlap_collection != blank and template == 'collection' and template != 'product' -%}
+  {%- assign overlap_class = 'woodmart-header-overlap' -%}
+{%- endif -%} 
+{%- if settings.header_overlap_blog != blank and template == 'blog' -%}
+  {%- assign overlap_class = 'woodmart-header-overlap' -%}
+{%- endif -%} 
+{%- if settings.header_overlap_article != blank  and template == 'article' -%}
+  {%- assign overlap_class = 'woodmart-header-overlap' -%}
+{%- endif -%} 
+{%- if settings.header_overlap_contact != blank and template == 'page.contact' -%}
+  {%- assign overlap_class = 'woodmart-header-overlap' -%}
+{%- endif -%} 
+{%- if settings.header_overlap_about != blank and template == 'page.about' -%}
+  {%- assign overlap_class = 'woodmart-header-overlap' -%}
+{%- endif -%} 
+{%- if settings.header_overlap_faq != blank and template == 'page.faqs' -%}
+  {%- assign overlap_class = 'woodmart-header-overlap' -%}
+{%- endif -%} 
+{%- if settings.header_overlap_landing != blank and template == 'page.landing' -%}
+  {%- assign overlap_class = 'woodmart-header-overlap' -%}
+{%- endif -%} 
+{%- if settings.header_overlap_account != blank and template == 'customers/login' -%}
+  {%- assign overlap_class = 'woodmart-header-overlap' -%}
+{%- endif -%}  
+{%- case settings.header_design -%}
+{%- when 'shop' -%}
+{%- assign sticky_class = 'sticky-header-real' -%} 
+{%- when 'split' -%}
+{%- assign sticky_class = 'sticky-header-real' -%} 
+{%- when 'menu-top' -%}
+{%- assign sticky_class = '' -%}
+{%- else -%} 
+{%- assign sticky_class = 'sticky-header-clone' -%}
+{%- endcase -%}  
+<script src="{{ 'storepickupcr.js' | asset_url }}" defer="defer"></script>
+<body id="{{ page_title | handle }}" class="page-template-default wrapper-{{settings.site_width}} {% if settings.footer_sticky_on != blank %} sticky-footer-on{% endif %} {% include 'product-layout-class' %} menu-style-{{setttings.header_menu_style}} {% if settings.collection_ajax_use != blank %}woodmart-ajax-shop-on{% endif %} {% if customer %}customer-logged-in {% endif %} template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }} {% if settings.boxed == 'boxed' %}boxed{% endif %} {% if settings.header_topbar_disable != blank %}woodmart-top-bar-off{% else %}woodmart-top-bar-on{% endif %} {% if settings.catalog_mode_enable != blank %}catalog-mode-on{% endif %} menu-style-{{settings.header_menu_style}} offcanvas-sidebar-mobile offcanvas-sidebar-tablet {% if settings.collection_sidebar_hide_desktop != blank %}offcanvas-sidebar-desktop{% endif %} woodmart-light btns-shop-light btns-accent-hover-light btns-accent-light btns-shop-hover-light btns-accent-{{settings.btns_accent_style}} {% if settings.form_style_rounded != blank %}form-style-rounded{% endif %} {% if settings.btns_shop_style != 'none' %}btns-shop-{{settings.btns_shop_style}}{% endif %} {% if template contains 'cart'%}shopify-cart{% endif %} {% if settings.header_sticky_enable != 'disable' %}enable-sticky-header{% endif%} {{sticky_class}} {% if settings.header_search_widget == 'fullscreent' %}global-search-full-screen{% endif %} woodmart-header-{{settings.header_design}} {{overlap_class}} {% if settings.header_fullwidth != blank %}header-full-width{% endif %} {% if settings.header_design == 'menu-top'%}sticky-navigation-only{% endif %} {% if settings.header_banner_enable != blank %}header-banner-enabled{% endif %}"> 
+  <!-- begin site-header -->
+  {%- section 'mobile-menu' -%}
+  {%- if settings.shoping_cart_position == 'sidebar' -%}
+  {%- include 'widget-shoping-cart' -%}
+  {%- endif -%}
+  {%- include 'header-banner-link' -%}
+  <div class="website-wrapper">  
+    {% include 'header' %}
+    <!-- //site-header -->  
+    {% if template contains 'index' %}
+      <div class="main-page-wrapper">
+        <div class="container">
+          <div class="row content-layout-wrapper">
+            <div class="site-content col-sm-12">
+              {{ content_for_layout }}
+            </div>
+          </div>
+        </div>
+      </div> 
+    {% else %}
+      {{ content_for_layout }}
+    {% endif %}
+    <!-- begin site-footer --> 
+    {% include 'footer' %} 
+  </div>
+  <div class="woodmart-close-side"></div>
+  <!-- //site-footer --> 
+  {% include 'newsletter-popup' %} 
+  {%- if settings.scroll_top_use != blank -%}
+  <a href="#" class="scrollToTop">Scroll To Top</a>
+  {%- endif -%}
+  <script type="text/javascript">
+    var woodmart_settings = {};
+    woodmart_settings.enableCurrency = {{ settings.currency_enable }};
+    woodmart_settings.ajax_cart_enable = {{ settings.ajax_cart_use }};
+    woodmart_settings.header_banner_version = '{{settings.header_banner_version}}';
+    woodmart_settings.header_banner_close_btn = {{settings.header_banner_button_close}};
+    woodmart_settings.header_banner_enabled = {{settings.header_banner_enable}};
+    woodmart_settings.product_media = {};
+    woodmart_settings.cart_data = {};
+    woodmart_settings.cart_data.shoping_cart_action = '{{settings.shoping_cart_action}}';
+    woodmart_settings.product_data = {};
+    woodmart_settings.wishlist_data = {}; 
+    woodmart_settings.compare_data = {};
+    woodmart_settings.search = {};
+    woodmart_settings.search.ajax_search = {{settings.header_ajax_search}};
+    woodmart_settings.search.search_by_collection = {{settings.header_search_colletion}};
+    woodmart_settings.newsletter_enable = '{{settings.newsletter_enable}}';
+    woodmart_settings.newsletter_show_after = '{{settings.newsletter_show_after}}';
+    woodmart_settings.newsletter_hidden_mobile = {{settings.newsletter_hidden_mobile}};
+    woodmart_settings.newsletter_time_delay = {{settings.newsletter_time_delay}};
+    woodmart_settings.newsletter_scroll_delay = {{settings.newsletter_scroll_delay}};
+    woodmart_settings.newsletter_on_page = '{{settings.newsletter_on_page}}';
+    {% if template contains 'product' %}
+    woodmart_settings.product_media.lightbox = {{ settings.media_zoom_lightbox_enable }}; 
+    woodmart_settings.product_media.product_image_lightbox_icon = {{settings.product_image_lightbox_icon}};
+    {%- if settings.product_image_thumb_position == 'none' -%}
+    woodmart_settings.product_media.product_image_thumb_slider = false;
+    {%- else -%}
+    woodmart_settings.product_media.product_image_thumb_slider = true;
+    {%- endif -%}
+    woodmart_settings.product_media.product_image_thumb_position = '{{settings.product_image_thumb_position}}';
+    {%- if settings.product_image_thumb_position == 'bottom_column' or settings.product_image_thumb_position == 'bottom_grid' or settings.product_image_thumb_position == 'bottom_combined' -%}
+    woodmart_settings.product_media.product_image_gallery_slider = false;
+    {%- else -%}
+    woodmart_settings.product_media.product_image_gallery_slider = {{settings.product_image_gallery_slider}};
+    {%- endif -%}
+    {% endif %}
+    woodmart_settings.product_data.product_swatch_setting = {{settings.product_swatch_setting}};
+    if (multi_language && translator.isLang2()) {
+      woodmart_settings.product_data.share_fb = window.lang2.products.product.share_fb;
+      woodmart_settings.product_data.tweet = window.lang2.products.product.share_tweet;
+      woodmart_settings.product_data.pin_it = window.lang2.products.product.share_pin_it;
+      woodmart_settings.product_data.download_image = window.lang2.products.product.share_download;
+    }else{ 
+      woodmart_settings.product_data.share_fb = '{{'products.product.share_fb' | t}}';
+      woodmart_settings.product_data.tweet = '{{'products.product.share_tweet' | t}}';
+      woodmart_settings.product_data.pin_it = '{{'products.product.share_pin_it' | t}}';
+      woodmart_settings.product_data.download_image = '{{'products.product.share_download' | t}}';
+    }
+    if (multi_language && translator.isLang2()) {
+      woodmart_settings.product_data.in_stock = window.lang2.products.product.in_stock;
+      woodmart_settings.product_data.out_of_stock = window.lang2.products.product.out_of_stock;
+      woodmart_settings.product_data.add_to_cart = window.lang2.products.product.add_to_cart;
+      woodmart_settings.product_data.sold_out = window.lang2.products.product.sold_out;
+      woodmart_settings.product_data.sku_na = window.lang2.products.product.sku_na;
+      woodmart_settings.cart_data.totalNumb = window.lang2.cart.header.total_numb;
+      woodmart_settings.cart_data.buttonViewCart = window.lang2.cart.header.view_cart;
+      woodmart_settings.cart_data.continueShop = window.lang2.cart.header.continue_shopping;
+      woodmart_settings.cart_data.addedCart = window.lang2.cart.header.added_cart;
+      window.inventory_text = {
+        in_stock: window.lang2.products.product.in_stock,
+        many_in_stock: window.lang2.products.product.many_in_stock,
+        out_of_stock: window.lang2.products.product.out_of_stock,
+        add_to_cart: window.lang2.products.product.add_to_cart,
+        sold_out: window.lang2.products.product.sold_out
+      };
+      window.date_text = {
+        year_text: window.lang2.general.date.year_text,
+        month_text: window.lang2.general.date.month_text,
+        week_text: window.lang2.general.date.week_text,
+        day_text: window.lang2.general.date.day_text,
+        year_singular_text: window.lang2.general.date.year_singular_text,
+        month_singular_text: window.lang2.general.date.month_singular_text,
+        week_singular_text: window.lang2.general.date.week_singular_text,
+        day_singular_text: window.lang2.general.date.day_singular_text,
+        hour_text: window.lang2.general.date.hour_text,
+        min_text: window.lang2.general.date.min_text,
+        sec_text: window.lang2.general.date.sec_text,
+        hour_singular_text: window.lang2.general.date.hour_singular_text,
+        min_singular_text: window.lang2.general.date.min_singular_text,
+        sec_singular_text: window.lang2.general.date.sec_singular_text
+      };
+      woodmart_settings.wishlist_data.wishlist = window.lang2.wish_list.general.wishlist;
+      woodmart_settings.wishlist_data.product = window.lang2.wish_list.general.product;
+      woodmart_settings.wishlist_data.quantity = window.lang2.wish_list.general.quantity;
+      woodmart_settings.wishlist_data.options = window.lang2.wish_list.general.options;
+      woodmart_settings.wishlist_data.remove = window.lang2.wish_list.general.remove;
+      woodmart_settings.wishlist_data.no_item = window.lang2.wish_list.general.no_item;
+      woodmart_settings.wishlist_data.item_exist = window.lang2.wish_list.general.item_exist;
+      woodmart_settings.wishlist_data.item_added = window.lang2.wish_list.general.item_added;
+      woodmart_settings.compare_data.compare = window.lang2.compare_list.general.wishlist;
+      woodmart_settings.compare_data.product = window.lang2.compare_list.general.product;
+      woodmart_settings.compare_data.quantity = window.lang2.compare_list.general.quantity;
+      woodmart_settings.compare_data.options = window.lang2.compare_list.general.options;
+      woodmart_settings.compare_data.remove = window.lang2.compare_list.general.remove;
+      woodmart_settings.compare_data.no_item = window.lang2.compare_list.general.no_item;
+      woodmart_settings.compare_data.item_exist = window.lang2.compare_list.general.item_exist;
+      woodmart_settings.compare_data.item_added = window.lang2.compare_list.general.item_added;
+      woodmart_settings.login_btn_text = window.lang2.customer.login.submit;
+      woodmart_settings.register_btn_text = window.lang2.customer.register.submit;
+    }else{ 
+      woodmart_settings.product_data.in_stock = '{{'products.product.in_stock' | t}}';
+      woodmart_settings.product_data.out_of_stock = '{{'products.product.out_of_stock' | t}}';
+      woodmart_settings.product_data.add_to_cart = '{{'products.product.add_to_cart' | t}}';
+      woodmart_settings.product_data.sold_out = '{{'products.product.sold_out' | t}}';
+      woodmart_settings.product_data.sku_na = '{{'products.product.sku_na' | t}}';
+      woodmart_settings.cart_data.totalNumb = '{{ 'cart.header.total_numb' | t }}';
+      woodmart_settings.cart_data.buttonViewCart = '{{ 'cart.header.view_cart' | t }}';
+      woodmart_settings.cart_data.continueShop = '{{ 'cart.header.continue_shopping' | t }}'; 
+      woodmart_settings.cart_data.addedCart = '{{ 'cart.header.added_cart' | t }}';
+      window.inventory_text = {
+        in_stock: "{{ 'products.product.in_stock' | t }}",
+        many_in_stock: "{{ 'products.product.many_in_stock' | t }}",
+        out_of_stock: "{{ 'products.product.out_of_stock' | t }}",
+        add_to_cart: "{{ 'products.product.add_to_cart' | t }}",
+        sold_out: "{{ 'products.product.sold_out' | t }}"
+      }; 
+
+      window.date_text = {
+        year_text: "{{ 'general.date.year_text' | t }}",
+        month_text: "{{ 'general.date.month_text' | t }}",
+        week_text: "{{ 'general.date.week_text' | t }}",
+        day_text: "{{ 'general.date.day_text' | t }}",
+        year_singular_text: "{{ 'general.date.year_singular_text' | t }}",
+        month_singular_text: "{{ 'general.date.month_singular_text' | t }}",
+        week_singular_text: "{{ 'general.date.week_singular_text' | t }}",
+        day_singular_text: "{{ 'general.date.day_singular_text' | t }}",
+        hour_text: "{{ 'general.date.hour_text' | t }}",
+        min_text: "{{ 'general.date.min_text' | t }}",
+        sec_text: "{{ 'general.date.sec_text' | t }}",
+        hour_singular_text: "{{ 'general.date.hour_singular_text' | t }}",
+        min_singular_text: "{{ 'general.date.min_singular_text' | t }}",
+        sec_singular_text: "{{ 'general.date.sec_singular_text' | t }}"
+      }; 
+      woodmart_settings.wishlist_data.wishlist = '{{'wish_list.general.wishlist' | t}}';
+      woodmart_settings.wishlist_data.product = '{{'wish_list.general.product' | t}}';
+      woodmart_settings.wishlist_data.quantity = '{{'wish_list.general.quantity' | t}}';
+      woodmart_settings.wishlist_data.options = '{{'wish_list.general.options' | t}}';
+      woodmart_settings.wishlist_data.remove = '{{'wish_list.general.remove' | t}}';
+      woodmart_settings.wishlist_data.no_item = '{{'wish_list.general.no_item' | t}}';
+      woodmart_settings.wishlist_data.item_exist = '{{'wish_list.general.item_exist' | t}}';
+      woodmart_settings.wishlist_data.item_added = '{{'wish_list.general.item_added' | t}}';
+      woodmart_settings.compare_data.compare = '{{'compare_list.general.compare' | t}}';
+      woodmart_settings.compare_data.product = '{{'compare_list.general.product' | t}}';
+      woodmart_settings.compare_data.quantity = '{{'compare_list.general.quantity' | t}}';
+      woodmart_settings.compare_data.options = '{{'compare_list.general.options' | t}}';
+      woodmart_settings.compare_data.remove = '{{'compare_list.general.remove' | t}}';
+      woodmart_settings.compare_data.no_item = '{{'compare_list.general.no_item' | t}}';
+      woodmart_settings.compare_data.item_exist = '{{'compare_list.general.item_exist' | t}}';
+      woodmart_settings.compare_data.item_added = '{{'compare_list.general.item_added' | t}}'; 
+      woodmart_settings.login_btn_text = '{{'customer.login.submit' | t}}';
+      woodmart_settings.register_btn_text = '{{'customer.register.submit' | t}}';
+    }  
+  </script> 
+  {% if template == 'collection' or template contains 'collection.' %}
+    {{ 'shopify_common.js' | asset_url | script_tag }} 
+    {{ 'jquery.history.min.js' | asset_url | script_tag }}
+    {% if settings.collection_pagination == 'infinit' %}
+    {{ 'waypoints.min.js' | asset_url | script_tag }} 
+    {% endif %}
+  {% endif %}
+  {% if template == 'blog' or template contains 'blog' %}
+    {% if settings.blog_pagination == 'infinit' %}
+    {{ 'waypoints.min.js' | asset_url | script_tag }} 
+    {% endif %}
+  {% endif %}
+  {{ 'theme-scripts.js' | asset_url | script_tag }}  
+  {{ "jquery.zoom.min.js" | asset_url | script_tag }} 
+  {{ "photoswipe.min.js" | asset_url | script_tag }}
+    {% if template contains 'product' %}
+    {{ "slick.min.js" | asset_url | script_tag }}
+    {{ "threesixty.min.js" | asset_url | script_tag }}
+  {%endif%} 
+  {{ 'option_selection.js' | asset_url | script_tag }}  
+  {{ 'theme.js' | asset_url | script_tag }}
+  {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+  {% include 'currency' %} 
+  <script> 
+    $(function() {
+      {% if newHash %}
+      form.updateHash('{{ newHash }}');
+      {% endif %}
+      {% if resetPassword %}
+      form.resetPasswordSuccess(); 
+      {% endif %}
+    });
+  </script>  
+  {% include 'wishlist-modal' %}
+  {% include 'compare-modal' %}
+  {% include 'photoswipe' %} 
+
+
+
+{% include 'gtranslate', float: 'yes' %}
+
+<!-- Restock Alerts Snippet Start -->
+{% render 'restock-alerts' %}
+<!-- Restock Alerts Snippet End -->
+{{ '//cdn.shopify.com/s/files/1/0194/1736/6592/t/1/assets/booster-page-speed-optimizer.js?23' | script_tag }}
+<script src='{{ 'zify-sizechart.js' | asset_url }}' defer='defer'></script>
+{% include 'booster-recommendation' %}
+
+<!--begin-boost-pfs-js-->
+  {% render 'boost-pfs' %}
+<!--end-boost-pfs-js-->
+{% render 'th-product-review' %}
+  
+  

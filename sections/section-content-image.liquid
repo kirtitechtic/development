@@ -1,0 +1,325 @@
+{%- case section.settings.section_layout -%}
+{%- when '0' -%}
+{%- capture data_fullwidth -%}{%- endcapture -%}
+{%- when '1' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true"{%- endcapture -%}
+{%- when '2' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- when '3' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- endcase -%} 
+<div data-section-id="{{ section.id }}" data-section-type="newsletter-section">
+  <div {{data_fullwidth}} class="vc_row wpb_row vc_row-fluid {% if section.settings.hide_background_mobile != blank %}mobile-bg-img-hidden{% endif %} vc_custom_{{section.id}} vc_row-has-fill woodmart-bg-center-center {% if section.settings.section_layout == '3' %}vc_row-no-padding{% endif %} woodmart-bg-left-top" style="margin-top:{{section.settings.margin_top | remove: 'px' | append: 'px' }}; margin-bottom:{{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.padding}};">
+    <div class="wpb_column vc_column_container vc_col-sm-7 vc_col-lg-6 vc_col-md-6 vc_col-xs-12">
+      <div class="vc_column-inner vc_custom_1497354312965">
+        <div class="wpb_wrapper">
+          {%- if section.settings.heading1 != '' -%}
+          <h4 style="font-size: 24px;color: #8e8e8e;text-align: left;font-family:Lato;font-weight:300;font-style:normal" class="vc_custom_heading visible-lg vc_custom_1497354086228">
+            {%- if settings.language_enable -%}
+            <span class="lang1">{{ section.settings.heading1 | split: '|' | first }}</span>
+            <span class="lang2">{{ section.settings.heading1 | split: '|' | last }}</span>
+            {%- else -%}
+            {{ section.settings.heading1 | split: '|' | first }}
+            {%- endif -%}
+          </h4>
+          {%- endif -%}
+          {%- if section.settings.heading2 != '' -%}
+          <h4 style="font-size: 30px;text-align: left" class="vc_custom_heading vc_custom_1496392459873">
+            {%- if settings.language_enable -%}
+            <span class="lang1">{{ section.settings.heading2 | split: '|' | first }}</span>
+            <span class="lang2">{{ section.settings.heading2 | split: '|' | last }}</span>
+            {%- else -%}
+            {{ section.settings.heading2 | split: '|' | first }}
+            {%- endif -%}
+          </h4>
+          {%- endif -%}
+          {%- if section.settings.heading_content != '' -%}
+          <div class="wpb_text_column wpb_content_element  vc_custom_1496412868095 text-larger">
+            <div class="wpb_wrapper">
+              {%- if settings.language_enable -%}
+              <div class="lang1">{{ section.settings.heading_content | split: '[lang2]' | first }}</div>
+              <div class="lang2">{{ section.settings.heading_content | split: '[lang2]' | last }}</div>
+              {%- else -%}
+              {{ section.settings.heading_content | split: '[lang2]' | first }}
+              {%- endif -%} 
+            </div>
+          </div>
+          {%- endif -%}
+          {%- if section.settings.button_title_1 != '' -%}
+          <div class="woodmart-button-wrapper text-center btn-inline">
+            <a href="{{section.settings.button_link_1}}" title="" class="btn btn-color-primary btn-style-default btn-size-default">
+              {%- if settings.language_enable -%}
+              <span class="lang1">{{ section.settings.button_title_1 | split: '|' | first }}</span>
+              <span class="lang2">{{ section.settings.button_title_1 | split: '|' | last }}</span>
+              {%- else -%}
+              {{ section.settings.button_title_1 | split: '|' | first }}
+              {%- endif -%}
+            </a>
+          </div>
+          {%- endif -%}
+          {%- if section.settings.button_title_2 != '' -%}
+          <div class="woodmart-button-wrapper text-center btn-inline">
+            <a href="{{section.settings.button_link_2}}" title="" class="btn btn-color-default btn-style-bordered btn-size-default">
+              {%- if settings.language_enable -%}
+              <span class="lang1">{{ section.settings.button_title_2 | split: '|' | first }}</span>
+              <span class="lang2">{{ section.settings.button_title_2 | split: '|' | last }}</span>
+              {%- else -%}
+              {{ section.settings.button_title_2 | split: '|' | first }}
+              {%- endif -%}
+            </a>
+          </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+  {%- if section.settings.section_layout != '0' -%}
+  <div class="vc_row-full-width vc_clearfix"></div>
+  {%- endif -%}
+  <style>
+    .vc_custom_{{section.id}} { 
+      border-top-width: 0px !important; 
+      {%- if section.settings.background_image != blank -%}
+      background-image: url({{section.settings.background_image | img_url: 'master'}}) !important;
+      background-position: {{section.settings.background_position | replace: '_', ' ' }} !important;
+      background-repeat: {{section.settings.background_image_repeat}} !important;
+      background-size: {{section.settings.background_size}} !important;
+      background-attachment: {{section.settings.background_attachment}} !important;
+      {%- endif -%}
+      background-color: {{section.settings.background_color}};
+    }
+    .vc_custom_1497354312965 {
+      padding-top: 0px !important;
+      padding-right: 5% !important;
+    }
+    .vc_custom_1496392459873 {
+      margin-bottom: 15px !important;
+    }
+    .vc_custom_1496412868095 {
+      margin-bottom: 30px !important;
+    }
+    .vc_custom_1497354086228 {
+      margin-bottom: 5px !important;
+    }
+  </style>
+</div>
+{% schema %}
+{
+  "name": "Content Image",
+  "settings": [ 
+    {
+      "type": "header", 
+      "content": "Section Settings"
+    },
+    {
+      "type": "select",
+      "id": "section_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "0",
+          "label": "Default"
+        },
+        {
+          "value": "1",
+          "label": "Fullwidth row"
+        },
+        {
+          "value": "2",
+          "label": "Fullwidth row and content"
+        },
+        {
+          "value": "3",
+          "label": "Fullwidth row and content (no padding)"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color", 
+	  "default": "transparent"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section background image" 
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_background_mobile",
+      "label": "Hide background image on mobile?", 
+	  "default": true
+    },
+    {
+      "type": "select",
+      "id": "background_image_repeat",
+      "label": "Background Repeat",
+      "options": [
+        {
+          "value": "no-repeat",
+          "label": "No Repeat"
+        },
+        {
+          "value": "repeat-x",
+          "label": "Repeat x (Repeat Horizontal)"
+        },
+        {
+          "value": "repeat-y",
+          "label": "Repeat y (Repeat Verticle)"
+        },
+        {
+          "value": "repeat",
+          "label": "Repeat All"
+        }
+      ],
+      "default": "no-repeat"
+    },
+    {
+      "type": "select",
+      "id": "background_size",
+      "label": "Background Size",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "background_attachment",
+      "label": "Background Attachment",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "fixed",
+          "label": "Fixed"
+        },
+        {
+          "value": "scroll",
+          "label": "Scroll"
+        },
+        {
+          "value": "inherit",
+          "label": "Inherit"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "background_position",
+      "label": "Background Position",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "left_top",
+          "label": "Left Top"
+        },
+        {
+          "value": "left_center",
+          "label": "Left Center"
+        },
+        {
+          "value": "left_bottom",
+          "label": "Left Bottom"
+        },
+        {
+          "value": "center_top",
+          "label": "Center Top"
+        },
+        {
+          "value": "center_center",
+          "label": "Center Center"
+        },
+        {
+          "value": "center_bottom",
+          "label": "Center Bottom"
+        }
+      ],
+      "default": "center_center"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section Margin Top",
+	  "info": "45px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section Margin Bottom",
+      "default" : "0",
+	  "info": "45px"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Section Padding",
+      "default" : "100px 0 100px 0",
+      "info": "Ex:(40px 40px 40px) (top right bottom left)"
+    },
+    {
+      "type": "text",
+      "id": "heading1",
+      "label": "Heading 1",
+      "default": "ALL-IN-ONE ECOMMERCE SOLUTION"
+    },
+    {
+      "type": "text",
+      "id": "heading2",
+      "label": "Heading 2",
+      "default": "ABOUT OUR WOODMART STORE"
+    },
+    {
+      "type": "textarea",
+      "id": "heading_content",
+      "label": "Content",
+      "default": "<p style=\"text-align: left;\">Nec  adipiscing luctus consequat penatibus parturient massa cubilia etiam a adipiscing enigm dignissim congue egestas sapien a. Scelerisque ac non ut ac bibendum himenaeos ullamcorper justo himenaeos vel a sapien quis.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_title_1",
+      "label": "Button Title 1",
+      "default": "Read More"
+    },
+    {
+      "type": "url",
+      "id": "button_link_1",
+      "label": "Button Link 1" 
+    },
+    {
+      "type": "text",
+      "id": "button_title_2",
+      "label": "Button Title 2",
+      "default": "Contact Us"
+    },
+    {
+      "type": "url",
+      "id": "button_link_2",
+      "label": "Button Link 2" 
+    }
+  ], 
+  "presets": [{
+    "name": "Content Background Image",
+    "category": "Banner"
+  }]
+}
+{% endschema %}

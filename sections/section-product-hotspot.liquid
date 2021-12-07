@@ -1,0 +1,856 @@
+{%- case section.settings.section_layout -%}
+{%- when '0' -%}
+{%- capture data_fullwidth -%}{%- endcapture -%}
+{%- when '1' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true"{%- endcapture -%}
+{%- when '2' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- when '3' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- endcase -%} 
+{%- case settings.collection_aspect_ratio -%}
+{%- when '1' -%}
+  {%- assign image_width = settings.collection_ratio_width -%}
+  {%- assign image_height = '' -%} 
+{%- else -%}
+  {%- assign image_width = settings.collection_ratio_width -%}
+  {%- assign image_height = settings.collection_ratio_height -%}
+{%- endcase -%}  
+{%- if settings.collection_different_grid == false -%}
+  {%- capture image_size -%}{{ image_width }}x{{ image_height }}{%- endcapture -%}
+{%- endif -%}
+<div class="product-grid" data-section-id="{{ section.id }}" data-section-type="image-hotspot-section">
+  <div {{data_fullwidth}} id="image-hotspot-{{section.id}}" class="vc_row wpb_row vc_row-fluid {% if section.settings.hide_background_mobile != blank %}mobile-bg-img-hidden{% endif %} vc_custom_{{section.id}} vc_row-has-fill {% if section.settings.section_layout == '3' %}vc_row-no-padding{% endif %}" style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="wpb_column vc_column_container vc_col-sm-12">
+      <div class="vc_column-inner">
+        <div class="wpb_wrapper">
+          <div class="vc_row wpb_row vc_row-fluid vc_custom_1534487651375 vc_row-has-fill vc_row-o-content-middle vc_row-flex">
+            {%- capture banner_layout -%}
+            <div class="wpb_column vc_column_container vc_col-sm-12 vc_col-lg-8 vc_col-md-12">
+              <div class="vc_column-inner vc_custom_1533804479805">
+                <div class="wpb_wrapper">
+                  <div class="woodmart-image-hotspot-wrapper hotspot-action-hover hotspot-icon-{{section.settings.banner_icon_design}} color-scheme-{{section.settings.banner_layout}}">
+                    <div class="woodmart-image-hotspot-hotspots">
+                      {%- if section.settings.banner_image != blank -%}
+                      {%- assign img_url = section.settings.banner_image | img_url: '1100x825' -%}
+                      {%- else -%}
+                      {%- assign img_url = '1100x825.png' | asset_url -%}
+                      {%- endif -%}
+                      <img src="{{ img_url }}" alt="{{ section.settings.banner_image.alt }}" class="woodmart-image-hotspot-img attachment-full"/> 
+                      {%- if section.blocks.size > 0 -%}  
+                      {%- for block in section.blocks -%}
+                        {%- if block.settings.product_item != blank  -%}
+                        {%- assign product = all_products[block.settings.product_item] -%}
+                        <div class="woodmart-image-hotspot hotspot-type-product" style="left: {{block.settings.left | remove: '%' | append: '%' }}; top: {{block.settings.top | remove: '%' | append: '%' }};">
+                          <span class="hotspot-sonar"></span>
+                          <div class="hotspot-btn"></div>
+                          <div class="hotspot-product hotspot-content hotspot-dropdown-{{block.settings.dropdown_position}}">
+                            <div class="hotspot-content-image">
+                              <a href="{{ product.url | within: collection }}">
+                                <img src="{{ product.featured_image.src | img_url: image_size, crop: 'center' }}" class="attachment-shopify_thumbnail size-shopify_thumbnail wp-post-image" alt="">
+                              </a>
+                            </div>
+                            <h4 class="hotspot-content-title">
+                              <a href="{{ product.url | within: collection }}">
+                                {% if settings.language_enable %}
+                                <span class="lang1">{{ product.title | split: '|' | first }}</span>
+                                <span class="lang2">{{ product.title | split: '|' | last }}</span>
+                                {% else %}
+                                {{ product.title | split: '|' | first }}
+                                {% endif %}
+                              </a>
+                            </h4>
+                            <span class="price">
+                              {% if on_sale %} 
+                              <del><span class="shopify-Price-amount amount"><span class="money">{{ product.compare_at_price | money }}</span></span></del> 
+                              <ins><span class="shopify-Price-amount amount"><span class="money">{{ product.price | money }}</span></span></ins>
+                              {% else %}
+                              <span class="shopify-Price-amount amount"><span class="money">{{ product.price | money }}</span></span>
+                              {% endif %}
+                            </span>
+                            <div class="hotspot-content-text reset-mb-10">
+                              {%- assign short_desc = product.description -%}  
+                              {%- if short_desc contains '[shortdesc]' -%} 
+                                {%- assign first = short_desc | split:'[/shortdesc]' | first -%} 
+                                {%- assign short_desc = first | split:'[shortdesc]' | last -%} 
+                                {%- assign short_desc = short_desc -%} 
+                              {%- else -%} 
+                                {%- if short_desc contains '[additional]' -%}
+                                    {%- assign short_desc = short_desc | split:'[/additional]' | last -%}  
+                                {%- endif -%}  
+                                {%- assign short_desc = short_desc | strip_html | truncatewords: 30-%} 	
+                              {%- endif -%}  
+                              {%- if settings.language_enable -%} 
+                              <div class="lang1">{{ short_desc | strip_html | split: '[lang2]' | first | truncatewords: 12 }}</div>
+                              <div class="lang2">{{ short_desc | strip_html | split: '[lang2]' | last | truncatewords: 12}}</div>
+                              {%- else -%}
+                              {{ short_desc | split: '[lang2]' | strip_html | first | truncatewords: 12 }}
+                              {%- endif -%} 
+                            </div>
+                            {%- if settings.catalog_mode_enable == blank -%}
+                              {%- if product.available -%}
+                                {%- if product.variants.size > 1 -%} 
+                            	  {%- assign purl = product.url | within: collection -%} 
+                                  <a href="{{ purl }}" class="button product_type_variable add_to_cart_button add-to-cart-loop">  
+                                    <span {% if settings.language_enable %}data-translate="products.product.select_options"{% endif %}>{{ 'products.product.select_options' | t }}</span>
+                                  </a>
+                                {%- else -%} 
+                                  <a rel="nofollow" href="{{ product.url | within: collection }}" data-pid="{{ product.variants.first.id }}" class="button product_type_simple add_to_cart_button {% if settings.ajax_cart_use != blank %}ajax_add_to_cart{% endif %} add-to-cart-loop"><span {% if settings.language_enable %}data-translate="products.product.add_to_cart"{% endif %}>{{ 'products.product.add_to_cart' | t }}</span></a>
+                              {%- endif -%}
+                              {%- else -%}
+                              <a href="{{ product.url | within: collection }}" class="button product_type_variable add_to_cart_button add-to-cart-loop"> 
+                                <span {% if settings.language_enable %}data-translate="products.product.sold_out"{% endif %}>{{ 'products.product.sold_out' | t }}</span> 
+                              </a>
+                              {%- endif -%}
+                            {%- endif -%} 
+                          </div>
+                        </div>
+                        {%- endif -%} 
+                      {%- endfor -%} 
+                      {%- endif -%}  
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {%- endcapture -%}
+            {%- if section.settings.banner_position == 'left' -%}
+              {{banner_layout}}
+            {%- endif -%}
+            <div class="wpb_column vc_column_container vc_col-sm-12 vc_col-lg-4 vc_col-md-12{% if section.settings.hidden_tablet != blank %} vc_hidden-md{% endif %}{% if section.settings.hidden_phone != blank %} vc_hidden-sm{% endif %}">
+              <div class="vc_column-inner vc_custom_1533808544328">
+                <div class="wpb_wrapper">
+                  <div class="title-wrapper woodmart-title-color-{{section.settings.heading_color}} woodmart-title-style-{{section.settings.heading_style}} woodmart-title-size-{{section.settings.heading_size}} woodmart-title-width-{{section.settings.heading_width}} text-{{section.settings.heading_postion}}">
+                    {%- if section.settings.heading_top != '' -%}
+                    <div class="title-subtitle font-default style-{{section.settings.heading_style}}">
+                      {%- if settings.language_enable -%}
+                      <span class="lang1">{{ section.settings.heading_top | split: '|' | first }}</span>
+                      <span class="lang2">{{ section.settings.heading_top | split: '|' | last }}</span>
+                      {%- else -%}
+                      {{ section.settings.heading_top | split: '|' | first }}
+                      {%- endif -%}
+                    </div>
+                    {%- endif -%} 
+                    {%- if section.settings.title != '' -%}
+                    <div class="liner-continer">
+                      <span class="left-line"></span>
+                      <h4 class="woodmart-title-container title  woodmart-font-weight-">
+                        {%- if settings.language_enable -%}
+                        <span class="lang1">{{ section.settings.title | split: '|' | first }}</span>
+                        <span class="lang2">{{ section.settings.title | split: '|' | last }}</span>
+                        {%- else -%}
+                        {{ section.settings.title | split: '|' | first }}
+                        {%- endif -%}
+                      </h4>
+                      <span class="right-line"></span>
+                    </div>
+                    {%- endif -%}
+                    {%- if section.settings.heading_content != '' -%}
+                    <div class="title-after_title">
+                      {%- if settings.language_enable -%}
+                      <span class="lang1">{{ section.settings.heading_content | split: '|' | first }}</span>
+                      <span class="lang2">{{ section.settings.heading_content | split: '|' | last }}</span>
+                      {%- else -%}
+                      {{ section.settings.heading_content | split: '|' | first }}
+                      {%- endif -%}
+                    </div>
+                    {%- endif -%}
+                    <style> 
+                      {%- if section.settings.heading_top == '' and section.settings.title == '' and section.settings.heading_content == '' -%}
+                      .vc_custom_{{section.id}} .title-wrapper {
+                        margin-bottom: 0;
+                      }
+                      {%- endif -%} 
+                    </style>
+                  </div>
+                  <div class="vc_row wpb_row vc_inner vc_row-fluid">
+                    <div class="wpb_column vc_column_container vc_col-sm-8 vc_col-sm-offset-2">
+                      <div class="vc_column-inner">
+                        <div class="wpb_wrapper">
+                          <div id="slide_{{section.id}}" class="woodmart-carousel-container{% if section.settings.rating_enable == blank %} without-stars{% endif %} slider-type-product woodmart-carousel-spacing-20">
+                            <div class="data-carousel" data-items="1" data-auto="{{ section.settings.carousel_autoplay }}" data-paging="{{ section.settings.carousel_pagination }}" data-loop="{{section.settings.carousel_loop}}" data-320="1" data-480="1" data-768="1" data-992="1" data-1200="1" data-margin="0" data-nav="{{ section.settings.carousel_navigation }}" data-prev='' data-next='' style="display: none;"></div>
+                            <div class="owl-carousel owl-items-lg-1 owl-items-md-1 owl-items-sm-1 owl-items-xs-1">
+                              {%- case section.settings.hover_product -%}
+                                {%- when 'base' -%}
+                                  {%- assign pl_include = 'section_hover_product_base' -%} 
+                                {%- when 'alt' -%}
+                                  {%- assign pl_include = 'section_hover_product_alt' -%}
+                                {%- when 'info' -%}
+                                  {%- assign pl_include = 'section_hover_product_info' -%}
+                                {%- when 'info-alt' -%}
+                                  {%- assign pl_include = 'section_hover_product_info_alt' -%}
+                                {%- when 'button' -%}
+                                  {%- assign pl_include = 'section_hover_product_button' -%}
+                                {%- when 'icon' -%}
+                                  {%- assign pl_include = 'section_hover_product_icon' -%}
+                                {%- when 'standard' -%}
+                                  {%- assign pl_include = 'section_hover_product_standard' -%} 
+                                {%- when 'quick' -%}
+                                  {%- assign pl_include = 'section_hover_product_quick' -%} 
+                                {%- when 'tiled' -%}
+                                  {%- assign pl_include = 'section_hover_product_tiled' -%}
+                              {%- endcase -%} 
+                              {%- if section.blocks.size > 0 -%} 
+                                {%- for block in section.blocks -%}
+                                  {%- if block.settings.product_item != blank  -%}
+                                    {%- assign product = all_products[block.settings.product_item] -%}
+                                    {%- assign sold_out = true -%}
+                                    {%- if product.available -%}
+                                      {%- assign sold_out = false -%}
+                                    {%- endif -%}
+                                    {%- assign on_sale = false -%}
+                                    {%- if product.compare_at_price_min > product.price_min -%}
+                                      {%- assign on_sale = true -%}
+                                    {%- endif -%}
+                                    {%- assign variant_tmp = product.selected_or_first_available_variant -%}
+                                    {%- for variant in product.variants -%}
+                                      {%- if variant.available == true and variant.price < variant_tmp.price -%}
+                                        {%- assign variant_tmp = variant -%}	
+                                      {%- endif -%}
+                                    {%- endfor -%}  
+                                    <div class="slide-product owl-carousel-item">
+                                      <div class="owl-carousel-item-inner">
+                                        {%- include pl_include, carousel: true, countdown: section.settings.countdown_enable -%}
+                                      </div>
+                                    </div> 
+                                  {%- endif -%}
+                                {%- endfor-%} 
+                              {%- endif -%}
+                            </div>
+                          </div> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> 
+            </div>
+            {%- if section.settings.banner_position == 'right' -%}
+              {{banner_layout}}
+            {%- endif -%}
+          </div> 
+        </div>
+      </div>
+    </div>
+  </div>
+  {%- if section.settings.section_layout != '0' -%}
+  <div class="vc_row-full-width vc_clearfix"></div>
+  {%- endif -%} 
+  <style>
+    .vc_custom_{{section.id}} { 
+      border-top-width: 0px !important; 
+      {%- if section.settings.background_image != blank -%}
+      background-image: url({{section.settings.background_image | img_url: 'master'}}) !important;
+      background-position: {{section.settings.background_position | replace: '_', ' ' }} !important;
+      background-repeat: {{section.settings.background_image_repeat}} !important;
+      background-size: {{section.settings.background_size}} !important;
+      background-attachment: {{section.settings.background_attachment}} !important;
+      {%- endif -%}
+      background-color: {{section.settings.background_color}};
+      margin-left:0;
+      margin-right: 0;
+    }
+    .vc_custom_1533808544328 {
+      padding-top: 20px!important;
+    }
+    .vc_custom_1533804479805 {
+      padding-top: 0px!important;
+      padding-right: 0px!important;
+      padding-left: 0px!important;
+    }
+    .vc_custom_{{section.id}} .vc_column-inner {
+      padding-top: 0 !important; 
+    }
+  </style>
+</div>
+{%- schema -%}
+{
+  "name": "Product Hotspot",
+  "settings": [
+    {
+      "type": "header", 
+      "content": "Section Settings"
+    },
+    {
+      "type": "select",
+      "id": "section_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "0",
+          "label": "Default"
+        },
+        {
+          "value": "1",
+          "label": "Fullwidth row"
+        },
+        {
+          "value": "2",
+          "label": "Fullwidth row and content"
+        },
+        {
+          "value": "3",
+          "label": "Fullwidth row and content (no padding)"
+        }
+      ],
+      "default": "0"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background color" 
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section background image" 
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_background_mobile",
+      "label": "Hide background image on mobile?", 
+	  "default": false
+    },
+    {
+      "type": "select",
+      "id": "background_image_repeat",
+      "label": "Background Repeat",
+      "options": [
+        {
+          "value": "no-repeat",
+          "label": "No Repeat"
+        },
+        {
+          "value": "repeat-x",
+          "label": "Repeat x (Repeat Horizontal)"
+        },
+        {
+          "value": "repeat-y",
+          "label": "Repeat y (Repeat Verticle)"
+        },
+        {
+          "value": "repeat",
+          "label": "Repeat All"
+        }
+      ],
+      "default": "no-repeat"
+    },
+    {
+      "type": "select",
+      "id": "background_size",
+      "label": "Background Size",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "background_attachment",
+      "label": "Background Attachment",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "fixed",
+          "label": "Fixed"
+        },
+        {
+          "value": "scroll",
+          "label": "Scroll"
+        },
+        {
+          "value": "inherit",
+          "label": "Inherit"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "background_position",
+      "label": "Background Position",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "left_top",
+          "label": "Left Top"
+        },
+        {
+          "value": "left_center",
+          "label": "Left Center"
+        },
+        {
+          "value": "left_bottom",
+          "label": "Left Bottom"
+        },
+        {
+          "value": "center_top",
+          "label": "Center Top"
+        },
+        {
+          "value": "center_center",
+          "label": "Center Center"
+        },
+        {
+          "value": "center_bottom",
+          "label": "Center Bottom"
+        }
+      ],
+      "default": "center_center"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    },
+    {
+      "type": "text",
+      "id": "heading_top",
+      "label": "Heading Top" 
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "MOST POPULAR"
+    },
+    {
+      "type": "textarea",
+      "id": "heading_content",
+      "label": "Content",
+      "default": "Cum cubilia ac fringilla lorem<br> quis himenaeos velit."
+    },  
+    {
+      "type": "select",
+      "id": "heading_style",
+      "label": "Heading Style",
+      "default": "default",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "simple",
+          "label": "Simple"
+        },
+        {
+          "value": "bordered",
+          "label": "Bordered"
+        },
+        {
+          "value": "underlined",
+          "label": "Underlined"
+        },
+        {
+          "value": "shadow",
+          "label": "Shadow"
+        } 
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "default",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "primary",
+          "label": "Primary"
+        },
+        {
+          "value": "alt",
+          "label": "Alt"
+        },
+        {
+          "value": "black",
+          "label": "Black"
+        },
+        {
+          "value": "white",
+          "label": "White"
+        },
+        {
+          "value": "gradient",
+          "label": "Gradient"
+        } 
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_postion",
+      "label": "Heading Text Algin",
+      "default": "center",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        } 
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading Text Size",
+      "default": "medium",
+      "options": [
+        {
+          "value": "custom",
+          "label": "Custom"
+        },
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "extra-large",
+          "label": "Extra Large"
+        }
+      ]
+    }, 
+    {
+      "type": "text",
+      "id": "heading_text_custom",
+      "label": "Heading Text Custom" 
+    }, 
+    {
+      "type": "text",
+      "id": "heading_text_custom_tablet",
+      "label": "Heading Text Custom On Tablet Device" 
+    }, 
+    {
+      "type": "text",
+      "id": "heading_text_custom_phone",
+      "label": "Heading Text Custom On Phone Device" 
+    }, 
+    {
+      "type": "select",
+      "id": "heading_width",
+      "label": "Heading Width",
+      "default": "100",
+      "options": [
+        {
+          "value": "100",
+          "label": "100"
+        },
+        {
+          "value": "90",
+          "label": "90"
+        },
+        {
+          "value": "80",
+          "label": "80"
+        },
+        {
+          "value": "70",
+          "label": "70"
+        },
+        {
+          "value": "60",
+          "label": "60"
+        } ,
+        {
+          "value": "50",
+          "label": "50"
+        },
+        {
+          "value": "40",
+          "label": "40"
+        },
+        {
+          "value": "30",
+          "label": "30"
+        },
+        {
+          "value": "20",
+          "label": "20"
+        },
+        {
+          "value": "10",
+          "label": "10"
+        }
+      ]
+    }, 
+    {
+      "type": "header", 
+      "content": "Product Settings"
+    },
+    {
+      "type": "select",
+      "id": "hover_product",
+      "label": "Hover On Product",
+      "info": "Choose one of those hover effects for products",
+      "options": [
+        {
+          "value": "base",
+          "label": "Base"
+        },
+        {
+          "value": "alt",
+          "label": "Alternative"
+        },
+        {
+          "value": "info",
+          "label": "Full info on image"
+        },
+        {
+          "value": "info-alt",
+          "label": "All info on hover"
+        },
+        {
+          "value": "button",
+          "label": "Button on image"
+        },
+        {
+          "value": "icon",
+          "label": "Icon on image"
+        },
+        {
+          "value": "standard",
+          "label": "Standard button"
+        },
+        {
+          "value": "quick",
+          "label": "Quick shop"
+        },
+        {
+          "value": "tiled",
+          "label": "Tiled"
+        }
+      ],
+      "default": "base"
+    },  
+    {
+      "type": "checkbox",
+      "id": "countdown_enable",
+      "default": false,
+      "label": "Show countdown?"
+    },  
+    {
+      "type": "checkbox",
+      "id": "rating_enable",
+      "default": false,
+      "label": "Show rating?"
+    }, 
+    {
+      "type": "checkbox",
+      "id": "hidden_table",
+      "default": true,
+      "label": "Hidden On Tablet?"
+    },
+    {
+      "type": "checkbox",
+      "id": "hidden_phone",
+      "default": true,
+      "label": "Hidden On Phone?"
+    },
+    {
+      "type": "header",
+      "content": "Carousel Settings"
+    },
+    {
+      "type": "text",
+      "id": "carousel_autoplay",
+      "label": "Autoplay",
+      "default": "5000"
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_pagination",
+      "default": true,
+      "label": "Show pagination control?"
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_navigation",
+      "default": true,
+      "label": "Show prev/next buttons?"
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_loop",
+      "default": true,
+      "label": "Slider loop?",
+      "info": "Enables loop mode."
+    },
+    {
+      "type": "header",
+      "content": "Banner Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner image" 
+    },
+    {
+      "type": "radio",
+      "id": "banner_position",
+      "label": "Banner Position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        } 
+      ],
+      "default": "left"
+    }, 
+    {
+      "type": "radio",
+      "id": "banner_layout",
+      "label": "Banner Layout Color",
+      "options": [
+        {
+          "value": "light",
+          "label": "Light"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        } 
+      ],
+      "default": "dark"
+    }, 
+    {
+      "type": "radio",
+      "id": "banner_icon_design",
+      "label": "Banner Icon Design",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "alt",
+          "label": "Alt"
+        } 
+      ],
+      "default": "default"
+    }
+  ],
+  "blocks": [
+	{
+      "type": "product",
+      "name": "Product Hotsport", 
+      "settings": [   
+        {
+          "type": "header",
+          "content": "General Settings"
+        }, 
+		{
+          "type": "product",
+          "id": "product_item",
+          "label": "Select Product"
+        },
+        {
+          "type": "text",
+          "id": "left",
+          "label": "Position Left",
+          "info": "Set position product on banner.",
+		  "default": "30%"
+        },
+        {
+          "type": "text",
+          "id": "top",
+          "label": "Position Top",
+          "info": "Set position product on banner.",
+		  "default": "30%"
+        },
+        {
+          "type": "select",
+          "id": "dropdown_position",
+          "label": "Dropdown Postion",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            },
+            {
+              "value": "top",
+              "label": "Top"
+            },
+            {
+              "value": "bottom",
+              "label": "Bottom"
+            }
+          ],
+          "default": "right"
+        }
+	  ]
+	} 
+  ],
+  "presets": [
+    {
+      "name": "Products Hotspot",
+      "category": "collection" 
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

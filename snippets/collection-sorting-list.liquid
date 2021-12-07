@@ -1,0 +1,72 @@
+<!-- /snippets/collection-sorting-list.liquid -->  
+<div class="woodmart-show-sidebar-btn">
+  <span class="woodmart-side-bar-icon"></span>
+  <span {% if settings.language_enable %}data-translate="collections.sidebar.sidebar"{% endif %}>{{ 'collections.sidebar.sidebar' | t }}</span>
+</div>
+<div class="woodmart-products-per-page">
+  <span class="per-page-title" {% if settings.language_enable %}data-translate="collections.general.show"{% endif %}>{{ 'collections.general.show' | t }}</span>
+  <a href="{{woodmart_collection_link}}?&view=list" data-page="list" class="per-page-variation {% if check_template_list == false or template.suffix == 'list' %} current-variation{% endif %}"><span>{{settings.collection_products_count}}</span></a>
+  <span class="per-page-border"></span>
+  <a href="{{woodmart_collection_link}}?&view=list_22" data-page="list_22" class="per-page-variation {% if template.suffix == 'list_22' %}current-variation{% endif %}"><span>22</span></a>
+  <span class="per-page-border"></span>
+  <a href="{{woodmart_collection_link}}?&view=list_44" data-page="list_44" class="per-page-variation {% if template.suffix == 'list_44' %}current-variation{% endif %}"><span>44</span></a>
+  <span class="per-page-border"></span>
+  <a href="{{woodmart_collection_link}}?&view=list_all" data-page="list_all" class="per-page-variation {% if template.suffix == 'list_all' %}current-variation{% endif %}"><span {% if settings.language_enable %}data-translate="collections.sorting.all"{% endif %}>{{ 'collections.sorting.all' | t }}</span></a>
+</div>
+<div class="woodmart-products-shop-view products-view-grid_list"> 
+  <a href="{{woodmart_collection_link}}?&view=list{%-if check_template_list and template_suffix != 'list' and template_suffix != 'grid' -%}_{{template_suffix |split:'_'| last}}{%- endif -%}" data-view="list{%-if check_template_list and template_suffix != 'list' and template_suffix != 'grid' -%}_{{template_suffix |split:'_'| last}}{%- endif -%}" class="shop-view per-row-list {%- if check_template_list == false and settings.collection_view_mode == 'list' %} current-variation{%- elsif template contains 'list' %} current-variation{%- endif -%}">
+    <svg version="1.1" id="list-view" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="18" height="18" viewBox="0 0 18 18" enable-background="new 0 0 18 18" xml:space="preserve">
+      <rect width="18" height="2"></rect>
+      <rect y="16" width="18" height="2"></rect>
+      <rect y="8" width="18" height="2"></rect>
+    </svg>
+  </a> 
+  <a href="{{woodmart_collection_link}}?&view=grid{%-if check_template_list and template_suffix != 'list' and template_suffix != 'grid' -%}_{{template_suffix |split:'_'| last}}{%- endif -%}" data-view="grid{%-if check_template_list and template_suffix != 'list' and template_suffix != 'grid' -%}_{{template_suffix |split:'_'| last}}{%- endif -%}" class="per-row-2 shop-view {%- if check_template_list == false and settings.collection_view_mode == 'grid' %} current-variation{%- elsif template contains 'grid' %} current-variation{%- endif -%}">
+    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="19px" height="19px" viewBox="0 0 19 19" enable-background="new 0 0 19 19" xml:space="preserve">
+      <rect width="5" height="5"></rect>
+      <rect x="7" width="5" height="5"></rect>
+      <rect x="14" width="5" height="5"></rect>
+      <rect y="7" width="5" height="5"></rect>
+      <rect x="7" y="7" width="5" height="5"></rect>
+      <rect x="14" y="7" width="5" height="5"></rect>
+      <rect y="14" width="5" height="5"></rect>
+      <rect x="7" y="14" width="5" height="5"></rect>
+      <rect x="14" y="14" width="5" height="5"></rect>
+    </svg>
+  </a>  
+</div> 
+{% if settings.collection_filter_use == blank %}
+<div class="shopify-ordering">
+  <div class="sort-by">
+    <div class="select-new">
+      <div class="select-inner">
+        <form method="get" action="{{woodmart_collection_link}}">
+          {%- assign sort_def = collection.sort_by | default: collection.default_sort_by -%}
+          <select name="sort_by" class="orderby">
+            <option data-value="{{woodmart_collection_link | replace: sort_def, 'manual' }}{{sort_symboy}}sort_by=manual" value="manual"{% if sort_def == "manual" or sort_def == "manual?" %} selected="selected"{% endif %} {% if settings.language_enable %}data-translate="collections.sorting.featured"{% endif %}>{{ 'collections.sorting.featured' | t }}</option>
+            <option data-value="{{woodmart_collection_link | replace: sort_def, 'best-selling' }}{{sort_symboy}}sort_by=best-selling" value="best-selling"{% if sort_def == 'best-selling' or sort_def == "best-selling?" %} selected="selected"{% endif %} {% if settings.language_enable %}data-translate="collections.sorting.best_selling"{% endif %}>{{ 'collections.sorting.best_selling' | t }}</option>
+            <option data-value="{{woodmart_collection_link | replace: sort_def, 'title-ascending' }}{{sort_symboy}}sort_by=title-ascending" value="title-ascending"{% if sort_def == 'title-ascending' or sort_def == "title-ascending?" %} selected="selected"{% endif %} {% if settings.language_enable %}data-translate="collections.sorting.az"{% endif %}>{{ 'collections.sorting.az' | t }}</option>
+            <option data-value="{{woodmart_collection_link | replace: sort_def, 'title-descending' }}{{sort_symboy}}sort_by=title-descending" value="title-descending"{% if sort_def == 'title-descending' or sort_def == "title-descending?" %} selected="selected"{% endif %} {% if settings.language_enable %}data-translate="collections.sorting.za"{% endif %}>{{ 'collections.sorting.za' | t }}</option>
+            <option data-value="{{woodmart_collection_link | replace: sort_def, 'price-ascending' }}{{sort_symboy}}sort_by=price-ascending" value="price-ascending"{% if sort_def == 'price-ascending' or sort_def == "price-ascending?" %} selected="selected"{% endif %} {% if settings.language_enable %}data-translate="collections.sorting.price_ascending"{% endif %}>{{ 'collections.sorting.price_ascending' | t }}</option>
+            <option data-value="{{woodmart_collection_link | replace: sort_def, 'price-descending' }}{{sort_symboy}}sort_by=price-descending" value="price-descending"{% if sort_def == 'price-descending' or sort_def == "price-descending?" %} selected="selected"{% endif %} {% if settings.language_enable %}data-translate="collections.sorting.price_descending"{% endif %}>{{ 'collections.sorting.price_descending' | t }}</option>
+            <option data-value="{{woodmart_collection_link | replace: sort_def, 'created-descending' }}{{sort_symboy}}sort_by=created-descending" value="created-descending"{% if sort_def == 'created-descending' or sort_def == "created-descending?" %} selected="selected"{% endif %} {% if settings.language_enable %}data-translate="collections.sorting.date_descending"{% endif %}>{{ 'collections.sorting.date_descending' | t }}</option>
+            <option data-value="{{woodmart_collection_link | replace: sort_def, 'created-ascending' }}{{sort_symboy}}sort_by=created-ascending" value="created-ascending"{% if sort_def == 'created-ascending' or sort_def == "created-ascending?" %} selected="selected"{% endif %} {% if settings.language_enable %}data-translate="collections.sorting.date_ascending"{% endif %}>{{ 'collections.sorting.date_ascending' | t }}</option>
+          </select> 
+        </form> 
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% if settings.collection_filter_use != blank %}
+<div class="woodmart-filter-buttons">
+  <a href="#" class="open-filters" {% if settings.language_enable %}data-translate="collections.general.filter"{% endif %}>{{ 'collections.general.filter' | t }}</a>
+</div> 
+{% endif %} 
+{%- if settings.collection_ajax_use == false -%}
+<script type="text/javascript">
+  $('.shopify-ordering form' ).on( 'change', 'select.orderby', function() {
+    $( this ).closest( 'form' ).submit();
+  });
+</script>
+{%- endif -%}

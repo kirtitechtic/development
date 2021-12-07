@@ -1,0 +1,9 @@
+<script type="text/javascript" src="https://d354wf6w0s8ijx.cloudfront.net/js/config.js?s=13932073&v=43xgeztu7xbfeie5tqr6kpyv&shop=helsemin.myshopify.com" async></script>
+<script type="text/javascript" src="https://d354wf6w0s8ijx.cloudfront.net/js/tracker.js?s=13932073&v=43xgeztu7xbfeie5tqr6kpyv&shop=helsemin.myshopify.com" async></script>
+<script type="text/javascript" src="https://d354wf6w0s8ijx.cloudfront.net/js/init.js?s=13932073&v=43xgeztu7xbfeie5tqr6kpyv&shop=helsemin.myshopify.com" async></script>
+
+{% comment %} include if theme-migrations assets file exists {% endcomment %}
+{% capture the_snippet_content %}{% render 'sparq-theme-migration' %}{% endcapture %}
+{% unless the_snippet_content contains "Liquid error" %}
+  {% render 'sparq-theme-migration' %}
+{% endunless %}

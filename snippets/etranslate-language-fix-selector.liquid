@@ -1,0 +1,114 @@
+<style>
+  .embed-header-translate-ETranslate-container {
+    display: inline-block;
+  }
+
+  .embed-header-translate-ETranslate {
+    text-transform: uppercase;
+    background-color: transparent;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    display: block;
+    width: auto;
+    border: none;
+    outline: none;
+  }
+</style>
+
+<script>
+  function getLanguageList() {
+    return [
+      {%- for locale in shop.published_locales %}
+      {
+        name: '{{locale.name}}',
+        endonym_name: '{{locale.endonym_name}}',
+        iso_code: '{{locale.iso_code}}',
+        primary: {{locale.primary}},
+      }{% unless forloop.last %},{% endunless -%}
+      {%- endfor %}
+    ];
+  }
+  
+  function dropdown(shopDomain, languages, defaultLocale, currentLocale) {
+    return function (container) {if (languages && languages.length >= 1) {
+        var select = document.createElement('select');
+        select.className = 'embed-header-translate-ETranslate';
+        languages.forEach(function(lang) {
+          var option = document.createElement('option');
+          option.text = lang.iso_code.toLocaleUpperCase();
+          option.value = lang.iso_code;
+          if (currentLocale.toLowerCase() === lang.iso_code.toLowerCase()) {
+            option.selected = true;
+          }
+          select.add(option);
+        });
+
+        select.onchange = function () {
+          var targerValue = this.value;
+          localStorage.setItem('lan_code', targerValue)
+          var pathname = window.location.pathname;
+          if (targerValue === defaultLocale) {
+            var o = '' + shopDomain + pathname.replace('/' + currentLocale, '');
+            window.location.assign(o)
+          } else if (defaultLocale === currentLocale) {
+            var r = shopDomain + '/' + targerValue + pathname;
+            window.location.assign(r)
+          } else {
+            var a = shopDomain + '/' + pathname.replace('/' + currentLocale, targerValue);
+            window.location.assign(a)
+          }
+        }
+        container.appendChild(select);
+      }
+    };
+  }
+
+  function getCurrentLocale(languages, defaultLocale) {
+    var path = window.location.pathname.split('/').filter(function (x) { return x; });
+    if (path && path.length > 0 && languages.find(function (x) { return x.iso_code.toLowerCase() === path[0].toLowerCase(); })) {
+      return path[0];
+    } else {
+      return defaultLocale;
+    }
+  }
+
+  function setLanguageOption() {
+    var languageList = getLanguageList();
+    var shopDomain = 'https://{{shop.domain}}';
+    var primaryLanguage = languageList.find(function (x) { return x.primary; });
+    var defaultLocale = primaryLanguage ? primaryLanguage.iso_code : 'en';
+    var currentLocale = getCurrentLocale(languageList, defaultLocale);
+    var containers = document.querySelectorAll('#embed-header-translate-ETranslate');
+    if (containers && containers.length) {
+      containers.forEach(dropdown(shopDomain, languageList, defaultLocale, currentLocale));
+    }
+  }
+
+  function fixSwitchControl(){
+  	var metaFiles = {{shop.metafields.etranslate.selector_config | json}}
+    if(Number(metaFiles.fix_status)!==0 ){
+    	return true
+    }else if(Number(metaFiles.status)!==0){
+      if(metaFiles.choose_language_selector === 'embedded_selector'){
+        	return true
+      }
+    }else{
+      	return false
+    }
+  }
+
+  documentReady(setLanguageOption);
+
+  function documentReady(fu) {
+   var fix_is_open=fixSwitchControl()
+   if(fix_is_open){
+     	if (document.readyState === 'complete' || document.readyState === 'interactive') {
+     		setTimeout(documentReady(setLanguageOption), 1);
+   		} else {
+      		document.addEventListener('DOMContentLoaded', fu);
+   		}
+   }
+
+  }
+</script>

@@ -1,0 +1,7 @@
+development:
+  password: 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
+  theme_id: "120741560406"
+  store: helsemin.myshopify.com
+  ignore_files:
+  - config/settings_data.json
+  - .gitignore

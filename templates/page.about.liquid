@@ -1,0 +1,150 @@
+<!-- /templates/page.about.liquid -->
+<div class="main-page-wrapper">
+  <div class="container">
+    <div class="row content-layout-wrapper">
+      <div class="site-content col-sm-12">
+      <div class="entry-content">
+        <section data-vc-full-width="true" data-vc-full-width-init="false" class="vc_section vc_custom_1500282709009 vc_section-has-fill vc_row-o-full-height vc_section-o-content-middle vc_section-flex woodmart-row-gradient-enable woodmart-bg-center-center">
+          <div class="woodmart-row-gradient" style="background-image:-webkit-linear-gradient(top , rgba(255, 255, 255, 0.9) , rgba(255, 255, 255, 0) 41%);background-image:-moz-linear-gradient(top , rgba(255, 255, 255, 0.9) , rgba(255, 255, 255, 0) 41%);background-image:-o-linear-gradient(top , rgba(255, 255, 255, 0.9) , rgba(255, 255, 255, 0) 41%);background-image:linear-gradient(top , rgba(255, 255, 255, 0.9) , rgba(255, 255, 255, 0) 41%);background-image:-ms-linear-gradient(top , rgba(255, 255, 255, 0.9) , rgba(255, 255, 255, 0) 41%);"></div>
+          <div class="vc_row wpb_row vc_row-fluid vc_custom_1500277816326">
+            <div class="wpb_column vc_column_container vc_col-sm-6 vc_col-has-fill">
+              <div class="vc_column-inner vc_custom_1500279343630">
+                <div class="wpb_wrapper">
+                  <div id="woodmart-title-id-5a5b26812eeb7" class="title-wrapper  woodmart-title-color-default woodmart-title-style-default woodmart-title-size-extra-large woodmart-title-width-100 text-left ">
+                    <div class="liner-continer">
+                      <span class="left-line"></span>
+                      <h4 class="woodmart-title-container title  woodmart-font-weight-" >
+                        {% if settings.language_enable %}
+                        <span class="lang1">{{ settings.about_name | split: '|' | first }}</span>
+                        <span class="lang2">{{ settings.about_name | split: '|' | last }}</span>
+                        {% else %}
+                        {{ settings.about_name | split: '|' | first }}
+                        {% endif %}
+                      </h4>
+                      <span class="right-line"></span>
+                    </div>
+                  </div>
+                  <div class="vc_row wpb_row vc_inner vc_row-fluid">
+                    {% if settings.language_enable %}
+                    <div class="lang1">{{ settings.about_content | split: '[lang2]' | first }}</div>
+                    <div class="lang2">{{ settings.about_content | split: '[lang2]' | last }}</div>
+                    {% else %}
+                    {{ settings.about_content | split: '[lang2]' | first }}
+                    {% endif %}
+                  </div>
+                  <div class="vc_separator wpb_content_element vc_separator_align_center vc_sep_width_100 vc_sep_pos_align_center vc_separator_no_text vc_custom_1500278392469  vc_custom_1500278392469" >
+                    <span class="vc_sep_holder vc_sep_holder_l">
+                      <span style="border-color:rgb(130,130,130);border-color:rgba(130,130,130,0.22);" class="vc_sep_line"></span>
+                    </span>
+                    <span class="vc_sep_holder vc_sep_holder_r">
+                      <span style="border-color:rgb(130,130,130);border-color:rgba(130,130,130,0.22);" class="vc_sep_line"></span>
+                    </span>
+                  </div>
+                  <div class="vc_row wpb_row vc_inner vc_row-fluid">
+                    <div class="wpb_column vc_column_container vc_col-sm-6">
+                      <div class="vc_column-inner vc_custom_1500278890890">
+                        <div class="wpb_wrapper">
+                          <div class="wpb_text_column wpb_content_element  vc_custom_1500278985869 text-larger" >
+                            <div class="wpb_wrapper">
+                              <p><span {% if settings.language_enable %}data-translate="about.general.follow"{% endif %}>{{ 'about.general.follow' | t }}</span>&nbsp
+                                {%- if settings.social_twitter != '' -%}
+                                <strong><a href="{{settings.social_twitter}}">Twitter</a></strong> 
+                                {%- endif -%}
+                                {%- if settings.social_facebook != '' -%}
+                                <span {% if settings.language_enable %}data-translate="about.general.and"{% endif %}> {{ 'about.general.and' | t }}</span> <strong><a href="{{settings.social_facebook}}">Facebook</a></strong>
+                                {%- endif -%}
+                                {%- if settings.social_google != '' -%}
+                                <span {% if settings.language_enable %}data-translate="about.general.and"{% endif %}> {{ 'about.general.and' | t }}</span> <strong><a href="{{settings.social_google}}">Google Plus</a></strong>
+                                {%- endif -%}
+                                {%- if settings.social_pinterest != '' -%}
+                                <span {% if settings.language_enable %}data-translate="about.general.and"{% endif %}> {{ 'about.general.and' | t }}</span> <strong><a href="{{settings.social_pinterest}}">Pinterest</a></strong>
+                                {%- endif -%}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="wpb_column vc_column_container vc_col-sm-6">
+                      <div class="vc_column-inner vc_custom_1500278885623">
+                        <div class="wpb_wrapper">
+                          <div class="wpb_single_image wpb_content_element vc_align_right  vc_custom_1500278825069">
+                            <figure class="wpb_wrapper vc_figure">
+                              <div class="vc_single_image-wrapper vc_box_border_grey" style="text-align: right;">
+                                <img width="141" height="29" src="{{settings.about_signature_image | img_url: '141x29'}}" class="vc_single_image-img attachment-full" alt="" />
+                              </div>
+                            </figure>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="wpb_column vc_column_container vc_col-sm-6">
+              <div class="vc_column-inner vc_custom_1500275538533">
+                <div class="wpb_wrapper"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <div class="vc_row-full-width vc_clearfix"></div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style type="text/css" data-type="vc_shortcodes-custom-css">
+  .vc_custom_1500282709009 {
+    margin-bottom: 0px !important;
+    padding-top: 20vh !important;
+    padding-bottom: 20vh !important;
+    background-image: url({{ settings.about_image | img_url: 'master' }}) !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important
+  }
+  .vc_custom_1500281055592 {
+    margin-bottom: -70px !important
+  }
+  .vc_custom_1500277816326 {
+    margin-right: 15px !important;
+    margin-left: 15px !important
+  }
+  .vc_custom_1500279343630 {
+    overflow:hidden;
+    padding-top: 40px !important;
+    padding-right: 40px !important;
+    padding-bottom: 10px !important;
+    padding-left: 40px !important;
+    background-color: #fff !important
+  }
+  .vc_custom_1500275538533 {
+    padding-top: 0px !important
+  }
+  .vc_custom_1500278392469 {
+    margin-bottom: 30px !important
+  }
+  .vc_custom_1500283497886 {
+    padding-top: 0px !important
+  }
+  .vc_custom_1500278336090 {
+    margin-bottom: 30px !important
+  }
+  .vc_custom_1500278330561 {
+    margin-bottom: 30px !important
+  }
+  .vc_custom_1500278890890 {
+    margin-bottom: 0px !important
+  }
+  .vc_custom_1500278885623 {
+    margin-bottom: 0px !important
+  }
+  .vc_custom_1500278985869 {
+    margin-bottom: 30px !important
+  }
+  .vc_custom_1500278825069 {
+    margin-bottom: 30px !important
+  }
+</style>

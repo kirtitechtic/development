@@ -1,0 +1,42 @@
+{% if settings.collection_page_heading_use != blank %} 
+{% if settings.collection_bg_image_use != blank and collection.image %} 
+	{% assign collection_img = collection.image.src | collection_img_url: 'master' %} 
+{% else %}
+  {% if settings.collection_background_image != blank %}
+  	{% assign collection_img = settings.collection_background_image | img_url: 'master' %} 
+  {% endif %}
+{% endif %}
+<div class="page-title page-title-default title-size-{{settings.collection_title_size}} color-scheme-{{settings.collection_title_color}} title-design-{{settings.collection_title_design}} {% if settings.collection_title_show == blank %}without-title{% endif %} title-shop" style="background-color: {{settings.collection_background_color}};{% if collection_img %}background-image: url({{ collection_img }});{% endif %}">
+  <div class="container">
+    <div class="nav-shop">
+      <div class="shop-title-wrapper"> 
+        {%- if settings.collection_title_history != blank -%}
+        <a href="javascript:SW.page.backHistory()" class="woodmart-back-btn woodmart-css-tooltip woodmart-tltp">
+          <span class="woodmart-tooltip-label" {% if settings.language_enable %}data-translate="products.product.product_toback"{% endif %}>{{ 'products.product.product_toback' | t }}</span>
+          <span {% if settings.language_enable %}data-translate="products.product.product_toback"{% endif %}>{{ 'products.product.product_toback' | t }}</span>
+        </a>
+        {%- endif -%}
+        {%- if collection.handle and settings.collection_title_show != blank -%} 
+        <h1>
+          {% if settings.language_enable %}
+          <span class="lang1">{{ collection.title | split: '|' | first }}</span>
+          <span class="lang2">{{ collection.title | split: '|' | last }}</span>
+          {% else %}
+          {{ collection.title | split: '|' | first }}
+          {% endif %}
+        </h1>
+        {%- endif -%}
+      </div>
+      {% section 'collection-toplink' %}
+    </div>
+  </div>
+</div>
+<style>
+  .page-title-default { 
+    background-repeat: {{settings.collection_background_image_repeat}};
+    background-size: {{settings.collection_background_size}};
+    background-attachment: {{settings.collection_background_attachment}};
+    background-position: {{settings.collection_background_position | replace: '_', ' ' }};
+  }
+</style>
+{% endif %}

@@ -1,0 +1,64 @@
+{%- assign columns = '3' -%}
+{%- case columns -%}
+{%- when '2' -%}
+{%- assign colum_width = 'col-xs-6 col-sm-4 col-md-6' -%}
+{%- when '3' -%}
+{%- assign colum_width = 'col-xs-6 col-sm-4 col-md-4' -%}
+{%- when '4' -%}
+{%- assign colum_width = 'col-xs-6 col-sm-4 col-md-3' -%}
+{%- when '6' -%}
+{%- assign colum_width = 'col-xs-6 col-sm-4 col-md-2' -%}
+{%- endcase -%}
+<div class="main-page-wrapper">
+  <div class="container">
+    <div class="row content-layout-wrapper">
+      <div class="site-content col-sm-12 content-with-products">
+        <div class="products elements-grid woodmart-products-holder pagination-pagination row grid-columns-3" data-source="main_loop" data-min_price="" data-max_price="">
+          {% for collection in collections %}
+          {% if collection.handle != 'frontpage' and collection.all_products_count > 0 %}
+          <div class=" {{colum_width}} category-grid-item cat-design-{{settings.collection_design}} product-category product first" data-loop="1">
+            <div class="wrapp-category">
+              <div class="category-image-wrapp">
+                {% capture collection_title %}{{ collection.title | escape }}{% endcapture %}
+                <a href="{{ collection.url }}" class="category-image">
+                  {% if collection.image %}
+                  {{ collection.image.src | collection_img_url: '430x490', crop: 'center' | img_tag: collection_title }}
+                  {% else %}
+                  {{ collection.products.first.featured_image | product_img_url: '430x490', crop: 'center' | img_tag: collection_title }}
+                  {% endif %}
+                </a>
+              </div>
+              <div class="hover-mask">
+                <h3 class="category-title">
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ collection.title | split: '|' | first }}</span>
+                  <span class="lang2">{{ collection.title | split: '|' | last }}</span>
+                  {% else %}
+                  {{ collection.title | split: '|' | first }}
+                  {% endif %}
+                  <mark class="count">({{collection.all_products_count}})</mark>
+                </h3>
+                <div class="more-products">
+                  <a href="{{ collection.url }}" {% if settings.language_enable %}data-translate="collections.general.items_with_count|count:{{collection.all_products_count}}"{% endif %}>{{ 'collections.general.items_with_count' | t: count: collection.all_products_count }}</a>
+                </div>
+              </div>
+              <a href="{{ collection.url }}" class="category-link"></a>
+            </div> 
+          </div>
+          {%- case columns -%}
+          {%- when '2' -%}
+          {%- cycle '','<div class="clearfix visible-md-block visible-lg-block"></div>' -%}
+          {%- when '3' -%}
+          {%- cycle '','','<div class="clearfix visible-md-block visible-lg-block"></div>' -%}
+          {%- when '4' -%}
+          {%- cycle '','','','<div class="clearfix visible-md-block visible-lg-block"></div>' -%}
+          {%- when '6' -%}
+          {%- cycle '','','','','','<div class="clearfix visible-md-block visible-lg-block"></div>' -%}
+          {%- endcase -%}
+          {% endif %}
+          {% endfor %} 
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

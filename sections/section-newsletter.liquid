@@ -1,0 +1,526 @@
+{%- case section.settings.section_layout -%}
+{%- when '0' -%}
+{%- capture data_fullwidth -%}{%- endcapture -%}
+{%- when '1' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true"{%- endcapture -%}
+{%- when '2' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- when '3' -%}
+{%- capture data_fullwidth -%}data-vc-full-width="true" data-vc-full-width-init="true" data-vc-stretch-content="true"{%- endcapture -%}
+{%- endcase -%} 
+<div data-section-id="{{ section.id }}" data-section-type="newsletter-section">
+  <div {{data_fullwidth}} class="vc_row wpb_row vc_row-fluid {% if section.settings.hide_background_mobile != blank %}mobile-bg-img-hidden{% endif %} vc_custom_{{section.id}} vc_row-has-fill {% if section.settings.section_layout == '3' %}vc_row-no-padding{% endif %} woodmart-bg-left-top" style="margin-top:{{section.settings.margin_top | remove: 'px' | append: 'px' }}; margin-bottom:{{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.padding}};">
+    <div class="wpb_column vc_column_container vc_col-sm-12">
+      <div class="vc_column-inner vc_custom_1496402347651">
+        <div class="wpb_wrapper">
+          <div id="woodmart-title-id-{{ section.id }}" class="title-wrapper woodmart-title-color-default woodmart-title-style-default woodmart-title-size-{{section.settings.heading_size}} woodmart-title-width-{{section.settings.heading_width}} text-center vc_custom_1496394323731">
+            {%- if section.settings.sub_title != '' -%}
+            <div class="title-subtitle  font-default subtitle-style-{{section.settings.subtitle_style}} subtitle-color-{{section.settings.subtitle_color}} woodmart-font-weight-">
+              {%- if settings.language_enable -%}
+              <span class="lang1">{{ section.settings.sub_title | split: '|' | first }}</span>
+              <span class="lang2">{{ section.settings.sub_title | split: '|' | last }}</span>
+              {%- else -%}
+              {{ section.settings.sub_title | split: '|' | first }}
+              {%- endif -%}
+            </div>
+            {%- endif -%} 
+            {%- if section.settings.heading != '' -%}
+            <div class="liner-continer">
+              <span class="left-line"></span>
+              <h4 class="woodmart-title-container title  woodmart-font-weight-{{section.settings.heading_font_weight}}">
+                {%- if settings.language_enable -%}
+                <span class="lang1">{{ section.settings.heading | split: '|' | first }}</span>
+                <span class="lang2">{{ section.settings.heading | split: '|' | last }}</span>
+                {%- else -%}
+                {{ section.settings.heading | split: '|' | first }}
+                {%- endif -%}
+              </h4>
+              <span class="right-line"></span>
+            </div>
+            {%- endif -%} 
+            {%- if section.settings.heading_size == 'custom' -%}
+            <style>#woodmart-title-id-{{ section.id }} .woodmart-title-container{font-size:{{section.settings.heading_size_custom_desktop | remove: 'px' | append: 'px'}};line-height:{{section.settings.heading_size_custom_desktop | remove: 'px' | plus: 10 | append: 'px'}};}{% if section.settings.heading_size_custom_tablet != '' %}@media (max-width: 1024px){#woodmart-title-id-{{ section.id }} .woodmart-title-container{font-size:{{section.settings.heading_size_custom_tablet | remove: 'px' | append: 'px'}};line-height:{{section.settings.heading_size_custom_tablet | remove: 'px' | plus: 10 | append: 'px'}};}{% endif %}{% if section.settings.heading_size_custom_mobile != '' %}@media (max-width: 767px){#woodmart-title-id-{{ section.id }} .woodmart-title-container{font-size:{{section.settings.heading_size_custom_mobile | remove: 'px' | append: 'px'}};line-height:{{section.settings.heading_size_custom_mobile | remove: 'px' | plus: 10 | append: 'px'}};}{% endif %}</style>
+            {%- endif -%} 
+            <style>
+              #woodmart-title-id-{{ section.id }} .woodmart-title-container {
+                color: {{section.settings.heading_color}};
+              } 
+            </style>
+          </div>
+          <div class="wpb_text_column wpb_content_element  vc_custom_1481108949110">
+            <div class="wpb_wrapper">
+              {%- if settings.newsletter_form_action != blank -%}
+              {%- assign form_action = settings.newsletter_form_action -%}
+              {%- else -%}
+              {%- assign form_action = '#' -%}
+              {%- endif -%} 
+              <form action="{{ form_action }}" method="post" target="_blank" name="mc-embedded-subscribe-form" class="mc4wp-form mc4wp-form-1446 mc4wp-form-submitted mc4wp-form-error">
+                <div class="mc4wp-form-fields">
+                  <p>                        
+                    <input id="fc-email" type="email" value="{% if customer %}{{ customer.email }}{% endif %}" name="EMAIL" class="input-group-field" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}">
+                  </p> 
+                  <p style="margin-bottom: 20px;"><button type="submit" name="subscribe" {% if settings.language_enable %}data-translate="general.newsletter_form.subscribe"{% endif %}>{{ 'general.newsletter_form.subscribe' | t }}</button></p>
+                </div>
+              </form>
+            </div>
+          </div>
+          {%- if section.settings.heading_content != '' -%}
+          <div class="wpb_text_column wpb_content_element  vc_custom_1496396722562">
+            <div class="wpb_wrapper"> 
+              {%- if settings.language_enable -%}
+              <div class="lang1">{{ section.settings.heading_content | split: '[lang2]' | first }}</div>
+              <div class="lang2">{{ section.settings.heading_content | split: '[lang2]' | last }}</div>
+              {%- else -%}
+              {{ section.settings.heading_content | split: '[lang2]' | first }}
+              {%- endif -%} 
+            </div>
+          </div>
+          {%- endif -%}
+          {%- if section.settings.show_social != blank -%}
+          <div class="woodmart-social-icons text-center icons-design-bordered icons-size-small color-scheme-dark social-share social-form-circle">
+            {%- assign _url = shop.url | append: section.settings.link_share -%}
+            {%- include 'social-sharing', share_url: _url -%}
+          </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div> 
+  {%- if section.settings.section_layout != '0' -%}
+  <div class="vc_row-full-width vc_clearfix"></div>
+  {%- endif -%}
+  <style>
+    .vc_custom_{{section.id}} {
+      border-top-width: 1px;
+      border-bottom-width: 1px;
+      {%- if section.settings.background_image != blank -%}
+      background-image: url({{section.settings.background_image | img_url: 'master'}}) !important;
+      background-position: {{section.settings.background_position | replace: '_', ' ' }} !important;
+      background-repeat: {{section.settings.background_image_repeat}} !important;
+      background-size: {{section.settings.background_size}} !important;
+      background-attachment: {{section.settings.background_attachment}} !important;
+      {%- endif -%}
+      background-color: {{section.settings.background_color}};
+      {%- if section.settings.border_color_use != blank -%}
+      border-top-color: rgba(129,129,129,0.2) !important;
+      border-top-style: solid !important;
+      border-bottom-color: rgba(129,129,129,0.2) !important;
+      border-bottom-style: solid !important;
+      {%- endif -%}
+      {{section.settings.custom_style}}
+    }
+    .vc_custom_1496402347651 {
+      padding-top: 0px !important;
+    }
+    .vc_custom_1496394323731 {
+      margin-bottom: 20px !important;
+    }
+    .vc_custom_1481108949110 {
+      margin-bottom: 0px !important;
+    }
+    .vc_custom_1496396722562 {
+      margin-bottom: 0px !important;
+    }
+  </style>
+</div>
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [ 
+    {
+      "type": "header", 
+      "content": "Section Settings"
+    },
+    {
+      "type": "select",
+      "id": "section_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "0",
+          "label": "Default"
+        },
+        {
+          "value": "1",
+          "label": "Fullwidth row"
+        },
+        {
+          "value": "2",
+          "label": "Fullwidth row and content"
+        },
+        {
+          "value": "3",
+          "label": "Fullwidth row and content (no padding)"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color", 
+	  "default": "transparent"
+    },
+    {
+      "type": "checkbox",
+      "id": "border_color_use",
+      "label": "Border color use?", 
+	  "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section background image" 
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_background_mobile",
+      "label": "Hide background image on mobile?", 
+	  "default": true
+    },
+    {
+      "type": "select",
+      "id": "background_image_repeat",
+      "label": "Background Repeat",
+      "options": [
+        {
+          "value": "no-repeat",
+          "label": "No Repeat"
+        },
+        {
+          "value": "repeat-x",
+          "label": "Repeat x (Repeat Horizontal)"
+        },
+        {
+          "value": "repeat-y",
+          "label": "Repeat y (Repeat Verticle)"
+        },
+        {
+          "value": "repeat",
+          "label": "Repeat All"
+        }
+      ],
+      "default": "no-repeat"
+    },
+    {
+      "type": "select",
+      "id": "background_size",
+      "label": "Background Size",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "background_attachment",
+      "label": "Background Attachment",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "fixed",
+          "label": "Fixed"
+        },
+        {
+          "value": "scroll",
+          "label": "Scroll"
+        },
+        {
+          "value": "inherit",
+          "label": "Inherit"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "background_position",
+      "label": "Background Position",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "left_top",
+          "label": "Left Top"
+        },
+        {
+          "value": "left_center",
+          "label": "Left Center"
+        },
+        {
+          "value": "left_bottom",
+          "label": "Left Bottom"
+        },
+        {
+          "value": "center_top",
+          "label": "Center Top"
+        },
+        {
+          "value": "center_center",
+          "label": "Center Center"
+        },
+        {
+          "value": "center_bottom",
+          "label": "Center Bottom"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section Margin Top",
+	  "info": "45px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section Margin Bottom",
+      "default" : "45px",
+	  "info": "45px"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Section Padding",
+      "default" : "30px 0 30px 0",
+      "info": "Ex:(40px 40px 40px) (top right bottom left)"
+    }, 
+    {
+      "type": "text",
+      "id": "sub_title",
+      "label": "Sub Title" 
+    },  
+    {
+      "type": "select",
+      "id": "subtitle_color",
+      "label": "Subtitle Color",
+      "options": [
+      {
+        "value": "default",
+        "label": "Default"
+      }, 
+      {
+        "value": "alt",
+        "label": "Alt"
+      },
+      {
+        "value": "primary",
+        "label": "Primary"
+      }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "subtitle_style",
+      "label": "Subtitle Style",
+      "options": [
+        {
+        "value": "default",
+        "label": "Default"
+        },
+        {
+        "value": "background",
+        "label": "Background"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "JOIN OUR NEWSLETTER NOW"
+    }, 
+    {
+      "type": "text",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#2d2a2a"
+    }, 
+    {
+      "type": "select",
+      "id": "heading_width",
+      "label": "Heading width",
+      "options": [
+        {
+          "value": "10",
+          "label": "10%"
+        },
+        {
+          "value": "20",
+          "label": "20%"
+        },
+        {
+          "value": "30",
+          "label": "30%"
+        },
+        {
+          "value": "40",
+          "label": "40%"
+        },
+        {
+          "value": "50",
+          "label": "50%"
+        },
+        {
+          "value": "60",
+          "label": "60%"
+        },
+        {
+          "value": "70",
+          "label": "70%"
+        },
+        {
+          "value": "80",
+          "label": "80%"
+        },
+        {
+          "value": "90",
+          "label": "90%"
+        },
+        {
+          "value": "100",
+          "label": "100%"
+        } 
+      ],
+      "default": "60"
+    }, 
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading Size",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        }, 
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "extra-large",
+          "label": "Extra-Large"
+        },
+        {
+          "value": "custom",
+          "label": "Custom"
+        }
+      ],
+      "default": "default"
+    },  
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Heading Font Weight",
+      "options": [
+        {
+          "value": "100",
+          "label": "100"
+        },
+        {
+          "value": "200",
+          "label": "200"
+        }, 
+        {
+          "value": "300",
+          "label": "300"
+        },
+        {
+          "value": "400",
+          "label": "400"
+        },
+        {
+          "value": "500",
+          "label": "500"
+        },
+        {
+          "value": "600",
+          "label": "600"
+        },
+        {
+          "value": "700",
+          "label": "700"
+        },
+        {
+          "value": "800",
+          "label": "800"
+        },
+        {
+          "value": "900",
+          "label": "900"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "header", 
+      "content": "Heading Custom Size"
+    }, 
+    {
+      "type": "text",
+      "id": "heading_size_custom_desktop",
+      "label": "Custom title desktop text size ( above 1024px )",
+      "default": "46px"
+    },
+    {
+      "type": "text",
+      "id": "heading_size_custom_tablet",
+      "label": "Custom title tablet text size ( under 1024px )"
+    },
+    {
+      "type": "text",
+      "id": "heading_size_custom_mobile",
+      "label": "Custom title mobile text size ( under 767px )"
+    },
+    {
+      "type": "textarea",
+      "id": "heading_content",
+      "label": "Content",
+      "default": "<p style=\"text-align: center;\">Will be used in accordance with our <a href=\"#\"><strong>Privacy Policy</strong></a></p>"
+    }, 
+    {
+      "type": "html",
+      "id": "custom_style",
+      "label": "Custom Style Section"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "label": "Show social share?", 
+	  "default": false
+    },
+    {
+      "type": "text",
+      "id": "link_share",
+      "label": "Link Share"
+    }
+  ], 
+  "presets": [{
+    "name": "Newsletter",
+    "category": "Newsletter"
+  }]
+}
+{% endschema %}

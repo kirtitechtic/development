@@ -1,0 +1,101 @@
+{%- if settings.product_main_image_size contains 'x' -%}
+{%- assign image_width = settings.product_main_image_size | split:'x' | first -%}  
+{%- assign image_height = settings.product_main_image_size | split:'x' | last -%}  
+{%- else -%}
+{%- assign image_width = settings.product_main_image_size -%}  
+{%- assign image_height = '' -%}  
+{%- endif -%}
+{%- if image_width == blank -%}
+{%- assign image_width = '600'-%} 
+{%- endif -%}
+{%- if image_height == blank -%}
+{%- assign image_height = '600'-%} 
+{%- endif -%}
+
+{%- if settings.product_thumb_size contains 'x' -%}
+{%- assign image_thumb_width = settings.product_thumb_size | split:'x' | first -%}  
+{%- assign image_thumb_height = settings.product_thumb_size | split:'x' | last -%}  
+{%- else -%}
+{%- assign image_thumb_width = settings.product_thumb_size -%}  
+{%- assign image_thumb_height = '' -%}  
+{%- endif -%}
+{%- if image_thumb_width == blank -%}
+{%- assign image_thumb_width = '150'-%} 
+{%- endif -%}
+{%- if image_thumb_height == blank -%}
+{%- assign image_thumb_height = '150'-%} 
+{%- endif -%}
+
+{%- case settings.product_aspect_ratio -%}
+{%- when '1' -%}
+{%- assign image_width = image_width -%}
+{%- assign image_height = '' -%} 
+
+{%- assign image_thumb_width = image_thumb_width -%}
+{%- assign image_thumb_height = '' -%} 
+{%- else -%}
+{%- assign image_width = image_width -%}
+{%- assign image_height = image_height -%}
+
+{%- assign image_thumb_width = image_thumb_width -%}
+{%- assign image_thumb_height = image_thumb_height -%}
+{%- endcase -%}  
+{%- capture image_size -%}{{ image_width }}x{{ image_height }}{%- endcapture -%}
+{%- capture image_thumb_size -%}{{ image_thumb_width }}x{{ image_thumb_height }}{%- endcapture -%} 
+{%- if settings.product_image_thumb_position == 'left' and settings.product_image_gallery_slider != blank and product.images.size > 1 -%}
+{%- assign main_class = 'col-md-9 col-md-push-3' -%}
+{%- assign thumb_class = 'col-md-3 col-md-pull-9' -%}
+{%- else -%}
+{%- assign main_class = 'col-sm-12' -%}
+{%- assign thumb_class = 'col-sm-12' -%}
+{%- endif -%}
+<div class="{{main_class}}">
+  <figure class="shopify-product-gallery__wrapper {% if settings.product_image_thumb_position == 'none' or settings.product_image_thumb_position == 'left' or settings.product_image_thumb_position == 'bottom' %}owl-items-xl-1{% endif %} owl-items-lg-1 owl-items-md-1 owl-items-sm-1">
+    {% for image in product.images %}
+    <div class="product-image-wrap">
+      <figure data-thumb="{{ image.src | img_url: image_thumb_size, crop: 'center' }}" data-zoom="{{ image | product_img_url:'master' }}" class="shopify-product-gallery__image">
+        <a href="{{ image | product_img_url:'master' }}">
+          <img data-image-id="{{image.id}}" width="{{image_width}}" height="{{image_height}}" src="{{ image | product_img_url: image_size, crop: 'center' }}" 
+               class="attachment-shop_single size-shop_single" alt="" title="{{product.title}}" data-caption="" 
+               data-src="{{ image | product_img_url:'master' }}" 
+               data-large_image="{{ image | product_img_url:'master' }}" 
+               data-large_image_width="{{ image.width }}" 
+               data-large_image_height="{{ image.height }}" 
+               srcset="{{ image | product_img_url: image_size, crop: 'center' }} {{image_width}}w, 
+                       {{ image.src | img_url: '131x131' }} 131w, 
+                       {{ image.src | img_url: '263x300' }} 263w, 
+                       {{ image.src | img_url: '88x100' }} 88w, 
+                       {{ image.src | img_url: '200x230' }} 200w, 
+                       {{ image.src | img_url: '430x490' }} 430w" sizes="(max-width: {{image_width}}px) 100vw, {{image_width}}px" />
+        </a>
+      </figure>
+    </div>
+    {% endfor %}
+  </figure>
+  {%- if settings.product_image_gallery_slider != blank -%}
+  {%- if settings.product_video_use != blank or settings.product_image360_use != blank -%}
+  <div class="product-additional-galleries">
+    {%- if settings.product_image360_use != blank -%} 
+    {% section 'in-section-product-360-images' %}
+    {%- endif -%}
+    {%- if settings.product_video_use != blank -%}
+    {%- if product.metafields.meta.video contains 'youtube' or product.metafields.meta.video contains 'vimeo' -%}
+    <div class="product-video-button">
+      <a href="{{product.metafields.meta.video}}"><span {% if settings.language_enable %}data-translate="products.product.product_video"{% endif %}>{{ 'products.product.product_video' | t }}</span></a>
+    </div>
+    {%- endif -%}
+    {%- endif -%}
+    {%- if settings.product_image_lightbox_icon != blank -%}
+    <div class="woodmart-show-product-gallery-wrap">
+      <a href="#" class="woodmart-show-product-gallery"><span {% if settings.language_enable %}data-translate="products.product.lightbox_gallery"{% endif %}>{{ 'products.product.lightbox_gallery' | t }}</span></a>
+    </div>
+    {%- endif -%}
+  </div> 
+  {%- endif -%}
+  {%- endif -%}
+</div>
+{%- if settings.product_image_gallery_slider != blank and product.images.size > 1 -%}
+<div class="{{thumb_class}}">
+  <div class="thumbnails owl-items-md-3 owl-items-sm-3"></div>
+</div> 
+{%- endif -%}
