@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+    <title>form test </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+</head>
+
+<body>
+  <form id="form1" action="https://xypper.com/api/app/public/mobile/Auth/NewSignIn" method="post">
+    <div>
+      <label for="uname"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="email" required>
+    </div>
+    <div>
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="password" required>
+    </div>
+    <div>
+      <button type="submit">Login</button>
+      
+    </div>
+    <div> Response Data:
+    <span id="resp"></span>
+  </div>
+ </body>
+ <script type="text/javascript">
+  var frm = $('#form1');
+
+  frm.submit(function (e) {
+      e.preventDefault();
+    console.log(frm.serialize())
+      $.ajax({
+          type: frm.attr('method'),
+          url: frm.attr('action'),
+          data: frm.serialize(),
+          success: function (data) {
+              console.log('Submission was successful.');
+              console.log(data);
+              $("#resp").html(JSON.stringify(data));
+          },
+          error: function (data) {
+              console.log('An error occurred.');
+              console.log(data);
+          },
+      });
+  });
+</script>
+
+
+</html>
